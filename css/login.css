@@ -1,0 +1,52 @@
+div.main {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-table {
+    padding: 24px 24px 12px 24px;
+    border-radius: 6px;
+    background-color: #F1F1F1;
+    box-shadow: rgb(17 17 26 / 10%) 0px 0px 16px, rgb(17 17 26 / 10%) 0px 0px 24px, rgb(17 17 26 / 10%) 0px 0px 56px;
+}
+
+.form-title {
+    width: 84px;
+    padding: 0 15px 0 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.k-textbox {
+    width: 300px;
+    padding: 10px !important;
+    font-size: 18px;
+}
+
+.vertical-title {
+    position: absolute;
+    top: 45px;
+    left: 44px;
+    height: 550px;
+    font-size: 48px;
+    writing-mode: vertical-rl;
+    color: var(--main-color-1);
+    font-weight: bold;
+}
+
+#alert-wrapper {
+    text-align: center;
+}
+
+#alert {
+    padding: 6px 12px;
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+.alert-danger {
+    background-color: #FFDCDC;
+}

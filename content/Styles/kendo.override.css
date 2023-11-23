@@ -1,0 +1,20 @@
+﻿textarea.k-textbox {
+    padding: 8px;
+}
+
+.k-window-titlebar.k-header {
+    background-color: #1B5700;
+    color: #FFF;
+}
+
+.k-textbox.k-state-disabled {
+    background-color: #e6e6e6;
+}
+
+input.k-textbox::-webkit-input-placeholder,
+input.k-textbox::-moz-placeholder,
+input.k-textbox:-ms-input-placeholder,
+input.k-textbox:-o-input-placeholder {
+    color: #999;
+    opacity: .7;
+}

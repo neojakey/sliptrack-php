@@ -1,0 +1,121 @@
+/* PERMISSION GRID */
+.permission-grid {
+    width: 100%;
+}
+
+.permission-grid tr {
+    height: 40px;
+}
+
+.permission-grid tr:first-child td {
+    border-bottom: 1px #CCC solid;
+    text-align: center;
+    font-weight: bold;
+    background: transparent;
+}
+
+.permission-grid tr:first-child td:first-child {
+    padding-left: 5px;
+}
+
+.permission-grid tr td {
+    width: 100px;
+}
+
+.permission-grid tr td:first-child {
+    width: 400px;
+}
+
+.permission-grid tr td:nth-child(2) {
+    width: 24px;
+}
+
+.permission-grid tr:first-child td:first-child {
+    text-align: left;
+}
+
+.permission-grid tr:not(:first-child) td {
+    text-align: center;
+}
+
+.permission-grid tr:not(:first-child) td:not(:first-child):nth-child(odd) {
+    background: #E9F8E8;
+}
+
+.permission-grid tr:not(:first-child):not(:last-child) td:not(:first-child):nth-child(odd) {
+    border-bottom: 1px #CCC dotted;
+}
+
+.permission-grid tr:not(:first-child) td:first-child {
+    text-align: left;
+    padding-left: 5px;
+}
+
+.permission-grid tr:not(:first-child):not(:last-child) td {
+    border-bottom: 1px #CCC dotted;
+}
+
+.permission-grid tr:not(:first-child):hover td {
+    background: rgb(245 245 245 / 80%);
+}
+
+.k-checkbox-label {
+    padding-left: 16.2px;
+}
+
+/* TAB STRIP */
+.k-item.k-state-default {
+    text-align: left;
+}
+
+#page-content-grid > div:first-child {
+    margin-bottom: 0;
+}
+
+.tabstrip-content-wrapper {
+    border: 1px #D5D5D5 solid;
+    background: #FFF;
+    display: inline-block;
+    box-sizing: border-box;
+    min-height: 450px;
+}
+
+.tabstrip-content-wrapper:hover {
+    border: 1px #D5D5D5 solid;
+}
+
+.k-tabstrip-items .k-state-hover {
+    border-color: #D5D5D5 !important;
+}
+
+/* HIGHLIGHT SELECTED TAB */
+.k-tabstrip-items > li.k-state-active {
+    background-color: #E9F8E8;
+}
+
+.k-gantt-toolbar .k-state-default, .k-grid .k-grouping-header, .k-grid-header, .k-grid-header-wrap, .k-grouping-header .k-group-indicator, .k-header, .k-pager-wrap, .k-pager-wrap .k-link, .k-pager-wrap .k-textbox {
+    border-top-color: #DBDBDB !important;
+    border-left-color: #DBDBDB;
+    border-right-color: #DBDBDB;
+    border-bottom-color: #7EA700;
+}
+
+.k-block, .k-draghandle, .k-grid-header, .k-grouping-header, .k-header, .k-pager-wrap, .k-toolbar, .k-treemap-tile, html .km-pane-wrapper .k-header {
+    background-color: #DDD;
+}
+
+#tabstrip {
+    display: none;
+}
+
+.k-panelbar .k-tabstrip-items .k-state-active, .k-tabstrip-items .k-state-active {
+    border-color: #DBDBDB;
+}
+
+.k-gantt-toolbar .k-state-default, .k-grid .k-grouping-header, .k-grid-header, .k-grid-header-wrap, .k-grouping-header .k-group-indicator, .k-header, .k-pager-wrap, .k-pager-wrap .k-link, .k-pager-wrap .k-textbox {
+    border-bottom-color: #D5D5D5;
+}
+
+.k-panelbar .k-tabstrip-items .k-item, .k-tabstrip-items .k-item {
+    position: static;
+}

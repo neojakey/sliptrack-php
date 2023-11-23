@@ -1,0 +1,279 @@
+.image-add {
+    background: url(../../Images/icons/image_add.png) no-repeat 0 0;
+}
+
+.images {
+    background: url(../../Images/icons/images.png) no-repeat 0 0;
+}
+
+.chart-organisation {
+    background: url(../../Images/icons/chart_organisation.png) no-repeat 0 0;
+}
+
+.chart-organisation_add {
+    background: url(../../Images/icons/chart_organisation_add.png) no-repeat 0 0;
+}
+
+.counter {
+    background: url(../../Images/icons/counter.png) no-repeat 0 0;
+}
+
+.downloads {
+    background: url(../../Images/icons/image-export.png) no-repeat 0 0;
+}
+
+.views {
+    background: url(../../Images/icons/binocular.png) no-repeat 0 0;
+}
+
+.user-red {
+    background: url(../../Images/icons/user_red.png) no-repeat 0 0;
+}
+
+.newspaper {
+    background: url(../../Images/icons/newspaper.png) no-repeat 0 0;
+}
+
+.money-dollar {
+    background: url(../../Images/icons/money_dollar.png) no-repeat 0 0;
+}
+
+.note {
+    background: url(../../Images/icons/note.png) no-repeat 0 0;
+}
+
+.script {
+    background: url(../../Images/icons/script.png) no-repeat 0 0;
+}
+
+.script-add {
+    background: url(../../Images/icons/script_add.png) no-repeat 0 0;
+}
+
+.clock {
+    background: url(../../Images/icons/clock.png) no-repeat 0 0;
+}
+
+.clock-add {
+    background: url(../../Images/icons/clock_add.png) no-repeat 0 0;
+}
+
+.cup {
+    background: url(../../Images/icons/cup.png) no-repeat 0 0;
+}
+
+.cup-add {
+    background: url(../../Images/icons/cup_add.png) no-repeat 0 0;
+}
+
+.calendar-view-month {
+    background: url(../../Images/icons/calendar_view_month.png) no-repeat 0 0;
+}
+
+.mouse {
+    background: url(../../Images/icons/mouse.png) no-repeat 0 0;
+}
+
+.mouse-add {
+    background: url(../../Images/icons/mouse_add.png) no-repeat 0 0;
+}
+
+.date {
+    background: url(../../Images/icons/date.png) no-repeat 0 0;
+}
+
+.delete {
+    background: url(../../images/icons/cross.png) no-repeat 0 2px;
+}
+
+.date-add {
+    background: url(../../Images/icons/date_add.png) no-repeat 0 0;
+}
+
+.link {
+    background: url(../../Images/icons/link.png) no-repeat 0 0;
+}
+
+.link2 {
+    background: url(../../Images/icons/link.png) no-repeat 0 2px;
+}
+
+.link-add {
+    background: url(../../Images/icons/link_add.png) no-repeat 0 0;
+}
+
+.table {
+    background: url(../../Images/icons/table.png) no-repeat 0 0;
+}
+
+.table-add {
+    background: url(../../Images/icons/table_add.png) no-repeat 0 0;
+}
+
+.page-world {
+    background: url(../../Images/icons/page_world.png) no-repeat 0 0;
+}
+
+.html {
+    background: url(../../Images/icons/html.png) no-repeat 0 0;
+}
+
+.html-add {
+    background: url(../../Images/icons/html_add.png) no-repeat 0 0;
+}
+
+.user {
+    background: url(../../Images/icons/user.png) no-repeat 0 2px;
+}
+
+.user-add {
+    background: url(../../Images/icons/user_add.png) no-repeat 0 0;
+}
+
+.group {
+    background: url(../../Images/icons/group.png) no-repeat 0 0;
+}
+
+.key {
+    background: url(../../Images/icons/key.png) no-repeat 0 0;
+}
+
+.layout {
+    background: url(../../Images/icons/layout.png) no-repeat 0 0;
+}
+
+.image-edit {
+    background: url(../../Images/icons/image_edit.png) no-repeat 0 0;
+}
+
+.cog {
+    background: url(../../Images/icons/cog.png) no-repeat 0 0;
+}
+
+.monitor {
+    background: url(../../Images/icons/monitor.png) no-repeat 0 0;
+}
+
+.server {
+    background: url(../../Images/icons/server.png) no-repeat 0 0;
+}
+
+.add-server {
+    background: url(../../Images/icons/server_add.png) no-repeat 0 0;
+}
+
+.chart-bar {
+    background: url(../../Images/icons/chart_bar.png) no-repeat 0 0;
+}
+
+.chart-line {
+    background: url(../../Images/icons/chart_line.png) no-repeat 0 0;
+}
+
+.email {
+    background: url(../../Images/icons/email.png) no-repeat 0 0;
+}
+
+.email-add {
+    background: url(../../Images/icons/email_add.png) no-repeat 0 0;
+}
+
+.application-form-edit {
+    background: url(../../Images/icons/application_form_edit.png) no-repeat 0 0;
+}
+
+.alert-success-icon {
+    background: url(../../Images/icons/accept.png) no-repeat 0 0;
+    padding-left: 20px;
+}
+
+.alert-warning-icon {
+    background: url(../../Images/icons/error.png) no-repeat 0 0;
+    padding-left: 20px;
+}
+
+.alert-danger-icon {
+    background: url(../../Images/icons/cancel.png) no-repeat 0 0;
+    padding-left: 20px;
+}
+
+.alert-info-icon {
+    background: url(../../Images/icons/information.png) no-repeat 0 0;
+    padding-left: 20px;
+}
+
+.alert-saving-icon {
+    background: url(../../Images/wait.gif) no-repeat 0 0;
+    padding-left: 20px;
+}
+
+.accept {
+    background: url(../../Images/icons/accept.png) no-repeat 0 0;
+}
+
+.add {
+    background: url(../../Images/icons/add.png) no-repeat 0 0;
+}
+
+.folder {
+    background: url(../../Images/icons/folder.png) no-repeat 0 0;
+}
+
+.add-folder {
+    background: url(../../Images/icons/folder_add.png) no-repeat 0 0;
+}
+
+.page-edit {
+    background: url(../../Images/icons/page_edit.png) no-repeat 0 0;
+}
+
+.breadcrumb-button li span.add {
+    background: url(../../Images/icons/add.png) no-repeat 0 2px;
+}
+
+.breadcrumb-button li span.group {
+    background: url(../../Images/icons/group.png) no-repeat 0 2px;
+}
+
+.breadcrumb-button li span.clock {
+    background: url(../../Images/icons/clock.png) no-repeat 0 2px;
+}
+
+.wait {
+    background: url(../../Images/wait.gif) no-repeat 0 0;
+}
+
+.illegal-words {
+    background: url(../../Images/icons/text_strikethrough.png) no-repeat 0 0;
+}
+
+.twitter {
+    background: url(../../Images/icons/twitter.png) no-repeat 0 0;
+}
+
+.print {
+    background: url(../../Images/icons/printer.png) no-repeat 0 2px;
+}
+
+.pdf {
+    background: url(../../Images/icons/document-pdf-text.png) no-repeat 0 0;
+}
+
+.award-star {
+    background: url(../../Images/icons/award_star_bronze.png) no-repeat 0 2px;
+}
+
+.disabled {
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    filter: grayscale(100%);
+    filter: gray;
+}
+
+.breadcrumb-button span.table {
+    background: url(../../Images/icons/table.png) no-repeat 0 2px;
+}

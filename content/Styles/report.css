@@ -1,0 +1,519 @@
+﻿/***************************************************************************************************************************************************************************************/
+
+/* BODY STYLES */
+
+/***************************************************************************************************************************************************************************************/
+
+body {
+    background-color: #FFF;
+    font-family: Proxima, Arial, Verdana, Helvetica, sans-serif;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    text-shadow: rgba(0,0,0,.01) 0 0 1px;
+}
+
+@font-face {
+    font-family: Proxima;
+    src: url(../fonts/proxima.otf);
+}
+
+table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: separate;
+    border: 0;
+}
+
+td {
+    padding: 0 5px;
+}
+
+small {
+    color: #888;
+}
+
+sup {
+    font-size: 50%;
+}
+
+/***************************************************************************************************************************************************************************************/
+
+/* PAGE STYLES */
+
+/***************************************************************************************************************************************************************************************/
+
+.data-grid {
+    width: 100%;
+    border-top: 1px #CCC solid;
+    border-bottom: 1px #CCC solid;
+}
+
+.data-grid > tbody > tr {
+    height: 27px;
+    background-color: #FFF;
+}
+
+.data-grid > tbody > tr.total-row > td {
+    background-color: #E9F8E8;
+}
+
+.data-grid > tbody > tr:first-child > td:not(:last-child) {
+    border-right: 1px #CCC solid;
+    border-bottom: 1px #CCC solid;
+    padding-left: 5px;
+    text-align: left;
+    background-color: #DDD;
+    font-weight: bold;
+}
+
+.data-grid > tbody > tr:first-child > td:last-child {
+    border-bottom: 1px #CCC solid;
+    padding-left: 5px;
+    text-align: left;
+    background-color: #DDD;
+    font-weight: bold;
+}
+
+.data-grid > tbody > tr:not(:first-child) > td {
+    padding: 0 5px;
+    text-align: left;
+}
+
+.data-grid > tbody > tr:not(:first-child) > td:not(:last-child) {
+    border-right: 1px #CCC solid;
+}
+
+.data-grid > tbody > tr.folder > td {
+    color: #3B3B3B;
+    background-color: #E5E5E5;
+}
+
+.data-grid > tbody > tr.folder-content > td {
+    color: #3B3B3B;
+    background-color: #EEE;
+}
+
+.data-grid > tbody > tr:not(:last-child) > td {
+    border-bottom: 1px #CCC solid;
+}
+
+/* EXPENSE SUB ACCOUNT ROW DEFINTIONS */
+.data-grid tr.sub > td {
+    background-color: #F9F9F9;
+}
+
+.data-grid tr.sub > td:nth-child(1) {
+    padding-left: 22px;
+}
+
+
+.data-form tr {
+    height: 38px;
+}
+
+.data-form tr.sub-header {
+    height: 27px;
+}
+
+.data-form tr.sub-header td {
+    background: rgb(252,252,252);
+    border-top: 1px #DDD solid;
+    text-align: left !important;
+    padding-left: 5px;
+    font-weight: bold;
+}
+
+.data-form tr > td:first-child {
+    width: 150px;
+    padding-right: 10px;
+    text-align: right;
+}
+
+.data-form tr > td:nth-child(2) {
+    text-align: left;
+}
+
+.data-form td.help-icon-cell {
+    width: 20px;
+    text-align: right;
+}
+
+.data-form textarea, input[type=text], input[type=password] {
+    width: 450px;
+}
+
+.data-form-list,
+.data-form-list-checked {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.data-form-list li {
+    padding: 0 2px;
+    height: 28px;
+    line-height: 28px;
+    float: left;
+    margin-top: 3px;
+}
+
+.data-form-list:hover {
+    background: #961005;
+}
+
+.data-form-list-checked li {
+    padding: 0 2px;
+    height: 28px;
+    line-height: 28px;
+    float: left;
+    margin-top: 3px;
+    background: #66726D;
+    color: #FFF;
+}
+
+.data-grid-icons {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.data-grid-icons li {
+    padding: 0 2px;
+    height: 20px;
+    line-height: 20px;
+    float: left;
+    margin-top: 3px;
+}
+
+
+.data-form-list[id^=row] > li:last-child,
+.data-form-list-checked[id^=row] > li:last-child {
+    width: 421px;
+}
+
+#group-wrapper {
+    background: #F5F5F5;
+    display: inline-block;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -o-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px #ACACAC solid;
+    width: 460px;
+    padding: 5px;
+}
+
+div.no-records-wrapper {
+    border: #CACACA 1px solid;
+    display: inline-block;
+    background-color: #FFF;
+    text-align: center;
+    height: 25px;
+    line-height: 25px;
+    width: 100%;
+}
+
+div.record-wrapper {
+    border-top: #CACACA 1px solid;
+    border-left: #CACACA 1px solid;
+    display: inline-block;
+    width: 100%;
+}
+
+div.record-details {
+    width: 50%;
+    float: left;
+    box-sizing: border-box;
+}
+
+div.record-details > div {
+    width: 50%;
+    float: left;
+    padding: 5px;
+    border-right: #CACACA 1px solid;
+    border-bottom: #CACACA 1px solid;
+    box-sizing: border-box;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+div.record-details > div:first-child {
+    background-color: #F1F1F1;
+}
+
+div.record-details > div:last-child {
+    float: right;
+    background-color: #FFF;
+}
+
+tr[id*="folder-child-"] > td {
+    background-color: #F5F5F5;
+    padding: 10px 8px !important;
+}
+
+div.child-record-wrapper {
+    display: inline-block;
+    width: 100%;
+}
+
+.folder-child-table {
+    width: 100%;
+    border-top: #CACACA 1px solid;
+    border-left: #CACACA 1px solid;
+}
+
+.folder-child-table > tbody > tr {
+    height: 27px;
+}
+
+.folder-child-table > tbody > tr > td {
+    border-bottom: #CACACA 1px solid;
+    border-right: #CACACA 1px solid;
+    text-align: left;
+    padding-left: 5px;
+    background-color: #FCFCFC;
+}
+
+.folder-child-table > tbody > tr > td:last-child {
+    text-align: right !important;
+    padding-right: 5px;
+}
+
+td.internal-data-grid {
+    padding: 0 !important;
+}
+
+td.internal-data-grid > table {
+    width: 100%;
+}
+
+td.internal-data-grid > table > tbody > tr {
+    height: 27px;
+}
+
+td.internal-data-grid > table > tbody > tr.title > td {
+    background-color: #B7B7B7 !important;
+    color: #FFF;
+}
+
+td.internal-data-grid > table > tbody > tr.header > td {
+    background-color: #F1F1F1 !important;
+}
+
+td.internal-data-grid > table > tbody > tr > td:not(:first-child) {
+    border-left: 1px #EFEFEF solid;
+}
+
+.data-grid tr:hover {
+    background-color: #FDFDF1;
+}
+
+td.internal-data-grid > table > tbody > tr:not(:last-child) > td {
+    border-bottom: 1px #EFEFEF solid;
+}
+
+.data-grid-total {
+    width: 100%;
+    border: 1px #CCC solid;
+    margin-top: 27px;
+}
+
+.data-grid-total > tbody > tr {
+    height: 27px;
+    background-color: #BFBFBF;
+}
+
+.data-grid-total > tbody > tr > td {
+    padding-right: 5px;
+    text-align: right;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.data-grid-total > tbody > tr > td:not(:last-child) {
+    border-right: 1px #CCC solid;
+}
+
+
+/* CORE STYLES */
+tr.hidden {
+    display: none;
+}
+
+td.vat {
+    vertical-align: top;
+    padding-top: 3px;
+}
+
+tr.h30 {
+    height: 30px;
+}
+
+.tal {
+    text-align: left !important;
+}
+
+.tar {
+    text-align: right !important;
+}
+
+.tac {
+    text-align: center !important;
+}
+
+.pt {
+    padding-top: 5px
+}
+
+.pb {
+    padding-bottom: 5px
+}
+
+.pl {
+    padding-left: 5px
+}
+
+.pr {
+    padding-right: 5px
+}
+
+.fb {
+    font-weight: bold;
+}
+
+.cancel-btn a {
+    border: 1px solid #CCC;
+    background-image: -moz-linear-gradient(top, #FFF 0, #E0E0E0 100%);
+    background-image: -ms-linear-gradient(top, #FFF 0, #E0E0E0 100%);
+    background-image: -o-linear-gradient(top, #FFF 0, #E0E0E0 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFF), color-stop(100%, #E0E0E0));
+    background-image: -webkit-linear-gradient(top, #FFF 0, #E0E0E0 100%);
+    background-image: linear-gradient(to bottom,#FFF 0, #E0E0E0 100%);
+    filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#FFFFFFFF, EndColorStr=#FFE0E0E0);
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    padding: 8px 20px;
+    text-decoration: none;
+    font-weight:bold;
+    font-size: 16px;
+    color: #333;
+}
+
+.cancel-btn a:hover {
+    background-image: -moz-linear-gradient(top, #E6E6E6 0, #D2D2D2 100%);
+    background-image: -ms-linear-gradient(top, #E6E6E6 0, #D2D2D2 100%);
+    background-image: -o-linear-gradient(top, #E6E6E6 0, #D2D2D2 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #E6E6E6), color-stop(100%, #D2D2D2));
+    background-image: -webkit-linear-gradient(top, #E6E6E6 0, #D2D2D2 100%);
+    background-image: linear-gradient(to bottom, #E6E6E6 0, #D2D2D2 100%);
+    background-color: #E8E8E8;
+    border-color: #BBB;
+    text-shadow: 0 1px 0 #FFF;
+}
+
+tr.total > td {
+    background-color: #E1E1E1;
+    font-size: 16px;
+    font-weight: bold;
+    color: #3B3B3B;
+    text-align: right !important;
+}
+
+tr.total.sub > td {
+    background-color: #555;
+    color: #FFF;
+}
+
+tr.total.grand > td {
+    background-color: #000;
+    color: #FFF;
+}
+
+tr.total > td:last-child,
+tr.grand-total > td:last-child {
+    padding-right: 5px;
+}
+
+@media print {
+    .cancel-btn a {
+        display: none;
+    }
+
+    .button-strip {
+        display: none;
+    }
+}
+
+.button-strip {
+    text-align: right;
+    padding-top: 12px;
+}
+
+.button-strip ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+.button-strip ul > li {
+    float: left;
+    padding-left: 6px;
+}
+
+.button-strip ul > li:nth-child(1) {
+    padding-left: 0;
+}
+
+.signature {
+    width: 100%;
+}
+
+.signature > tbody > tr {
+    height: 80px;
+}
+
+.signature > tbody > tr:not(.signature-text) > td {
+    text-align: left;
+    font-weight: bold;
+    padding-right: 6px;
+    border-bottom: 1px #444 dashed;
+}
+
+.signature > tbody > tr > td.spacer {
+    width: 20px;
+    border-bottom: none;
+}
+
+.signature > tbody > tr.signature-text {
+    height: 35px;
+    text-align: left;
+}
+
+#mobile-title {
+    display: none;
+}
+
+@media screen and (min-width: 0) and (max-width: 900px) {
+    /* HIDE VARIOUS UI ELEMENTS */
+    #desktop-title, #print-button, #back-button {
+        display: none;
+    }
+
+    /* SHOW VARIOUS UI ELEMENTS */
+    #mobile-title {
+        display: block;
+    }
+
+    #mobile-title .bot-mar {
+        margin-bottom: 17px;
+    }
+
+    .data-grid, .data-grid-total {
+        min-width: 900px;
+    }
+}

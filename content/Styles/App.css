@@ -1,0 +1,60 @@
+﻿
+
+body {
+    font-family: Proxima, Arial, Verdana, Helvetica, sans-serif;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    text-shadow: rgba(0,0,0,.01) 0 0 1px;
+    background: var(--main-background-single);
+    background: var(--main-background);
+    color: var(--main-font-color);
+}
+
+@font-face {
+    font-family: Proxima;
+    src: url(../fonts/proxima.otf);
+}
+
+code {
+    font-family: Consolas,"Courier New",monospace;
+}
+
+sup {
+    font-size: 50%;
+}
+
+form {
+    margin: 0;
+}
+
+img {
+    border: 0;
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: separate;
+    font-size: 14px;
+}
+
+td {
+    padding: 0;
+}
+
+a,
+a:visited,
+a:active {
+    color: var(--hyperlink);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--hyperlink-hover);
+    text-decoration: underline;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}

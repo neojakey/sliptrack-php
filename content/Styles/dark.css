@@ -1,0 +1,45 @@
+:root {
+    --primary-background: #1E1E1E;
+    --hyperlink: #A3E5FF;
+    --hyperlink-hover: #69D5FF;
+    --main-font-color: #D5D5D5;
+    --main-background-single: rgb(1, 93, 130);
+    --main-background: linear-gradient(135deg, rgba(1, 93, 130,1) 0%, rgba(0, 159, 178,1) 50%, rgba(0,179,158,1) 100%);
+    --main-color-1: #015D82;
+    --main-color-2: #009FB2;
+    --main-color-3: #0078A8;
+    --main-color-4: #D7F4FF;
+    --main-accent-color: #F0802B;
+
+    /* HEADER */
+    --header-background: #3A3A3A;
+    --header-section-line: #464646;
+
+    /* MAIN SECTION */
+    --section-main-background: #1E1E1E;
+
+    /* SIDE MENU */
+    --menu-background: #333333;
+    --menu-hyperlink: #858585;
+    --menu-selected-icon-background: #4B4B4B;
+
+    /* FORM-TABLE */
+    --form-table-background: #191919;
+    --dotted-line-color: #707070;
+
+    /* BUTTON WRAPPER */
+    --button-wrapper-background: #272727;
+    --button-wrapper-top-border: #484848;
+
+    /* DATA GRID */
+    --data-grid-lines: #606060;
+    --data-grid-header-background: #484848;
+    --data-grid-row-background: #1E1E1E;
+    --data-grid-row-hover-background: #252525;
+
+    /* MISC */
+    --panel-background: #252526;
+
+    /* REQUIRED STAR */
+    --required-star: #FFA500;
+}

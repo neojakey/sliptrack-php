@@ -1,0 +1,111 @@
+﻿#email-form {
+    width: 100%;
+    background-color: #F5F5F5;
+    display: inline-block;
+}
+
+#email-form > div {
+    width: 35%;
+    float: left;
+    display: table;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+#email-form > div:last-child {
+    width: 65%;
+}
+
+#email-form > div:last-child {
+    background-color: #FFF;
+}
+
+#email-form > div:after {
+    clear: left;
+}
+
+#description {
+    height: 150px;
+}
+
+.height6 {
+    height: 6px !important;
+}
+
+.height15 {
+    height: 15px !important;
+}
+
+#sent-message-wrapper {
+    height: 350px;
+}
+
+.data-form {
+    width: 100%;
+}
+
+.data-form tr {
+    height: 28px;
+}
+
+.data-form tr > td:nth-child(1) {
+    width: auto;
+    text-align: left;
+}
+
+.data-form textarea, input[type=text], input[type=password] {
+    width: 100%;
+}
+
+#useful-links-title,
+#useful-links {
+    display: none;
+}
+
+#useful-links {
+    list-style-type: none;
+    margin: 0;
+    padding-left: 20px;
+}
+
+#useful-links > li {
+    height: 30px;
+    line-height: 30px;
+}
+
+
+@media screen and (min-width: 0) and (max-width: 900px) {
+    #header > div {
+        width: 55%;
+    }
+
+    #header > div:last-child {
+        width: 45%;
+    }
+
+    #email-form > div {
+        width: 100%;
+    }
+
+    #email-form > div:last-child {
+        width: 100%;
+        border-top: 1px #DEDEDE solid;
+    }
+
+    .data-form tr > td:nth-child(1) {
+        padding-right: 0;
+    }
+
+    .data-form tr > td.form-button-wrapper:nth-child(1) {
+        text-align: center;
+    }
+
+    #save-panel-buttons {
+        display: inline-block;
+    }
+
+    #useful-links-title,
+    #useful-links {
+        display: block;
+    }
+}

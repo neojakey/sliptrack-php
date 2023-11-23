@@ -1,0 +1,45 @@
+:root {
+    --primary-background: #FFF;
+    --hyperlink: #015D82;
+    --hyperlink-hover: #0078A8;
+    --main-font-color: #000;
+    --main-background-single: rgb(1, 93, 130);
+    --main-background: linear-gradient(135deg, rgba(1, 93, 130,1) 0%, rgba(0, 159, 178,1) 50%, rgba(0,179,158,1) 100%);
+    --main-color-1: #015D82;
+    --main-color-2: #009FB2;
+    --main-color-3: #0078A8;
+    --main-color-4: #D7F4FF;
+    --main-accent-color: #F0802B;
+
+    /* HEADER */
+    --header-background: #FCFCFC;
+    --header-section-line: #E7E7E7;
+
+    /* MAIN SECTION */
+    --section-main-background: #F2F2F2;
+
+    /* SIDE MENU */
+    --menu-background: #FFF;
+    --menu-hyperlink: #015D82;
+    --menu-selected-icon-background: #EAEAEA;
+
+    /* FORM-TABLE */
+    --form-table-background: #ECECEC;
+    --dotted-line-color: #CCC;
+
+    /* BUTTON WRAPPER */
+    --button-wrapper-background: #E1E1E1;
+    --button-wrapper-top-border: #D5D5D5;
+
+    /* DATA GRID */
+    --data-grid-lines: #D5D5D5;
+    --data-grid-header-background: #E7E7E7;
+    --data-grid-row-background: #FDFDF1;
+    --data-grid-row-hover-background: #FFFFE7;
+
+    /* MISC */
+    --panel-background: #E0E0E0;
+
+    /* REQUIRED STAR */
+    --required-star: #54A64A;
+}

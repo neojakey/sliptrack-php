@@ -1,0 +1,21 @@
+﻿.print-control {
+    background-color: #ACACAC;
+    padding: 12px;
+    text-align: right;
+    border-bottom: 1px #999 solid;
+}
+
+.print-control > a:last-child {
+    margin-left: 6px;
+}
+
+/* HIDE ELEMENT FROM THE EXPORTED PDF */
+.k-pdf-export #print-control-wrapper {
+    display: none;
+}
+
+@media print {
+    .print-control {
+        display: none;
+    }
+}

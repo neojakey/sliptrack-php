@@ -1,0 +1,11 @@
+.tax-regime-wrapper > span {
+    width: 470px;
+}
+
+.state-wrapper > span {
+    width: 350px;
+}
+
+::placeholder {
+    color: #AAA;
+}
