@@ -1,4 +1,212 @@
 ﻿<?php
+
+function InitiateConnection() {
+    $connection = mysqli_connect('127.0.0.1', 'root', '@H2rf36t4DMq', 'receipts_php');
+    if (!$connection) {
+        die("Database connection failed");
+    } else {
+        return $connection;
+    }
+}
+
+function formatDbField($fieldString, $fieldType, $fieldAllowsNulls) {
+    $fieldString = CheckNulls(RemoveSpecialChars($fieldString));
+    if ($fieldType === "text") {
+        if ($fieldAllowsNulls && trim($fieldString . "") === "") {
+            return "NULL";
+        } else {
+            return "'" . str_replace("'", "''", $fieldString) . "'";
+        }
+    } elseif ($fieldType === "int") {
+        if ($fieldAllowsNulls && (trim($fieldString . "") === "" || !is_numeric($fieldString))) {
+            return "NULL";
+        } else {
+            return $fieldString;
+        }
+    } elseif ($fieldType === "datetime") {
+        if ($fieldAllowsNulls && $fieldString === "") {
+            return "NULL";
+        } else {
+            return "'" . str_replace("'", "''", $fieldString) . "'";
+        }
+    } elseif ($fieldType === "bit") {
+        if ($fieldString === "") {
+            return "NULL";
+        } elseif ($fieldString) {
+            return "1";
+        } else {
+            return "0";
+        }
+    } elseif ($fieldType === "decimal") {
+        if ($fieldString === "") {
+            return "NULL";
+        } elseif (is_numeric($fieldString)) {
+            return str_replace(",", "", $fieldString);
+        } else {
+            return "NULL";
+        }
+    }
+}
+
+function formatDbFieldAdd($fieldString, $fieldType, $fieldAllowsNulls) {
+    $fieldString = CheckNulls(RemoveSpecialChars($fieldString));
+    if ($fieldType === "text") {
+        if ($fieldAllowsNulls && trim($fieldString . "") === "") {
+            return NULL;
+        } else {
+            return str_replace("'", "''", $fieldString);
+        }
+    } elseif ($fieldType === "int") {
+        if ($fieldAllowsNulls && (trim($fieldString . "") === "" || !is_numeric($fieldString))) {
+            return NULL;
+        } else {
+            return $fieldString;
+        }
+    } elseif ($fieldType === "datetime") {
+        if ($fieldAllowsNulls && trim($fieldString . "") === "") {
+            return NULL;
+        } else {
+            return str_replace("'", "''", $fieldString);
+        }
+    } elseif ($fieldType === "bit") {
+        if (trim($fieldString . "") === "") {
+            return NULL;
+        } elseif ($fieldString) {
+            return "1";
+        } else {
+            return "0";
+        }
+    } elseif ($fieldType === "decimal") {
+        if (trim($fieldString . "") === "") {
+            return NULL;
+        } elseif (is_numeric($fieldString)) {
+            return str_replace("'", "''", $fieldString);
+        } else {
+            return NULL;
+        }
+    }
+}
+
+function CheckNulls($str) {
+    $strOut = $str;
+    if (is_null($str)) {
+        $strOut = "";
+    }
+    return $strOut;
+}
+
+function LogReport($logType, $logText, $logUserId) {
+    $logColumns = "LogType,LogText,LogUserId";
+    $logValues = formatDbField($logType, "int", 0) . "," . formatDbField($logText, "text", false) . "," . formatDbField($logUserId, "int", false);
+    InsertNewRecord("systemlog", $logColumns, $logValues);
+}
+
+function InsertNewRecord($tableName, $columns, $values) {
+    global $db;
+    $sql = "INSERT INTO " . $tableName . " (" . $columns . ") VALUES (" . $values . ")";
+    echo $sql;
+    if ($db -> query($sql) === false) {
+        echo "Error: " . $sql . "<br>" . $db -> error;
+    }
+}
+
+function CheckForValidLogin() {
+    if (!$_SESSION["loggedIn"]) {
+        header("Location: login.php");
+    }
+}
+
+function RemoveSpecialChars($str) {
+    $str = trim($str) . "";
+    if (empty($str)) return;
+    $OutStr = trim($str);
+    $OutStr = str_replace("`", "", $OutStr);
+    $OutStr = str_replace("^", "", $OutStr);
+    $OutStr = str_replace("~", "", $OutStr);
+    $OutStr = str_replace("|", "", $OutStr);
+    $OutStr = str_replace("(", "", $OutStr);
+    $OutStr = str_replace(")", "", $OutStr);
+    $OutStr = str_replace("{", "", $OutStr);
+    $OutStr = str_replace("}", "", $OutStr);
+    return $OutStr;
+}
+
+function SetUserAlert($alertType, $alertMessage) {
+    if (empty($alertType) || empty($alertMessage)) return;
+    $_SESSION["hasAlert"] = true;
+    $_SESSION["alertType"] = $alertType;
+    $_SESSION["alertMessage"] = $alertMessage;
+}
+
+function FormatPostedDate($thisDate) {
+    if (empty($thisDate)) return;
+    return date("F", strtotime($thisDate)) . " " . date("d", strtotime($thisDate)) . ", " . date("Y", strtotime($thisDate));
+}
+
+function HowLongAgo($datetime) {
+    $nowTime = new DateTime;
+    $ago = new DateTime($datetime);
+    $PassThru = false;
+
+    if ($ago -> diff($nowTime) -> d > 120) {
+        $pstrOut = FormatPostedDate($datetime);
+    } else {
+        if ($ago -> diff($nowTime) -> h > 24) { // 7
+            // GREATER THAN 24 HOURS
+            $v1 = $ago -> diff($nowTime) -> d;
+            $v2 = $ago -> diff($nowTime) -> h;
+            $u1 = "Days";
+            if ($v1 == 1) $u1 = "Day";
+            $u2 = "Hours";
+            if ($v2 == 1) $u2 = "Hour";
+            $PassThru = true;
+        }
+        if ($ago -> diff($nowTime) -> i > 60 && !$PassThru) { // 
+            // GREATER THAN 60 MINUTES
+            $v1 = $ago -> diff($nowTime) -> h;
+            $v2 = $ago -> diff($nowTime) -> m;
+            $u1 = "Hours";
+            if ($v1 == 1) $u1 = "Hour";
+            $u2 = "Minutes";
+            if ($v2 == 1) $u2 = "Minute";
+            $PassThru = true;
+        }
+        if ($ago -> diff($nowTime) -> i*60 > 60 && !$PassThru) {
+            // GREATER THAN 60 SECONDS
+            $v1 = $ago -> diff($nowTime) -> i;
+            $v2 = $ago -> diff($nowTime) -> s;
+            $u1 = "Minutes";
+            if ($v1 == 1) $u1 = "Minute";
+            $u2 = "Seconds";
+            if ($v2 == 1) $u2 = "Second";
+            $PassThru = true;
+        }
+        if ($ago -> diff($nowTime) -> i*60 > 0 && !$PassThru) {
+            // ONLY BEEN A FEW SECONDS
+            $v1 = $ago -> diff($nowTime) -> i*60;
+            $u1 = "Seconds";
+            if ($v1 == 1) $u1 = "Second";
+            $PassThru = true;
+        }
+        if (!$PassThru) {
+            $v1 = "1";
+            $u1 = "Second";
+        }
+
+        $pstrOut = $v1 . " " . $u1;
+        if (trim($u2 . "") <> "") {
+            $pstrOut = $pstrOut . ", " . $v2 . " " . $u2;
+            $pstrOut = $pstrOut . " Ago";
+            if (strpos($pstrOut, "Days,") > -1) {
+                $y1 = explode($pstrOut, ",");
+                $pstrOut = $y1[0] . " Ago";
+            }
+        }
+    }
+    return $pstrOut;
+}
+
+
 // ### FUNCTIONS AND SUBS ###
 //FUNCTION StateDropmenu(nStateId, nFieldName)
 //    IF Trim(nFieldName & "") = "" THEN nFieldName = "StateId"
@@ -380,25 +588,14 @@
 //    SumFieldIraBit = total
 //END FUNCTION
 //
-function InitiateConnection() {
-    $connection = mysqli_connect('127.0.0.1', 'root', '@H2rf36t4DMq', 'receipts_php');
-    if (!$connection) {
-        die("Database connection failed");
-    } else {
-        return $connection;
-    }
-}
+
 //
 //SUB CloseConnection()
 //    db.Close
 //    Set db = Nothing
 //END SUB
 //
-function CheckForValidLogin() {
-    if (!$_SESSION["loggedIn"]) {
-        header("Location: login.php");
-    }
-}
+
 //    IF NOT Session("loggedIn") THEN Response.Redirect("/login.asp")
 //END FUNCTION
 //
@@ -411,97 +608,7 @@ function CheckForValidLogin() {
 //    END IF
 //END FUNCTION
 //
-function formatDbField($fieldString, $fieldType, $fieldAllowsNulls) {
-    $fieldString = CheckNulls(RemoveSpecialChars($fieldString));
-    if ($fieldType === "text") {
-        if ($fieldAllowsNulls && trim($fieldString . "") === "") {
-            return "NULL";
-        } else {
-            return "'" . str_replace("'", "''", $fieldString) . "'";
-        }
-    } elseif ($fieldType === "int") {
-        if ($fieldAllowsNulls && (trim($fieldString . "") === "" || !is_numeric($fieldString))) {
-            return "NULL";
-        } else {
-            return $fieldString;
-        }
-    } elseif ($fieldType === "datetime") {
-        if ($fieldAllowsNulls && $fieldString === "") {
-            return "NULL";
-        } else {
-            return "'" . str_replace("'", "''", $fieldString) . "'";
-        }
-    } elseif ($fieldType === "bit") {
-        if ($fieldString === "") {
-            return "NULL";
-        } elseif ($fieldString) {
-            return "1";
-        } else {
-            return "0";
-        }
-    } elseif ($fieldType === "decimal") {
-        if ($fieldString === "") {
-            return "NULL";
-        } elseif (is_numeric($fieldString)) {
-            return str_replace(",", "", $fieldString);
-        } else {
-            return "NULL";
-        }
-    }
-}
 
-function formatDbFieldAdd($fieldString, $fieldType, $fieldAllowsNulls) {
-    $fieldString = CheckNulls(RemoveSpecialChars($fieldString));
-    if ($fieldType === "text") {
-        if ($fieldAllowsNulls && trim($fieldString . "") === "") {
-            return NULL;
-        } else {
-            return str_replace("'", "''", $fieldString);
-        }
-    } elseif ($fieldType === "int") {
-        if ($fieldAllowsNulls && (trim($fieldString . "") === "" || !is_numeric($fieldString))) {
-            return NULL;
-        } else {
-            return $fieldString;
-        }
-    } elseif ($fieldType === "datetime") {
-        if ($fieldAllowsNulls && trim($fieldString . "") === "") {
-            return NULL;
-        } else {
-            return str_replace("'", "''", $fieldString);
-        }
-    } elseif ($fieldType === "bit") {
-        if (trim($fieldString . "") === "") {
-            return NULL;
-        } elseif ($fieldString) {
-            return "1";
-        } else {
-            return "0";
-        }
-    } elseif ($fieldType === "decimal") {
-        if (trim($fieldString . "") === "") {
-            return NULL;
-        } elseif (is_numeric($fieldString)) {
-            return str_replace("'", "''", $fieldString);
-        } else {
-            return NULL;
-        }
-    }
-}
-
-function CheckNulls($str) {
-    $strOut = $str;
-    if (is_null($str)) {
-        $strOut = "";
-    }
-    return $strOut;
-}
-
-function LogReport($logType, $logText, $logUserId) {
-    $logColumns = "LogType,LogText,LogUserId";
-    $logValues = formatDbField($logType, "text", false) . "," . formatDbField($logText, "text", false) . "," . formatDbField($logUserId, "int", false);
-//    Call InsertNewRecord("SystemLog", logColumns, logValues)
-}
 //
 //FUNCTION hasPermission(nSection, nAction)
 //    Dim boolPermission : boolPermission = false
@@ -916,20 +1023,7 @@ function LogReport($logType, $logText, $logUserId) {
 //    GetResourceBlock = pStrOut
 //END FUNCTION
 //
-function RemoveSpecialChars($str) {
-    $str = trim($str) . "";
-    if ($str = "") return;
-    $OutStr = trim($str);
-    $OutStr = str_replace("`", "", $OutStr);
-    $OutStr = str_replace("^", "", $OutStr);
-    $OutStr = str_replace("~", "", $OutStr);
-    $OutStr = str_replace("|", "", $OutStr);
-    $OutStr = str_replace("(", "", $OutStr);
-    $OutStr = str_replace(")", "", $OutStr);
-    $OutStr = str_replace("{", "", $OutStr);
-    $OutStr = str_replace("}", "", $OutStr);
-    return $OutStr;
-}
+
 //
 //FUNCTION ShowPagination(pageNumber, maxPage, pageUri, filter, filterValue)
 //    Dim i, pstrOut
@@ -1321,67 +1415,8 @@ function RemoveSpecialChars($str) {
 //    END IF
 //END FUNCTION
 //
-//FUNCTION FormatPostedDate(thisDate)
-//    IF Trim(thisDate & "") = "" THEN EXIT FUNCTION
-//    FormatPostedDate = MonthName(Month(thisDate), 1) & " " & Day(thisDate) & ", " & Year(thisDate)
-//END FUNCTION
+
 //
-//FUNCTION HowLongAgo(dteDateTime)
-//    Dim pstrOut, v1, v2, u1, u2, y1
-//
-//    Dim offSet : offSet = eval(0 - Session("timeZoneOffset"))
-//    offSet = eval(SYSTEM_OFFSET + offSet)
-//    Dim nowTime : nowTime = DateAdd("h", offSet, Now())
-//    Dim PassThru : PassThru = false
-//
-//    IF DateDiff("h", dteDateTime, nowTime) > 120 THEN
-//        pstrOut = FormatPostedDate(dteDateTime)
-//    ELSE
-//        IF DateDiff("h", dteDateTime, nowTime) > 24 THEN
-//            v1 = DateDiff("d", dteDateTime, nowTime)
-//            v2 = DateDiff("h", dteDateTime, nowTime) Mod 24
-//            u1 = ThisOrThat(v1 = 1, "Day", "Days")
-//            u2 = ThisOrThat(v2 = 1, "Hour", "Hours")
-//            PassThru = true
-//        END IF
-//
-//        IF DateDiff("n", dteDateTime, nowTime) > 60 AND NOT PassThru THEN
-//            v1 = DateDiff("h", dteDateTime, nowTime)
-//            v2 = DateDiff("n", dteDateTime, nowTime) Mod 60
-//            u1 = ThisOrThat(v1 = 1, "Hour", "Hours")
-//            u2 = ThisOrThat(v2 = 1, "Minute", "Minutes")
-//            PassThru = true
-//        END IF
-//
-//        IF DateDiff("s", dteDateTime, nowTime) > 60 AND NOT PassThru THEN
-//            v1 = DateDiff("n", dteDateTime, nowTime)
-//            v2 = DateDiff("s", dteDateTime, nowTime) Mod 60
-//            u1 = ThisOrThat(v1 = 1, "Minute", "Minutes")
-//            u2 = ThisOrThat(v2 = 1, "Second", "Seconds")
-//            PassThru = true
-//        END IF
-//
-//        IF DateDiff("s", dteDateTime, nowTime) > 0 AND NOT PassThru THEN
-//            v1 = Datediff("s", dteDateTime, nowTime) Mod 60
-//            u1 = ThisOrThat(v1 = 1, "Second", "Seconds")
-//            PassThru = true
-//        END IF
-//
-//        IF NOT PassThru THEN
-//            v1 = "1"
-//            u1 = "Second"
-//        END IF
-//
-//        pstrOut = v1 & " " & u1
-//        IF Trim(u2 & "") <> "" THEN pstrOut = pstrOut & ", " & v2 & " " & u2
-//        pstrOut = pstrOut & " Ago"
-//        IF InStr(pstrOut, "Days,") > 0 THEN
-//            y1 = Split(pstrOut, ",")
-//            pstrOut = y1(0) & " Ago"
-//        END IF
-//    END IF
-//    HowLongAgo = pstrOut
-//END FUNCTION
 //
 //FUNCTION ArrayToJSON(dataArray, dataFields, dataArrayName)
 //    IF NOT IsArray(dataArray) THEN EXIT FUNCTION
@@ -1986,19 +2021,9 @@ function RemoveSpecialChars($str) {
 //    InsertRecord = primaryId
 //END FUNCTION
 //
-//SUB InsertNewRecord(tableName, columns, values)
-//    ' ### INSERT NEW RECORD ###
-//    Dim rowData : rowData = "INSERT INTO " & tableName & " (" & columns & ") VALUES (" & values & ")"
-//    Response.Write "<!-- rowData = " & rowData & " //--><br/>"
-//    db.Execute(rowData)
-//END SUB
+
 //
-//SUB SetUserAlert(alertType, alertMessage)
-//    IF (cToStr(alertType) = "" OR cToStr(alertMessage) = "") THEN EXIT SUB
-//    Session("hasAlert") = true
-//    Session("alertType") = alertType
-//    Session("alertMessage") = alertMessage
-//END SUB
+
 //
 //FUNCTION ConvertToMySqlDate(thisDate)
 //    ' ### "11/22/2020 00:00:00" to "2020-11-22 00:00:00"

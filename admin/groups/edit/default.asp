@@ -192,11 +192,11 @@ Dim groupName : groupName = GetGroupName(groupId)
 <script type="text/javascript">
     $(function () {
         $('.item.profile').click(function () {
-            document.location.href = '/profile/';
+            document.location.href = '/profile/index.php';
         });
 
         $('.item.logout').click(function () {
-            document.location.href = 'logout.asp';
+            document.location.href = '/logout.php';
         });
     });
 </script>

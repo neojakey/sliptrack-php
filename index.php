@@ -1,4 +1,5 @@
 ﻿<?php include "includes/functions.php" ?>
+<?php include "includes/functions_security.php" ?>
 <?php include "includes/common.php" ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +13,7 @@
 
 <div id="page-wrapper">
     <div class="menu">
-        Test Menu
+        <?php include "includes/menu.php" ?>
     </div>
     <div class="main">
         <header>

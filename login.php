@@ -2,6 +2,7 @@
 <?php include "includes/common.php" ?>
 <?php
 if (isset($_POST["submit"])) {
+    session_start();
     global $db;
     $nUserName = trim($_POST["tbUsername"]);
     $nUserName = mysqli_real_escape_string($db, $nUserName);
@@ -40,14 +41,14 @@ if (isset($_POST["submit"])) {
             $_SESSION["userName"]      = $userRS["UserName"];
             $_SESSION["userFirstName"] = $userRS["FirstName"];
             $_SESSION["userLastName"]  = $userRS["LastName"];
-            $_SESSION["userFullName"]  = $userRS["FirstName"] & " " & $userRS["LastName"];
+            $_SESSION["userFullName"]  = $userRS["FirstName"] . " " . $userRS["LastName"];
             $_SESSION["userEmail"]     = $userRS["EmailAddress"];
             $_SESSION["userGroup"]     = $userRS["GroupId"];
             $_SESSION["darkMode"]      = $userRS["DarkMode"];
 
-            //Call LogReport(4, Session("userFullName") & " has logged in", Session("userId"))
+            LogReport(4, $_SESSION["userFullName"] . " has logged in", $_SESSION["userId"]);
 
-            header("Location: default.php");
+            header("Location: index.php");
         }
     }
 }

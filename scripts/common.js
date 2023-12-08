@@ -1,11 +1,11 @@
 /* USER MENU */
 $(function () {
     $('.item.profile').click(function () {
-        document.location.href = '/profile/';
+        document.location.href = '/profile/index.php';
     });
 
     $('.item.logout').click(function () {
-        document.location.href = 'logout.php';
+        document.location.href = '/logout.php';
     });
 });
 
