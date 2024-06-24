@@ -34,11 +34,11 @@
         </section>
     </div>
 </div>
-<!-- #include virtual="/includes/footer.asp" -->
-<!-- #include virtual="/includes/javascripts.asp" -->
-<!-- #include virtual="/includes/kendo_includes.asp" -->
-<!-- #include virtual="/includes/alerts.asp" -->
+<?php include ROOT_PATH . "includes/footer.php" ?>
+<?php include ROOT_PATH . "includes/javascripts.php" ?>
+<?php include ROOT_PATH . "includes/kendo_includes.php" ?>
+<?php include ROOT_PATH . "includes/alerts.php" ?>
 </body>
 
 </html>
-<!--#include virtual="/includes/closeconnection.asp" -->
+

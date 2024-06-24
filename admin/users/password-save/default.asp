@@ -22,4 +22,3 @@ Call SetUserAlert("success", "User password has been updated successfully")
 ' ### REDIRECT USER ###
 Response.Redirect("/admin/users/")
 %>
-<!--#include virtual="/includes/closeconnection.asp" -->

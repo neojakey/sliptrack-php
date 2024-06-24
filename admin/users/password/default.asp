@@ -13,7 +13,7 @@
 <body>
     <div id="page-wrapper">
         <div class="menu">
-            <!--#include virtual="/includes/menu_admin.asp" -->
+            <?php include ROOT_PATH . "includes/menu_admin.php" ?>
         </div>
         <div class="main">
             <header>
@@ -31,7 +31,7 @@
             <section>
                 <h1 class="page-title">Change User Password</h1>
                 <div class="breadcrumb">
-                    <%=ADMIN_BREADCRUMB%><a href="/admin/users/">User Management</a><%=SPACER%>Change User Password
+                    <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="/admin/users/">User Management</a><%=SPACER%>Change User Password
                 </div>
                 <div class="add-button-wrapper">
                     <button type="button" class="primary-btn"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Add User</button>
@@ -59,12 +59,12 @@
             </section>
         </div>
     </div>
-    <!-- #include virtual="/includes/footer.asp" -->
-    <!-- #include virtual="/includes/javascripts.asp" -->
-    <!-- #include virtual="/includes/kendo_includes.asp" -->
-    <!-- #include virtual="/includes/alerts.asp" -->
+    <?php include ROOT_PATH . "includes/footer.php" ?>
+    <?php include ROOT_PATH . "includes/javascripts.php" ?>
+    <?php include ROOT_PATH . "includes/kendo_includes.php" ?>
+    <?php include ROOT_PATH . "includes/alerts.php" ?>
     <script type="text/javascript" src="/users/scripts/user_password.js"></script>
 </body>
 
 </html>
-<!--#include virtual="/includes/closeconnection.asp" -->
+

@@ -36,7 +36,7 @@ Dim groupName : groupName = GetGroupName(groupId)
 
 <div id="page-wrapper">
     <div class="menu">
-        <!--#include virtual="/includes/menu_admin.asp" -->
+        <?php include ROOT_PATH . "includes/menu_admin.php" ?>
     </div>
     <div class="main">
         <header>
@@ -54,7 +54,7 @@ Dim groupName : groupName = GetGroupName(groupId)
         <section>
             <h1 class="page-title"><%=groupName%> Group Members</h1>
             <div class="breadcrumb">
-                <%=ADMIN_BREADCRUMB%><a href="/admin/groups/">User Groups</a><%=SPACER%><%=groupName%> Group Members
+                <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="/admin/groups/">User Groups</a><%=SPACER%><%=groupName%> Group Members
             </div>
             <div class="add-button-wrapper">
                 <button type="button" class="primary-btn" onclick="location.href='/admin/groups/add/';"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Add Group</button>
@@ -143,22 +143,11 @@ Dim groupName : groupName = GetGroupName(groupId)
         </section>
     </div>
 </div>
-<!-- #include virtual="/includes/footer.asp" -->
-<!-- #include virtual="/includes/javascripts.asp" -->
-<!-- #include virtual="/includes/kendo_includes.asp" -->
-<!-- #include virtual="/includes/alerts.asp" -->
-<script type="text/javascript">
-    $(function () {
-        $('.item.profile').click(function () {
-            document.location.href = '/profile/index.php';
-        });
-
-        $('.item.logout').click(function () {
-            document.location.href = '/logout.php';
-        });
-    });
-</script>
+<?php include ROOT_PATH . "includes/footer.php" ?>
+<?php include ROOT_PATH . "includes/javascripts.php" ?>
+<?php include ROOT_PATH . "includes/kendo_includes.php" ?>
+<?php include ROOT_PATH . "includes/alerts.php" ?>
 </body>
 
 </html>
-<!--#include virtual="/includes/closeconnection.asp" -->
+

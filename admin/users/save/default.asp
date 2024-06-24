@@ -67,4 +67,4 @@ END IF
 ' ### REDIRECT USER ###
 Response.Redirect("/admin/users/")
 %>
-<!--#include virtual="/includes/closeconnection.asp" -->
+

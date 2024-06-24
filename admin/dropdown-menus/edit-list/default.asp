@@ -101,11 +101,11 @@ dropdownListRS.Close
             </ul>
         </div>
     </div>
-    <!-- #include virtual="/includes/footer.asp" -->
+    <?php include ROOT_PATH . "includes/footer.php" ?>
 </div>
-<!-- #include virtual="/includes/javascripts.asp" -->
+<?php include ROOT_PATH . "includes/javascripts.php" ?>
 <script type="text/javascript" src="<%=DOMAIN%>/admin/drop_down_menus/scripts/dropdownlist_addedit.js"></script>
 </body>
 
 </html>
-<!--#include virtual="/includes/closeconnection.asp" -->
+

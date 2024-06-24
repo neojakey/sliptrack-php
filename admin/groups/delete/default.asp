@@ -38,4 +38,4 @@ Call SetUserAlert("success", "Group deleted successfully")
 ' ### REDIRECT USER ###
 Response.Redirect("/admin/groups/")
 %>
-<!--#include virtual="/includes/closeconnection.asp" -->
+

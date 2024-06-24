@@ -39,4 +39,4 @@ ELSE
     Response.Redirect("/admin/groups/edit/?id=" & groupId)
 END IF
 %>
-<!--#include virtual="/includes/closeconnection.asp" -->
+

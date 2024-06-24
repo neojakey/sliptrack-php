@@ -207,7 +207,7 @@ END IF
     <span id="mobile-copyright-footer">Copyright&nbsp;&copy;&nbsp;CalcuTrack&trade; 2017-<%=Year(Now())%></span>
 </div>
 <% Session("newUserEmail") = "" %>
-<!-- #include virtual="/includes/javascripts.asp" -->
+<?php include ROOT_PATH . "includes/javascripts.php" ?>
 <script type="text/javascript" src="scripts/login.js"></script>
 <% IF Request("s") = "1" THEN %>
     <script type="text/javascript">
@@ -240,4 +240,4 @@ END IF
 </body>
 
 </html>
-<!--#include virtual="/includes/closeconnection.asp" -->
+

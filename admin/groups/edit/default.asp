@@ -36,7 +36,7 @@ Dim groupName : groupName = GetGroupName(groupId)
 
 <div id="page-wrapper">
     <div class="menu">
-        <!--#include virtual="/includes/menu_admin.asp" -->
+        <?php include ROOT_PATH . "includes/menu_admin.php" ?>
     </div>
     <div class="main">
         <header>
@@ -54,7 +54,7 @@ Dim groupName : groupName = GetGroupName(groupId)
         <section>
             <h1 class="page-title"><%=groupName%> Group Members</h1>
             <div class="breadcrumb">
-                <%=ADMIN_BREADCRUMB%><a href="/admin/groups/">User Groups</a><%=SPACER%><%=groupName%> Group Permissions
+                <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="/admin/groups/">User Groups</a><%=SPACER%><%=groupName%> Group Permissions
             </div>
             <div class="add-button-wrapper">
                 <button type="button" class="primary-btn" onclick="location.href='/admin/groups/add/';"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Add Group</button>
@@ -184,23 +184,11 @@ Dim groupName : groupName = GetGroupName(groupId)
         </section>
     </div>
 </div>
-<!-- #include virtual="/includes/footer.asp" -->
-<!-- #include virtual="/includes/javascripts.asp" -->
+<?php include ROOT_PATH . "includes/footer.php" ?>
+<?php include ROOT_PATH . "includes/javascripts.php" ?>
 <script src="/scripts/kendo_ui/js/kendo.all.min.js"></script>
-<!-- #include virtual="/includes/alerts.asp" -->
+<?php include ROOT_PATH . "includes/alerts.php" ?>
 <script src="/admin/groups/scripts/group_edit.js"></script>
-<script type="text/javascript">
-    $(function () {
-        $('.item.profile').click(function () {
-            document.location.href = '/profile/index.php';
-        });
-
-        $('.item.logout').click(function () {
-            document.location.href = '/logout.php';
-        });
-    });
-</script>
 </body>
 
 </html>
-<!--#include virtual="/includes/closeconnection.asp" -->

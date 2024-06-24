@@ -31,7 +31,7 @@ END IF
 <body>
     <div id="page-wrapper">
         <div class="menu">
-            <!--#include virtual="/includes/menu_admin.asp" -->
+            <?php include ROOT_PATH . "includes/menu_admin.php" ?>
         </div>
         <div class="main">
             <header>
@@ -49,7 +49,7 @@ END IF
             <section>
                 <h1 class="page-title">Add New Dropdown Menu</h1>
                 <div class="breadcrumb">
-                    <%=ADMIN_BREADCRUMB%><a href="/admin/dropdown-menus/">Dropdown Menus</a><%=SPACER%>Add Dropdown Menu
+                    <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="/admin/dropdown-menus/">Dropdown Menus</a><%=SPACER%>Add Dropdown Menu
                 </div>
                 <form action="/admin/dropdown-menus/save/" id="dropdownlist-form" method="post">
                     <table class="form-table">
@@ -71,10 +71,10 @@ END IF
             </section>
         </div>
     </div>
-    <!-- #include virtual="/includes/footer.asp" -->
-    <!-- #include virtual="/includes/javascripts.asp" -->
-    <!-- #include virtual="/includes/kendo_includes.asp" -->
-    <!-- #include virtual="/includes/alerts.asp" -->
+    <?php include ROOT_PATH . "includes/footer.php" ?>
+    <?php include ROOT_PATH . "includes/javascripts.php" ?>
+    <?php include ROOT_PATH . "includes/kendo_includes.php" ?>
+    <?php include ROOT_PATH . "includes/alerts.php" ?>
     <script type="text/javascript" src="/admin/dropdown-menus/scripts/dropdownlist_addedit.js"></script>
 </body>
 

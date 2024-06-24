@@ -50,7 +50,7 @@ groupRS.Close
             <section>
                 <h1 class="page-title">Add New Group</h1>
                 <div class="breadcrumb">
-                <%=ADMIN_BREADCRUMB%><a href="/admin/groups/">User Groups</a><%=SPACER%>Edit Group Name
+                <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="/admin/groups/">User Groups</a><%=SPACER%>Edit Group Name
                 </div>
                 <form action="/admin/groups/save/" method="post" id="form-new-group" name="frmNewGroup">
                     <input type="hidden" name="hidGroupId" value="<%=groupId%>"/>
@@ -68,12 +68,12 @@ groupRS.Close
             </section>
         </div>
     </div>
-    <!-- #include virtual="/includes/footer.asp" -->
-    <!-- #include virtual="/includes/javascripts.asp" -->
-    <!-- #include virtual="/includes/kendo_includes.asp" -->
-    <!-- #include virtual="/includes/alerts.asp" -->
+    <?php include ROOT_PATH . "includes/footer.php" ?>
+    <?php include ROOT_PATH . "includes/javascripts.php" ?>
+    <?php include ROOT_PATH . "includes/kendo_includes.php" ?>
+    <?php include ROOT_PATH . "includes/alerts.php" ?>
     <script type="text/javascript" src="/admin/groups/scripts/group_add.js"></script>
 </body>
 
 </html>
-<!--#include virtual="/includes/closeconnection.asp" -->
+

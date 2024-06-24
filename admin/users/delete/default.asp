@@ -44,4 +44,4 @@ Call SetUserAlert("success", "User deleted successfully")
 ' ### REDIRECT USER ###
 Response.Redirect("/admin/users/")
 %>
-<!--#include virtual="/includes/closeconnection.asp" -->
+

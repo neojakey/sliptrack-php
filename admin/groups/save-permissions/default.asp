@@ -40,4 +40,4 @@ strSQL = strSQL & " WHERE [GroupID] = " & formatDbField(Request("id"), "int", fa
 Response.Write strSQL
 db.Execute(strSQL)
 %>
-<!--#include virtual="/includes/closeconnection.asp" -->
+

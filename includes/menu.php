@@ -7,7 +7,7 @@
         if ($siteUrl = "index.php") { $cssSelected = "selected"; } else { $cssSelected = ""; }
         ?>
         <div>
-            <a href="./index.php" title="Home Page" class="<%=cssSelected%>">
+            <a href="<?=BASE_URL?>/index.php" title="Home Page" class="<%=cssSelected%>">
                 <i class="fa fa-home fa-fw" aria-hidden="true"></i>
                 <span>Home</span>
             </a>
@@ -15,7 +15,7 @@
         <?php
         if ($canViewAdmin) { ?>
         <div>
-            <a href="./admin/index.php" title="Administration Section">
+            <a href="<?=BASE_URL?>/admin/index.php" title="Administration Section">
                 <i class="fa fa-cogs fa-fw" aria-hidden="true"></i>
                 <span>Admin</span>
             </a>
@@ -23,14 +23,14 @@
         <?php } ?>
         <?php if (strpos($siteUrl, "/issuers/") > -1) { $cssSelected = "selected"; } else { $cssSelected = ""; } ?>
         <div>
-            <a href="./issuers/index.php" title="Manage Issuers" class="<%=cssSelected%>">
+            <a href="<?=BASE_URL?>/issuers/index.php" title="Manage Issuers" class="<%=cssSelected%>">
                 <i class="fa fa-id-card-o fa-fw" aria-hidden="true"></i>
                 <span>Issuers</span>
             </a>
         </div>
         <?php if (strpos($siteUrl, "/receipts/") > -1) { $cssSelected = "selected"; } else { $cssSelected = ""; } ?>
         <div>
-            <a href="./receipts/index.php" title="Manage Receipts" class="<%=cssSelected%>">
+            <a href="<?=BASE_URL?>/receipts/index.php" title="Manage Receipts" class="<%=cssSelected%>">
                 <i class="fa fa-ticket fa-fw" aria-hidden="true"></i>
                 <span>Receipts</span>
             </a>

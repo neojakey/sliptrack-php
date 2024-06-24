@@ -76,7 +76,7 @@ oRSbn.Close
 
 <div id="page-wrapper">
     <div class="menu">
-        <!--#include virtual="/includes/menu_admin.asp" -->
+        <?php include ROOT_PATH . "includes/menu_admin.php" ?>
     </div>
     <div class="main">
         <header>
@@ -94,7 +94,7 @@ oRSbn.Close
         <section>
             <h1 class="page-title">System Log</h1>
             <div class="breadcrumb">
-                <%=ADMIN_BREADCRUMB%>System Log
+                <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;System Log
             </div>
             <form action="/admin/system-log/" method="post" name="CreateReport">
                 <div id="date-select-wrapper">
@@ -264,10 +264,10 @@ oRSbn.Close
         </section>
     </div>
 </div>
-<!-- #include virtual="/includes/footer.asp" -->
-<!-- #include virtual="/includes/javascripts.asp" -->
-<!-- #include virtual="/includes/kendo_includes.asp" -->
-<!-- #include virtual="/includes/alerts.asp" -->
+<?php include ROOT_PATH . "includes/footer.php" ?>
+<?php include ROOT_PATH . "includes/javascripts.php" ?>
+<?php include ROOT_PATH . "includes/kendo_includes.php" ?>
+<?php include ROOT_PATH . "includes/alerts.php" ?>
 <script type="text/javascript" src="/admin/system-log/scripts/systemlog_initialize.js"></script>
 <script type="text/javascript">
     function ConfirmEntryDelete(LogNum) {
@@ -280,4 +280,4 @@ oRSbn.Close
 </body>
 
 </html>
-<!--#include virtual="/includes/closeconnection.asp" -->
+

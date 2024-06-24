@@ -120,11 +120,11 @@
             <% END IF %>
         </div>
     </div>
-    <!-- #include virtual="/includes/footer.asp" -->
+    <?php include ROOT_PATH . "includes/footer.php" ?>
 </div>
-<!-- #include virtual="/includes/javascripts.asp" -->
+<?php include ROOT_PATH . "includes/javascripts.php" ?>
 <script type="text/javascript" src="<%=DOMAIN%>/contact-us/scripts/validate.js"></script>
-<!-- #include virtual="/includes/alerts.asp" -->
+<?php include ROOT_PATH . "includes/alerts.php" ?>
 <script type="text/javascript">
     $(function () {
         $('#subject').focus();
@@ -133,4 +133,4 @@
 </body>
 
 </html>
-<!--#include virtual="/includes/closeconnection.asp" -->
+

@@ -1,14 +1,13 @@
 /* USER MENU */
 $(function () {
     $('.item.profile').click(function () {
-        document.location.href = '/profile/index.php';
+        document.location.href = $base + '/profile/index.php';
     });
 
     $('.item.logout').click(function () {
-        document.location.href = '/logout.php';
+        document.location.href = $base + '/logout.php';
     });
 });
-
 
 function LeavePage(strUrl) {
     var agree = confirm('Are you sure you want to cancel?\n\nClick OK to confirm. Any unsaved changes you have made will be lost.');

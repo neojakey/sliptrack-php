@@ -1,5 +1,6 @@
-<?php include "includes/functions.php" ?>
-<?php include "includes/common.php" ?>
+<?php require_once("includes/config.php"); ?>
+<?php include ROOT_PATH . "includes/functions.php" ?>
+<?php include ROOT_PATH . "includes/common.php" ?>
 <?php
 if (isset($_POST["submit"])) {
     session_start();
@@ -119,8 +120,8 @@ if (isset($_POST["submit"])) {
         </form>
     </div>
 </div>
-<?php include "includes/javascripts.php" ?>
-<?php include "includes/kendo_includes.php" ?>
+<?php include ROOT_PATH . "includes/javascripts.php" ?>
+<?php include ROOT_PATH . "includes/kendo_includes.php" ?>
 <script type="text/javascript">
     function validate() {
         if ($('#username').val() === '') {

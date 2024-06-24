@@ -1,19 +1,20 @@
-﻿<?php include "../includes/functions.php" ?>
-<?php include "../includes/functions_security.php" ?>
-<?php include "../includes/common.php" ?>
+﻿<?php require_once("../includes/config.php"); ?>
+<?php include ROOT_PATH . "includes/functions.php" ?>
+<?php include ROOT_PATH . "includes/functions_security.php" ?>
+<?php include ROOT_PATH . "includes/common.php" ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
     <title><?php echo SITE_NAME ?> - User Area</title>
-    <?php include "../includes/stylesheets.php" ?>
+    <?php include ROOT_PATH . "includes/stylesheets.php" ?>
 </head>
 
 <body>
 
 <div id="page-wrapper">
     <div class="menu">
-        <?php include "../includes/menu_admin.php" ?>
+        <?php include ROOT_PATH . "includes/menu_admin.php" ?>
     </div>
     <div class="main">
         <header>
@@ -31,7 +32,7 @@
         <section>
                 <h1 class="page-title">Administration Area</h1>
                 <div class="breadcrumb">
-                    <a href="/">Home</a><?=SPACER?>Administration
+                    <a href="<?=BASE_URL?>/">Home</a><?=SPACER?>Administration
                 </div>
                 <div id="alert-wrapper" style="display:none">
                     <div id="alert">
@@ -41,21 +42,13 @@
         </section>
     </div>
 </div>
-<?php include "includes/footer.php" ?>
-<?php include "includes/javascripts.php" ?>
-<?php include "includes/kendo_includes.php" ?>
-<?php include "includes/alerts.php" ?>
+<?php include ROOT_PATH . "includes/footer.php" ?>
+<?php include ROOT_PATH . "includes/javascripts.php" ?>
+<?php include ROOT_PATH . "includes/kendo_includes.php" ?>
+<?php include ROOT_PATH . "includes/alerts.php" ?>
 <script type="text/javascript">
     $(function () {
         $('#search-category').kendoDropDownList();
-
-        $('.item.profile').click(function () {
-            document.location.href = '/profile/index.php';
-        });
-
-        $('.item.logout').click(function () {
-            document.location.href = '/logout.php';
-        });
     });
 
     function validate() {

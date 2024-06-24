@@ -1,19 +1,20 @@
-﻿<?php include "includes/functions.php" ?>
-<?php include "includes/functions_security.php" ?>
-<?php include "includes/common.php" ?>
+﻿<?php require_once("includes/config.php"); ?>
+<?php include ROOT_PATH . "includes/functions.php" ?>
+<?php include ROOT_PATH . "includes/functions_security.php" ?>
+<?php include ROOT_PATH . "includes/common.php" ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
     <title><?php echo SITE_NAME ?> - User Area</title>
-    <?php include "includes/stylesheets.php" ?>
+    <?php include ROOT_PATH . "includes/stylesheets.php" ?>
 </head>
 
 <body>
 
 <div id="page-wrapper">
     <div class="menu">
-        <?php include "includes/menu.php" ?>
+        <?php include ROOT_PATH . "includes/menu.php" ?>
     </div>
     <div class="main">
         <header>
@@ -33,9 +34,9 @@
         </section>
     </div>
 </div>
-<?php include "includes/footer.php" ?>
-<?php include "includes/javascripts.php" ?>
-<?php include "includes/kendo_includes.php" ?>
+<?php include ROOT_PATH . "includes/footer.php" ?>
+<?php include ROOT_PATH . "includes/javascripts.php" ?>
+<?php include ROOT_PATH . "includes/kendo_includes.php" ?>
 </body>
 
 </html>

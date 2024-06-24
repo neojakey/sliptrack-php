@@ -38,7 +38,7 @@ Dim dropdownListName : dropdownListName = GetDropdownListName(dropdownListId)
 <body>
     <div id="page-wrapper">
         <div class="menu">
-            <!--#include virtual="/includes/menu_admin.asp" -->
+            <?php include ROOT_PATH . "includes/menu_admin.php" ?>
         </div>
         <div class="main">
             <header>
@@ -56,7 +56,7 @@ Dim dropdownListName : dropdownListName = GetDropdownListName(dropdownListId)
             <section>
                 <h1 class="page-title">Dropdown Menus</h1>
                 <div class="breadcrumb">
-                    <%=ADMIN_BREADCRUMB%><a href="/admin/dropdown-menus/">Dropdown Menus</a><%=SPACER%><%=dropdownListName%>
+                    <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="/admin/dropdown-menus/">Dropdown Menus</a><%=SPACER%><%=dropdownListName%>
                 </div>
                 <% IF canAdd THEN %>
                 <div class="add-button-wrapper">
@@ -138,11 +138,11 @@ Dim dropdownListName : dropdownListName = GetDropdownListName(dropdownListId)
             </section>
         </div>
     </div>
-    <!-- #include virtual="/includes/footer.asp" -->
-    <!-- #include virtual="/includes/javascripts.asp" -->
-    <!-- #include virtual="/includes/kendo_includes.asp" -->
-    <!-- #include virtual="/includes/alerts.asp" -->
+    <?php include ROOT_PATH . "includes/footer.php" ?>
+    <?php include ROOT_PATH . "includes/javascripts.php" ?>
+    <?php include ROOT_PATH . "includes/kendo_includes.php" ?>
+    <?php include ROOT_PATH . "includes/alerts.php" ?>
 </body>
 
 </html>
-<!--#include virtual="/includes/closeconnection.asp" -->
+

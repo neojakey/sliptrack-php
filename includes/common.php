@@ -2,12 +2,9 @@
 // ### CONSTANTS ###
 define("SITE_NAME", "Slip Saver");
 define("SPACER", "&nbsp;&nbsp;<i class=\"fa fa-caret-right\" style=\"color:#ABABAB\" aria-hidden=\"true\"></i>&nbsp;&nbsp;");
-define("ADMIN_BREADCRUMB", "<a href=\"/\">Home</a>&nbsp;&nbsp;<i class=\"fa fa-caret-right\" style=\"color:#ABABAB\" aria-hidden=\"true\"></i>&nbsp;&nbsp;<a href=\"/admin/\">Administration</a>&nbsp;&nbsp;<i class=\"fa fa-caret-right\" style=\"color:#ABABAB\" aria-hidden=\"true\"></i>&nbsp;&nbsp;");
-define("ROOT", "http://localhost:8080/sliptrack-php");
 
 // ### GLOBAL VARIABLES ###
 $db;
-$base = "http://localhost:8080/sliptrack-php";
 
 // ### SERVER VARIABLES ###
 $host = $_SERVER['HTTP_HOST'];
@@ -23,6 +20,7 @@ session_start();
 $db = InitiateConnection();
 
 // ### CHECK FOR SESSION ###
+echo "Page URL: " . $nPageUrl;
 if (!strpos($nPageUrl, "login.php")) {
     CheckForValidLogin();
 }
