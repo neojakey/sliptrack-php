@@ -40,19 +40,19 @@ IF Trim(receiptId & "") <> "" THEN
     db.Execute(strSQL)
 
     ' ### ADD TO SYSTEM LOG, WALL EVENT, AND USER ALERT ###
-    Call LogReport(1, "The Receipt has been edited", Session("userId"))
+    Call LogReport(1, "The Receipt has been edited", $_SESSION["userId"))
     Call SetUserAlert("success", "Receipt edited successfully")
 ELSE
     ' ### INSERT ISSUER RECORD ###
     Dim receiptColumns : receiptColumns = "ReceiptDate,ReceiptFolioNumber,ReceiptDescription,ReceiptNumber,IssuerId,CFDITypeId,PaymentTypeId,SubTotal,IVA,Total,Discount,UserId"
-    Dim receiptValues : receiptValues = formatDbField(receiptDate, "datetime", false) & "," & formatDbField(receiptFolio, "text", false) & "," & formatDbField(receiptDescription, "text", false) & "," & formatDbField(receiptNumber, "text", true) & "," & formatDbField(issuerId, "int", false) & "," & formatDbField(cdfiTypeId, "int", false) & "," & formatDbField(paymentTypeId, "int", false) & "," & formatDbField(subTotal, "decimal", false) & "," & formatDbField(iva, "decimal", true) & "," & formatDbField(total, "decimal", false) & "," & formatDbField(discount, "decimal", true) & "," & formatDbField(Session("userId"), "int", false)
+    Dim receiptValues : receiptValues = formatDbField(receiptDate, "datetime", false) & "," & formatDbField(receiptFolio, "text", false) & "," & formatDbField(receiptDescription, "text", false) & "," & formatDbField(receiptNumber, "text", true) & "," & formatDbField(issuerId, "int", false) & "," & formatDbField(cdfiTypeId, "int", false) & "," & formatDbField(paymentTypeId, "int", false) & "," & formatDbField(subTotal, "decimal", false) & "," & formatDbField(iva, "decimal", true) & "," & formatDbField(total, "decimal", false) & "," & formatDbField(discount, "decimal", true) & "," & formatDbField($_SESSION["userId"), "int", false)
     receiptId = InsertRecord("ReceiptId", "Receipts", receiptColumns, receiptValues)
 
     ' ### ADD TO SYSTEM LOG, WALL EVENT, AND USER ALERT ###
-    Call LogReport(1, "The Receipt has been added", Session("userId"))
+    Call LogReport(1, "The Receipt has been added", $_SESSION["userId"))
     Call SetUserAlert("success", "Receipt added successfully")
 END IF
 
-Response.Redirect("/receipts/")
+header("Location: " . BASE_URL ."/receipts/")
 %>
 <!-- #include virtual="/includes/closeconnection.asp" -->

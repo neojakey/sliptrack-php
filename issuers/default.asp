@@ -61,7 +61,7 @@
                     "   [Issuers] AS i " & _
                     "   INNER JOIN [dropdownfields] AS ddf ON ddf.[DropdownFieldId] = i.[TaxRegimeId] " & _
                     " WHERE " & _
-                    "   i.[UserId] = " & formatDbField(Session("userId"), "int", false) & " " & _
+                    "   i.[UserId] = " & formatDbField($_SESSION["userId"), "int", false) & " " & _
                     " ORDER BY " & _
                     "   i.[IssuerName]"
                 IssuersRS.CursorLocation = 3

@@ -9,18 +9,18 @@ Dim adminAry : adminAry = GetSectionPermission("prmAdmin")
 Dim canViewAdmin : canViewAdmin = GetActionPermission("view", adminAry)
 IF NOT canViewAdmin THEN
     Call SetUserAlert("danger", "You do not have permission to access administration.")
-    Response.Redirect("/")
+    header("Location: " . BASE_URL ."/")
 END IF
 
 ' ### DOES THE USER HAVE DROPDOWN VIEW PERMISSION ###
-Dim dropdownAry : dropdownAry = GetSectionPermission("prmDropdowns")
+Dim dropdownAry : dropdownAry = GetSectionPermission("prmLists")
 Dim canView : canView = GetActionPermission("view", dropdownAry)
 Dim canAdd : canAdd = GetActionPermission("create", dropdownAry)
 Dim canDelete : canDelete = GetActionPermission("delete", dropdownAry)
 Dim canEdit : canEdit = GetActionPermission("edit", dropdownAry)
 IF NOT canView THEN
     Call SetUserAlert("danger", "You do not have permission to view dropdown menus.")
-    Response.Redirect("/admin/")
+    header("Location: " . BASE_URL ."/admin/")
 END IF
 
 ' ### PAGE DECLARATIONS ###

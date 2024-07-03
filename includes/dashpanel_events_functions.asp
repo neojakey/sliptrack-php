@@ -1,7 +1,7 @@
 ﻿<%
 FUNCTION DisplayEventsWall(numberOfRecords)
     Dim outStr : outStr = ""
-    IF cToStr(Session("activeApplicantId")) = "" THEN ' ### NO MEMBER AVAILABLE
+    IF cToStr($_SESSION["activeApplicantId")) = "" THEN ' ### NO MEMBER AVAILABLE
         outStr = "<p><b>No active member found.</b><br/><br/>The user events are inactive because no member has been added to the system. Please create one above.</p>"
     ELSE
         Dim eventRS : Set eventRS = Server.CreateObject("ADODB.Recordset")
@@ -15,7 +15,7 @@ FUNCTION DisplayEventsWall(numberOfRecords)
             "FROM " & _
             "   Events " & _
             "WHERE " & _
-            "   ApplicantId = " & formatDbField(Session("activeApplicantId"), "int", false) & " " & _
+            "   ApplicantId = " & formatDbField($_SESSION["activeApplicantId"), "int", false) & " " & _
             "ORDER BY " & _
             "   EventDate DESC " & _
             "   LIMIT " & numberOfRecords
@@ -42,7 +42,7 @@ FUNCTION DisplayEventsWall(numberOfRecords)
             LOOP
         END IF
         eventRS.Close
-    END IF ' ### IF cToStr(Session("activeApplicantId")) = ""
+    END IF ' ### IF cToStr($_SESSION["activeApplicantId")) = ""
     DisplayEventsWall = outStr
 END FUNCTION
 
@@ -602,7 +602,7 @@ SUB AddToEventWall(recordId, eventType, eventAction)
     END IF
 
     Dim eventsColumns : eventsColumns = "ApplicantId,EventTitle,EventDescription,EventType"
-    Dim eventsValues : eventsValues = Session("activeApplicantId") & "," & formatDbField(title, "text", false) & "," & formatDbField(description, "text", false) & "," & formatDbField(eventType, "text", false)
+    Dim eventsValues : eventsValues = $_SESSION["activeApplicantId") & "," & formatDbField(title, "text", false) & "," & formatDbField(description, "text", false) & "," & formatDbField(eventType, "text", false)
     Call InsertNewRecord("Events", eventsColumns, eventsValues)
 END SUB
 %>

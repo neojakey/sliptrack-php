@@ -68,8 +68,8 @@
             </div>
             <% ELSE %>
             <form method="post" action="send-email.asp" id="contact-us-form">
-                <input type="hidden" name="hidUserId" id="hid-user-id" value="<%=Session("userId")%>"/>
-                <input type="hidden" name="hidPaymentTier" id="hid-payment-tier" value="<%=Session("userPaymentTierCode")%>"/>
+                <input type="hidden" name="hidUserId" id="hid-user-id" value="<%=$_SESSION["userId")%>"/>
+                <input type="hidden" name="hidPaymentTier" id="hid-payment-tier" value="<%=$_SESSION["userPaymentTierCode")%>"/>
                 <table border="0" class="data-form">
                     <tr>
                         <td>Full Name <?=REQUIRED?>:</td>
@@ -84,7 +84,7 @@
                         <td>Email Address <?=REQUIRED?>:</td>
                     </tr>
                     <tr>
-                        <td><input type="text" class="k-textbox" name="tbEmailAddress" id="email-address" value="<%=Session("userEmail")%>" maxlength="200"/></td>
+                        <td><input type="text" class="k-textbox" name="tbEmailAddress" id="email-address" value="<%=$_SESSION["userEmail")%>" maxlength="200"/></td>
                     </tr>
                     <tr class="height6">
                         <td></td>

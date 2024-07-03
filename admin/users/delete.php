@@ -17,7 +17,7 @@ if (!$canViewAdmin) {
 $permissionsAry = GetSectionPermission("prmUsers");
 $canDelete = GetActionPermission("delete", $permissionsAry);
 if (!$canDelete) {
-    SetUserAlert("danger", "You do not have permission to delete users in the system.");
+    SetUserAlert("danger", "You do not have permission to delete users.");
     header("Location: " . BASE_URL ."/admin/users/index.php");
 }
 

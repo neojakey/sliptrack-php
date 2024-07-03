@@ -10,13 +10,6 @@ if (!$canViewAdmin) {
     SetUserAlert("danger", "You do not have permission to access administration.");
     header("Location: login.php");
 }
-// ### DOES THE USER HAVE ADMINSTRATION PERMISSION ###
-$adminAry = GetSectionPermission("prmAdmin");
-$canViewAdmin = GetActionPermission("view", $adminAry);
-if (!$canViewAdmin) {
-    SetUserAlert("danger", "You do not have permission to access administration.");
-    header("Location: login.php");
-}
 
 // ### DOES THE USER HAVE GROUP VIEW PERMISSION ###
 $groupsAry = GetSectionPermission("prmGroups");
@@ -25,7 +18,7 @@ $canEdit = GetActionPermission("edit", $groupsAry);
 $canDelete = GetActionPermission("delete", $groupsAry);
 if (!$canView) {
     SetUserAlert("danger", "You do not have permission to access groups.");
-    header("Location: /admin/");
+    header("Location: " . BASE_URL ."/admin/index.php");
 }
 ?>
 <!DOCTYPE html>
@@ -104,19 +97,17 @@ if (!$canView) {
                                     <td><?=$userGroupsRS["nUsersInGroup"]?></td>
                                     <td>
                                         <div class="data-grid-icons">
-                                            <?php
-                                            if ($canEdit) {
-                                                echo "<a href=\"" . BASE_URL . "/admin/groups/edit/?id=" . $userGroupsRS["GroupId"] . "\" title=\"Edit Group\"><i class=\"fa fa-pencil fa-fw\" aria-hidden=\"true\"></i></a>";
-                                                echo "<a href=\"" . BASE_URL . "/admin/groups/name/?id=" . $userGroupsRS["GroupId"] . "\" title=\"Edit Group Name\"><i class=\"fa fa-font fa-fw\" aria-hidden=\"true\"></i></a>";
-                                            }
-                                            if ($canDelete) {
-                                                if (intval($userGroupsRS["nUsersInGroup"]) > 0) {
-                                                    echo "<i class=\"fa fa-times fa-fw disabled\" aria-hidden=\"true\" title=\"This group is currently assigned and cannot be deleted, reassign users before deleting\"></i>";
-                                                } else {
-                                                    echo "<a href=\"javascript:void(0);\" onclick=\"ConfirmGroupDelete('" . $userGroupsRS["GroupId"] . "');\" title=\"Delete\"><i class=\"fa fa-times fa-fw\" aria-hidden=\"true\"></i></a>";
-                                                }
-                                            }
-                                            ?>
+                                            <?php if ($canEdit) { ?>
+                                                <a href="<?=BASE_URL?>/admin/groups/edit.php?id=<?=$userGroupsRS["GroupId"]?>" title="Edit Group"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i></a>
+                                                <a href="<?=BASE_URL?>/admin/groups/name.php?id=<?=$userGroupsRS["GroupId"]?>" title="Edit Group Name"><i class="fa fa-font fa-fw" aria-hidden="true"></i></a>
+                                            <?php } ?>
+                                            <?php if ($canDelete) { ?>
+                                                <?php if (intval($userGroupsRS["nUsersInGroup"]) > 0) { ?>
+                                                    <i class="fa fa-times fa-fw disabled" aria-hidden="true" title="This group is currently assigned and cannot be deleted, reassign users before deleting"></i>
+                                                <?php } else { ?>
+                                                    <a href="javascript:void(0);" onclick="ConfirmGroupDelete('<?=$userGroupsRS["GroupId"]?>');" title="Delete"><i class="fa fa-times fa-fw" aria-hidden="true"></i></a>
+                                                <?php } ?>
+                                            <?php } ?>
                                         </div>
                                     </td>
                                 </tr>
@@ -133,7 +124,7 @@ if (!$canView) {
     <?php include ROOT_PATH . "includes/javascripts.php" ?>
     <?php include ROOT_PATH . "includes/kendo_includes.php" ?>
     <?php include ROOT_PATH . "includes/alerts.php" ?>
-    <script type="text/javascript" src="/admin/groups/scripts/default.js"></script>
+    <script type="text/javascript" src="<?=BASE_URL?>/admin/groups/scripts/default.js"></script>
 </body>
 
 </html>

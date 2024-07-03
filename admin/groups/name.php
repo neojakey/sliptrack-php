@@ -11,13 +11,18 @@ if (!$canViewAdmin) {
     header("Location: " . BASE_URL ."/index.php");
 }
 
-// ### DOES THE USER HAVE USER PERMISSIONS ###
+// ### DOES THE GROUP HAVE USER PERMISSIONS ###
 $permissionsAry = GetSectionPermission("prmGroups");
-$canAdd = GetActionPermission("create", $permissionsAry);
-if (!$canAdd) {
-    SetUserAlert("danger", "You do not have permission to add groups.");
+$canView = GetActionPermission("view", $permissionsAry);
+$canEdit = GetActionPermission("edit", $permissionsAry);
+if (!$canEdit) {
+    SetUserAlert("danger", "You do not have permission to edit groups.");
     header("Location: " . BASE_URL ."/admin/groups/index.php");
 }
+
+// ### GET USER DATA ###
+$groupId = $_GET["id"];
+$groupName = GetGroupName($groupId);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,14 +53,14 @@ if (!$canAdd) {
             <section>
                 <h1 class="page-title">Add New Group</h1>
                 <div class="breadcrumb">
-                    <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/index.php">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/groups/index.php">User Groups</a><?=SPACER?>Add New Group
+                <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="/admin/groups/">User Groups</a><?=SPACER?>Edit Group Name
                 </div>
                 <form action="<?=BASE_URL?>/admin/groups/save.php" method="post" id="form-new-group" name="frmNewGroup">
-                    <input type="hidden" name="hidGroupId" value=""/>
+                    <input type="hidden" name="hidGroupId" value="<?=$groupId?>"/>
                     <table class="form-table">
                         <tr>
                             <td>Group Name <?=REQUIRED?>:</td>
-                            <td><input type="text" class="k-textbox" name="tbGroupName" id="group-name" maxlength="50" style="width:400px"/></td>
+                            <td><input type="text" class="k-textbox" name="tbGroupName" id="group-name" value="<?=$groupName?>" maxlength="50" style="width:400px"/></td>
                         </tr>
                     </table>
                     <div class="button-wrapper">
@@ -74,3 +79,4 @@ if (!$canAdd) {
 </body>
 
 </html>
+

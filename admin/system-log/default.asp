@@ -9,7 +9,7 @@ Dim adminAry : adminAry = GetSectionPermission("prmAdmin")
 Dim canViewAdmin : canViewAdmin = GetActionPermission("view", adminAry)
 IF NOT canViewAdmin THEN
     Call SetUserAlert("danger", "You do not have permission to access administration.")
-    Response.Redirect("/")
+    header("Location: " . BASE_URL ."/")
 END IF
 
 ' ### DOES THE USER HAVE GROUP VIEW PERMISSION ###
@@ -17,7 +17,7 @@ Dim systemLogAry : systemLogAry = GetSectionPermission("prmSystemLog")
 Dim canView : canView = GetActionPermission("view", systemLogAry)
 IF NOT canView THEN
     Call SetUserAlert("danger", "You do not have permission to access the system log.")
-    Response.Redirect("/admin/")
+    header("Location: " . BASE_URL ."/admin/")
 END IF
 
 Dim nEntries : nEntries = 0

@@ -4,7 +4,7 @@
     <link rel="stylesheet" type="text/css" href="<?=BASE_URL?>/content/Styles/dark.css"/>
     <link rel="stylesheet" type="text/css" href="<?=BASE_URL?>/content/Styles/Core.css"/>
     <link rel="stylesheet" type="text/css" href="<?=BASE_URL?>/scripts/font-awesome/css/font-awesome.min.css"/>
-    <link rel="stylesheet" type="text/css" href="<?=BASE_URL?>/https://fonts.googleapis.com/css?family=Nova+Mono"/>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Nova+Mono"/>
     <link rel="stylesheet" type="text/css" href="<?=BASE_URL?>/scripts/kendo_ui/styles/kendo.common.min.css"/>
     <link rel="stylesheet" type="text/css" href="<?=BASE_URL?>/scripts/kendo_ui/styles/kendo.bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="<?=BASE_URL?>/scripts/kendo_ui/styles/kendo.bootstrap.mobile.min.css"/>

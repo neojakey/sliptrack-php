@@ -22,7 +22,7 @@ IF Trim(dropdownFieldId & "") <> "" THEN
     db.Execute(strSQL)
 
     ' ### ADD TO SYSTEM LOG AND USER ALERT ###
-    Call LogReport(1, "The Dropdown Field '" & dropdownFieldName & "' has been edited", Session("userId"))
+    Call LogReport(1, "The Dropdown Field '" & dropdownFieldName & "' has been edited", $_SESSION["userId"))
     Call SetUserAlert("success", "Dropdown field edited successfully")
 ELSE
     ' ### INSERT DROPDOWN RECORD ###
@@ -31,11 +31,11 @@ ELSE
     Call InsertNewRecord("DropDownFields", dropDownColumns, dropDownValues)
 
     ' ### ADD TO SYSTEM LOG AND USER ALERT ###
-    Call LogReport(1, "The Dropdown Field '" & dropdownFieldName & "' has been added", Session("userId"))
+    Call LogReport(1, "The Dropdown Field '" & dropdownFieldName & "' has been added", $_SESSION["userId"))
     Call SetUserAlert("success", "Dropdown field added successfully")
 END IF
 
 ' ### REDIRECT USER ###
-Response.Redirect("/admin/dropdown-menus/list/?id=" & dropdownFieldParent)
+header("Location: " . BASE_URL ."/admin/dropdown-menus/list/?id=" & dropdownFieldParent)
 %>
 <!-- #include virtual="/includes/closeconnection.asp" -->

@@ -16,7 +16,7 @@ $permissionsAry = GetSectionPermission("prmUsers");
 $canView = GetActionPermission("view", $permissionsAry);
 $canEdit = GetActionPermission("edit", $permissionsAry);
 if (!$canEdit) {
-    SetUserAlert("danger", "You do not have permission to edit users in the system.");
+    SetUserAlert("danger", "You do not have permission to edit users.");
     header("Location: " . BASE_URL ."/admin/users/index.php");
 }
 

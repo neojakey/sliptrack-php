@@ -19,24 +19,14 @@ function initializeKendoTabStrip(element) {
 
 function FullControlCheck(str) {
     var id = $('#hid-group-id').val();
-    var strFullControl = "cbFullControl_" + str;
-    var strCreate = "cbCreate_" + str;
-    var strEdit = "cbEdit_" + str;
-    var strDelete = "cbDelete_" + str;
-    var strView = "cbView_" + str;
+    var section = str.toLowerCase();
 
-    if (document.PermissionsEdit[strCreate].checked == true && document.PermissionsEdit[strEdit].checked == true && document.PermissionsEdit[strDelete].checked == true && document.PermissionsEdit[strView].checked == true) {
-        document.PermissionsEdit[strCreate].checked = false;
-        document.PermissionsEdit[strEdit].checked = false;
-        document.PermissionsEdit[strDelete].checked = false;
-        document.PermissionsEdit[strView].checked = false;
-        document.PermissionsEdit[strFullControl].checked = true;
+    if ($('#create-' + section).prop('checked') && $('#edit-' + section).prop('checked') && $('#delete-' + section).prop('checked') && $('#view-' + section).prop('checked')) {
+        $('#full-' + section).prop('checked', true);
     }
 
-    if (document.PermissionsEdit[strCreate].checked == true || document.PermissionsEdit[strEdit].checked == true || document.PermissionsEdit[strDelete].checked == true && document.PermissionsEdit[strView].checked == false) {
-        document.PermissionsEdit[strView].checked = true;
-    } else if (document.PermissionsEdit[strFullControl].checked == true) {
-        document.PermissionsEdit[strFullControl].checked = false;
+    if ($('#create-' + section).prop('checked') || $('#edit-' + section).prop('checked') || $('#delete-' + section).prop('checked')) {
+        $('#view-' + section).prop('checked', true);
     }
 
     SaveData(str, id);
@@ -44,26 +34,18 @@ function FullControlCheck(str) {
 
 function PermToggle(str) {
     var id = $('#hid-group-id').val();
-    var strFullControl = "cbFullControl_" + str;
-    var strCreate = "cbCreate_" + str;
-    var strEdit = "cbEdit_" + str;
-    var strDelete = "cbDelete_" + str;
-    var strView = "cbView_" + str;
-
-    if (document.PermissionsEdit[strFullControl].checked == true) {
-        document.PermissionsEdit[strCreate].checked = false;
-        document.PermissionsEdit[strCreate].disabled = true;
-        document.PermissionsEdit[strEdit].checked = false;
-        document.PermissionsEdit[strEdit].disabled = true;
-        document.PermissionsEdit[strDelete].checked = false;
-        document.PermissionsEdit[strDelete].disabled = true;
-        document.PermissionsEdit[strView].checked = false;
-        document.PermissionsEdit[strView].disabled = true;
+    var section = str.toLowerCase();
+    
+    if ($('#full-' + section).prop('checked')) {
+        $('#create-' + section).prop('checked', true).attr('disabled', true);
+        $('#edit-' + section).prop('checked', true).attr('disabled', true);
+        $('#delete-' + section).prop('checked', true).attr('disabled', true);
+        $('#view-' + section).prop('checked', true).attr('disabled', true);
     } else {
-        document.PermissionsEdit[strCreate].disabled = false;
-        document.PermissionsEdit[strEdit].disabled = false;
-        document.PermissionsEdit[strDelete].disabled = false;
-        document.PermissionsEdit[strView].disabled = false;
+        $('#create-' + section).prop('checked', false).removeAttr('disabled');
+        $('#edit-' + section).prop('checked', false).removeAttr('disabled');
+        $('#delete-' + section).prop('checked', false).removeAttr('disabled');
+        $('#view-' + section).prop('checked', false).removeAttr('disabled');
     }
 
     SaveData(str, id);
@@ -71,45 +53,18 @@ function PermToggle(str) {
 
 function SaveData(strSection, strID) {
     var nSaving = 'Saving' + strSection;
-    var nFullControl = 'cbFullControl_' + strSection;
-    var nCreate = 'cbCreate_' + strSection;
-    var nEdit = 'cbEdit_' + strSection;
-    var nDelete = 'cbDelete_' + strSection;
-    var nView = 'cbView_' + strSection;
+    var section = strSection.toLowerCase();
 
-    var strFullControl = '';
-    var strCreate = '';
-    var strEdit = '';
-    var strDelete = '';
-    var strView = '';
+    var strFullControl = '', strCreate = '', strEdit = '', strDelete = '', strView = '';
 
-    var nFullControlChecked = document.PermissionsEdit[nFullControl].checked;
-    if (nFullControlChecked) {
-        strFullControl = document.PermissionsEdit[nFullControl].value;
-    }
-
-    var nCreateChecked = document.PermissionsEdit[nCreate].checked;
-    if (nCreateChecked) {
-        strCreate = document.PermissionsEdit[nCreate].value;
-    }
-
-    var nEditChecked = document.PermissionsEdit[nEdit].checked;
-    if (nEditChecked) {
-        strEdit = document.PermissionsEdit[nEdit].value;
-    }
-
-    var nDeleteChecked = document.PermissionsEdit[nDelete].checked;
-    if (nDeleteChecked) {
-        strDelete = document.PermissionsEdit[nDelete].value;
-    }
-
-    var nViewChecked = document.PermissionsEdit[nView].checked;
-    if (nViewChecked) {
-        strView = document.PermissionsEdit[nView].value;
-    }
+    if ($('#full-' + section).prop('checked')) { strFullControl = 'full'; }
+    if ($('#create-' + section).prop('checked')) { strCreate = 'create'; }
+    if ($('#edit-' + section).prop('checked')) { strEdit = 'edit'; }
+    if ($('#delete-' + section).prop('checked')) { strDelete = 'delete'; }
+    if ($('#view-' + section).prop('checked')) { strView = 'view'; }
 
     var xmlHttp = GetXmlHttpObject();
-    var url = '/admin/groups/save-permissions/?section=' + strSection + '&id=' + strID + '&fullcontrol=' + strFullControl + '&create=' + strCreate + '&edit=' + strEdit + '&delete=' + strDelete + '&view=' + strView;
+    var url = $base + '/admin/groups/save_permissions.php?section=' + strSection + '&id=' + strID + '&fullcontrol=' + strFullControl + '&create=' + strCreate + '&edit=' + strEdit + '&delete=' + strDelete + '&view=' + strView;
 
     if (!xmlHttp) {
     alert('Browser does not support HTTP Request');

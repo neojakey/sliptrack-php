@@ -9,15 +9,15 @@ Dim adminAry : adminAry = GetSectionPermission("prmAdmin")
 Dim canViewAdmin : canViewAdmin = GetActionPermission("view", adminAry)
 IF NOT canViewAdmin THEN
     Call SetUserAlert("danger", "You do not have permission to access administration.")
-    Response.Redirect("/")
+    header("Location: " . BASE_URL ."/")
 END IF
 
 ' ### DOES THE USER HAVE DROPDOWN EDIT PERMISSION ###
-Dim dropdownAry : dropdownAry = GetSectionPermission("prmDropdowns")
+Dim dropdownAry : dropdownAry = GetSectionPermission("prmLists")
 Dim canEdit : canEdit = GetActionPermission("edit", dropdownAry)
 IF NOT canEdit THEN
     Call SetUserAlert("danger", "You do not have permission to edit dropdown menus.")
-    Response.Redirect("/admin/")
+    header("Location: " . BASE_URL ."/admin/")
 END IF
 
 ' ### GET DROPDOWN FIELD ###
@@ -35,10 +35,10 @@ Dim dropdownFieldSQL : dropdownFieldSQL = _
     "   DropdownFieldId = " & formatDbField(dropdownFieldId, "int", false)
 dropdownFieldRS.open dropdownFieldSQL, db
 IF dropdownFieldRS.EOF THEN
-    Session("hasAlert") = true
-    Session("alertType") = "info"
-    Session("alertMessage") = "Dropdown Field was not Found..!"
-    Response.Redirect("/admin/dropdown-menus/")
+    $_SESSION["hasAlert") = true
+    $_SESSION["alertType") = "info"
+    $_SESSION["alertMessage") = "Dropdown Field was not Found..!"
+    header("Location: " . BASE_URL ."/admin/dropdown-menus/")
 ELSE
     Dim dropdownFieldName : dropdownFieldName = dropdownFieldRS("DropdownFieldName")
     Dim dropdownFieldCode : dropdownFieldCode = dropdownFieldRS("DropdownFieldCode")

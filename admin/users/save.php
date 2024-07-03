@@ -46,7 +46,6 @@ if ($userId . "" !== "") {
     }
 } else {
     // ### INSERT USER ###
-    echo "darkMode = " . $darkMode . "</br>";
     $userColumns = "UserName,FirstName,LastName,EmailAddress,Password,GroupId,DarkMode";
     $userValues = formatDbField($userName, "text", false) . ",
               " . formatDbField($firstName, "text", false) . ",

@@ -38,19 +38,19 @@ IF Trim(issuerId & "") <> "" THEN
     db.Execute(strSQL)
 
     ' ### ADD TO SYSTEM LOG, WALL EVENT, AND USER ALERT ###
-    Call LogReport(1, "The Issuer has been edited", Session("userId"))
+    Call LogReport(1, "The Issuer has been edited", $_SESSION["userId"))
     Call SetUserAlert("success", "Issuer edited successfully")
 ELSE
     ' ### INSERT ISSUER RECORD ###
     Dim issuerColumns : issuerColumns = "RFC,IssuerName,TaxRegimeId,StreetAddress,Colonia,City,StateId,PostCode,Country,Phone,EmailAddress,Url,UserId"
-    Dim issuerValues : issuerValues = formatDbField(issuerRFC, "text", false) & "," & formatDbField(issuerName, "text", false) & "," & formatDbField(taxRegimeId, "int", false) & "," & formatDbField(streetAddress, "text", true) & "," & formatDbField(colonia, "text", true) & "," & formatDbField(city, "text", true) & "," & formatDbField(stateId, "int", true) & "," & formatDbField(postCode, "text", true) & "," & formatDbField(country, "text", true) & "," & formatDbField(phone, "text", true) & "," & formatDbField(email, "text", true) & "," & formatDbField(website, "text", true) & "," & formatDbField(Session("userId"), "int", false)
+    Dim issuerValues : issuerValues = formatDbField(issuerRFC, "text", false) & "," & formatDbField(issuerName, "text", false) & "," & formatDbField(taxRegimeId, "int", false) & "," & formatDbField(streetAddress, "text", true) & "," & formatDbField(colonia, "text", true) & "," & formatDbField(city, "text", true) & "," & formatDbField(stateId, "int", true) & "," & formatDbField(postCode, "text", true) & "," & formatDbField(country, "text", true) & "," & formatDbField(phone, "text", true) & "," & formatDbField(email, "text", true) & "," & formatDbField(website, "text", true) & "," & formatDbField($_SESSION["userId"), "int", false)
     issuerId = InsertRecord("IssuerId", "Issuers", issuerColumns, issuerValues)
 
     ' ### ADD TO SYSTEM LOG, WALL EVENT, AND USER ALERT ###
-    Call LogReport(1, "The Issuer has been added", Session("userId"))
+    Call LogReport(1, "The Issuer has been added", $_SESSION["userId"))
     Call SetUserAlert("success", "Issuer added successfully")
 END IF
 
-Response.Redirect("/issuers/")
+header("Location: " . BASE_URL ."/issuers/")
 %>
 <!-- #include virtual="/includes/closeconnection.asp" -->

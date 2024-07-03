@@ -9,7 +9,7 @@ Dim adminAry : adminAry = GetSectionPermission("prmAdmin")
 Dim canViewAdmin : canViewAdmin = GetActionPermission("view", adminAry)
 IF NOT canViewAdmin THEN
     Call SetUserAlert("danger", "You do not have permission to access administration.")
-    Response.Redirect("/")
+    header("Location: " . BASE_URL ."/")
 END IF
 
 ' ### DOES THE USER HAVE GROUP VIEW PERMISSION ###
@@ -19,7 +19,7 @@ Dim canEdit : canEdit = GetActionPermission("edit", groupsAry)
 Dim canDelete : canDelete = GetActionPermission("delete", groupsAry)
 IF NOT canView THEN
     Call SetUserAlert("danger", "You do not have permission to access groups.")
-    Response.Redirect("/admin/")
+    header("Location: " . BASE_URL ."/admin/")
 END IF
 %>
 <!DOCTYPE html>

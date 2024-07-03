@@ -57,7 +57,7 @@
                     "   [Receipts] AS r " & _
                     "   INNER JOIN [Issuers] AS i ON i.[IssuerId] = r.[IssuerId] " & _
                     " WHERE " & _
-                    "   i.[UserId] = " & formatDbField(Session("userId"), "int", false) & " " & _
+                    "   i.[UserId] = " & formatDbField($_SESSION["userId"), "int", false) & " " & _
                     " ORDER BY " & _
                     "   r.[ReceiptDate] DESC"
                 ReceiptsRS.open ReceiptsSQL, db

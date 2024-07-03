@@ -107,9 +107,11 @@ function LogReport($logType, $logText, $logUserId) {
 function InsertNewRecord($tableName, $columns, $values) {
     global $db;
     $sql = "INSERT INTO " . $tableName . " (" . $columns . ") VALUES (" . $values . ")";
-    echo "SQL STATEMENT = " . $sql . "</br>";
+    //echo "SQL STATEMENT = " . $sql . "</br>";
     if ($db -> query($sql) === false) {
         echo "Error: " . $sql . "<br>" . $db -> error;
+    } else {
+        return $db -> insert_id;
     }
 }
 
@@ -143,69 +145,6 @@ function SetUserAlert($alertType, $alertMessage) {
 function FormatPostedDate($thisDate) {
     if (empty($thisDate)) return;
     return date("F", strtotime($thisDate)) . " " . date("d", strtotime($thisDate)) . ", " . date("Y", strtotime($thisDate));
-}
-
-function HowLongAgo($datetime) {
-    $nowTime = new DateTime;
-    $ago = new DateTime($datetime);
-    $PassThru = false;
-
-    if ($ago -> diff($nowTime) -> d > 120) {
-        $pstrOut = FormatPostedDate($datetime);
-    } else {
-        if ($ago -> diff($nowTime) -> h > 24) { // 7
-            // GREATER THAN 24 HOURS
-            $v1 = $ago -> diff($nowTime) -> d;
-            $v2 = $ago -> diff($nowTime) -> h;
-            $u1 = "Days";
-            if ($v1 == 1) $u1 = "Day";
-            $u2 = "Hours";
-            if ($v2 == 1) $u2 = "Hour";
-            $PassThru = true;
-        }
-        if ($ago -> diff($nowTime) -> i > 60 && !$PassThru) { // 
-            // GREATER THAN 60 MINUTES
-            $v1 = $ago -> diff($nowTime) -> h;
-            $v2 = $ago -> diff($nowTime) -> m;
-            $u1 = "Hours";
-            if ($v1 == 1) $u1 = "Hour";
-            $u2 = "Minutes";
-            if ($v2 == 1) $u2 = "Minute";
-            $PassThru = true;
-        }
-        if ($ago -> diff($nowTime) -> i*60 > 60 && !$PassThru) {
-            // GREATER THAN 60 SECONDS
-            $v1 = $ago -> diff($nowTime) -> i;
-            $v2 = $ago -> diff($nowTime) -> s;
-            $u1 = "Minutes";
-            if ($v1 == 1) $u1 = "Minute";
-            $u2 = "Seconds";
-            if ($v2 == 1) $u2 = "Second";
-            $PassThru = true;
-        }
-        if ($ago -> diff($nowTime) -> i*60 > 0 && !$PassThru) {
-            // ONLY BEEN A FEW SECONDS
-            $v1 = $ago -> diff($nowTime) -> i*60;
-            $u1 = "Seconds";
-            if ($v1 == 1) $u1 = "Second";
-            $PassThru = true;
-        }
-        if (!$PassThru) {
-            $v1 = "1";
-            $u1 = "Second";
-        }
-
-        $pstrOut = $v1 . " " . $u1;
-        if (trim($u2 . "") <> "") {
-            $pstrOut = $pstrOut . ", " . $v2 . " " . $u2;
-            $pstrOut = $pstrOut . " Ago";
-            if (strpos($pstrOut, "Days,") > -1) {
-                $y1 = explode($pstrOut, ",");
-                $pstrOut = $y1[0] . " Ago";
-            }
-        }
-    }
-    return $pstrOut;
 }
 
 function CreateDropmenu($fieldId, $fieldName, $tableName, $fieldOrder, $selectName, $selectPlaceholder, $currentValue) {
@@ -309,24 +248,24 @@ function GetGroupName($nGroupId) {
 //
 //
 //SUB HasMemberPageAccess(url)
-//    IF Session("userPaymentTierCode") = "Standard" THEN
-//        Session("hasAlert") = true
-//        Session("alertType") = "danger"
-//        Session("alertMessage") = "Page Requested is Only Accessible as a Paying Member of CalcuTrack..!"
+//    IF $_SESSION["userPaymentTierCode") = "Standard" THEN
+//        $_SESSION["hasAlert") = true
+//        $_SESSION["alertType") = "danger"
+//        $_SESSION["alertMessage") = "Page Requested is Only Accessible as a Paying Member of CalcuTrack..!"
 //        Response.Redirect(url)
 //    END IF
 //END SUB
 //
 //SUB HasReportAccess(url)
-//    IF cToStr(Session("activeApplicantId")) = "" THEN
-//        Session("hasAlert") = true
-//        Session("alertType") = "info"
-//        Session("alertMessage") = "You must select an member before viewing report."
+//    IF cToStr($_SESSION["activeApplicantId")) = "" THEN
+//        $_SESSION["hasAlert") = true
+//        $_SESSION["alertType") = "info"
+//        $_SESSION["alertMessage") = "You must select an member before viewing report."
 //        Response.Redirect(DOMAIN & "/")
-//    ELSEIF Session("userPaymentTierType") = "ANY" THEN ' ### SET TO FRE IF YOU WANT FREE MEMBERS TO BE REPORT RESTRICTED
-//        Session("hasAlert") = true
-//        Session("alertType") = "danger"
-//        Session("alertMessage") = "Report access is limited to paying members only. If you wish to upgrade your membership, please visit the <a href=""" & DOMAIN & "/profile/membership.asp"" style=""color:#A94442;text-decoration:underline"">membership</a> page."
+//    ELSEIF $_SESSION["userPaymentTierType") = "ANY" THEN ' ### SET TO FRE IF YOU WANT FREE MEMBERS TO BE REPORT RESTRICTED
+//        $_SESSION["hasAlert") = true
+//        $_SESSION["alertType") = "danger"
+//        $_SESSION["alertMessage") = "Report access is limited to paying members only. If you wish to upgrade your membership, please visit the <a href=""" & DOMAIN & "/profile/membership.asp"" style=""color:#A94442;text-decoration:underline"">membership</a> page."
 //        Response.Redirect(url)
 //    END IF
 //END SUB
@@ -337,7 +276,7 @@ function GetGroupName($nGroupId) {
 //    IF Trim(selectPlaceholder & "") = "" THEN selectPlaceholder = "Select One..."
 //    Dim menuRS : Set menuRS = Server.CreateObject("ADODB.Recordset")
 //    Dim menuSQL : menuSQL = _
-//        "SELECT " & fieldId & ", " & fieldName & " FROM " & tableName & " WHERE ApplicantId = " & formatDbField(Session("activeApplicantId"), "int", false) & " ORDER BY " & fieldOrder
+//        "SELECT " & fieldId & ", " & fieldName & " FROM " & tableName & " WHERE ApplicantId = " & formatDbField($_SESSION["activeApplicantId"), "int", false) & " ORDER BY " & fieldOrder
 //    menuRS.open menuSQL, db
 //    strOut = "<select name=""dd" & Replace(selectName, "-", "") & """ id=""" & lCase(selectName) & """>" & vbCr
 //    IF menuRS.EOF THEN
@@ -432,7 +371,7 @@ function GetGroupName($nGroupId) {
 //END FUNCTION
 //
 //FUNCTION GetMemberCurrency()
-//    Dim memberCurrency : memberCurrency = Trim(Session("memberCurrencyCode") & "")
+//    Dim memberCurrency : memberCurrency = Trim($_SESSION["memberCurrencyCode") & "")
 //    IF memberCurrency = "USD" THEN
 //        GetMemberCurrency = "$,USD,Dollars"
 //    ELSEIF memberCurrency = "CHF" THEN
@@ -493,7 +432,7 @@ function GetGroupName($nGroupId) {
 //        entityFilter = " "
 //    END IF
 //
-//    IF Trim(Session("activeApplicantId") & "") <> "" THEN
+//    IF Trim($_SESSION["activeApplicantId") & "") <> "" THEN
 //        Dim totalRS : Set totalRS = Server.CreateObject("ADODB.Recordset")
 //        Dim totalSQL : totalSQL = _
 //            "SELECT " & _
@@ -501,7 +440,7 @@ function GetGroupName($nGroupId) {
 //            " FROM " & _
 //            tableName & _
 //            " WHERE " & _
-//            "   ApplicantId = " & formatDbField(Session("activeApplicantId"), "int", false) & _
+//            "   ApplicantId = " & formatDbField($_SESSION["activeApplicantId"), "int", false) & _
 //            entityFilter
 //        totalRS.open totalSQL, db
 //        IF NOT totalRS.EOF THEN
@@ -537,7 +476,7 @@ function GetGroupName($nGroupId) {
 //
 //FUNCTION SumSecuritiesIra(iraValue, entityId)
 //    Dim total : total = 0
-//    IF Trim(Session("activeApplicantId") & "") <> "" THEN
+//    IF Trim($_SESSION["activeApplicantId") & "") <> "" THEN
 //
 //        Dim endQuery : endQuery = "IS NULL"
 //        IF Trim(iraValue & "") = "1" THEN endQuery = "IS NOT NULL"
@@ -554,7 +493,7 @@ function GetGroupName($nGroupId) {
 //            "   Security AS s " & _
 //            "   LEFT OUTER JOIN SecurityAccount AS sa ON s.SecurityAccountId = sa.SecurityAccountId " & _
 //            "WHERE " & _
-//            "   s.ApplicantId = " & formatDbField(Session("activeApplicantId"), "int", false) & _
+//            "   s.ApplicantId = " & formatDbField($_SESSION["activeApplicantId"), "int", false) & _
 //            securityEntityFilter & _
 //            "   AND sa.IraTypeId " & endQuery
 //        totalRS.open totalSQL, db
@@ -578,7 +517,7 @@ function GetGroupName($nGroupId) {
 //        tableName & " " & _
 //        "WHERE " & _
 //        "   Ira = " & iraValue & " " & _
-//        "   AND ApplicantId = " & formatDbField(Session("activeApplicantId"), "int", false)
+//        "   AND ApplicantId = " & formatDbField($_SESSION["activeApplicantId"), "int", false)
 //    totalRS.open totalSQL, db
 //    IF NOT totalRS.EOF THEN
 //        Dim tmpvalue : tmpvalue = totalRS("Amount")
@@ -600,7 +539,7 @@ function GetGroupName($nGroupId) {
 //        "WHERE " & _
 //           bitField & " = " & bitValue & " " & _
 //        "  AND Ira = " & iraValue & " " & _
-//        "  AND ApplicantId = " & formatDbField(Session("activeApplicantId"), "int", false)
+//        "  AND ApplicantId = " & formatDbField($_SESSION["activeApplicantId"), "int", false)
 //    totalRS.open totalSQL, db
 //    IF NOT totalRS.EOF THEN
 //        Dim tmpvalue : tmpvalue = totalRS("Amount")
@@ -619,7 +558,7 @@ function GetGroupName($nGroupId) {
 //END SUB
 //
 
-//    IF NOT Session("loggedIn") THEN Response.Redirect("/login.asp")
+//    IF NOT $_SESSION["loggedIn") THEN header("Location: " . BASE_URL ."/login.asp")
 //END FUNCTION
 //
 //FUNCTION FormatMoney(nAmount)
@@ -644,7 +583,7 @@ function GetGroupName($nGroupId) {
 //FUNCTION RecordsInTableUser(tableName, idField)
 //    Dim intOut : intOut = 0
 //    Dim CountRecordsRS : Set CountRecordsRS = Server.CreateObject("ADODB.Recordset")
-//    Dim CountRecordsSQL : CountRecordsSQL = "SELECT COUNT(" & idField & ") AS thisCount FROM " & tableName & " WHERE ApplicantId = " & formatDbField(Session("activeApplicantId"), "int", false)
+//    Dim CountRecordsSQL : CountRecordsSQL = "SELECT COUNT(" & idField & ") AS thisCount FROM " & tableName & " WHERE ApplicantId = " & formatDbField($_SESSION["activeApplicantId"), "int", false)
 //    CountRecordsRS.open CountRecordsSQL, db
 //    intOut = CountRecordsRS("thisCount")
 //    CountRecordsRS.Close
@@ -672,7 +611,7 @@ function GetGroupName($nGroupId) {
 //    ELSE
 //        Dim intOut : intOut = 0
 //        Dim CountRecordsRS : Set CountRecordsRS = Server.CreateObject("ADODB.Recordset")
-//        Dim CountRecordsSQL : CountRecordsSQL = "SELECT COUNT(" & primaryKey & ") AS thisCount FROM " & tableName & " WHERE ApplicantId = " & formatDbField(Session("activeApplicantId"), "int", false)
+//        Dim CountRecordsSQL : CountRecordsSQL = "SELECT COUNT(" & primaryKey & ") AS thisCount FROM " & tableName & " WHERE ApplicantId = " & formatDbField($_SESSION["activeApplicantId"), "int", false)
 //        CountRecordsRS.open CountRecordsSQL, db
 //        intOut = CountRecordsRS("thisCount")
 //        CountRecordsRS.Close
@@ -706,7 +645,7 @@ function GetGroupName($nGroupId) {
 //            "   Incomes AS i " & _
 //            "   INNER JOIN DropDownFields AS ddf ON i.incomeTypeId = ddf.DropdownFieldId " & _
 //            "WHERE " & _
-//            "   ApplicantId = " & formatDbField(Session("activeApplicantId"), "int", false) & " " & _
+//            "   ApplicantId = " & formatDbField($_SESSION["activeApplicantId"), "int", false) & " " & _
 //            "   AND ddf.DropDownFieldName <> 'Reported Income' " & _
 //            "UNION ALL " & _
 //            "SELECT " & _
@@ -715,7 +654,7 @@ function GetGroupName($nGroupId) {
 //            "   Incomes AS i " & _
 //            "   INNER JOIN DropDownFields AS ddf ON i.incomeTypeId = ddf.DropdownFieldId " & _
 //            "WHERE " & _
-//            "   ApplicantId = " & formatDbField(Session("activeApplicantId"), "int", false) & " " & _
+//            "   ApplicantId = " & formatDbField($_SESSION["activeApplicantId"), "int", false) & " " & _
 //            "   AND ddf.DropDownFieldName = 'Reported Income'"
 //        incomeRS.open incomeSQL, db
 //
@@ -732,7 +671,7 @@ function GetGroupName($nGroupId) {
 //            LOOP
 //        END IF
 //        numIncome = numEarned + numReported
-//        IF Session("userPaymentTierType") <> "PRO" THEN numIncome = numEarned
+//        IF $_SESSION["userPaymentTierType") <> "PRO" THEN numIncome = numEarned
 //
 //        IF numIncome > 0 THEN
 //            GetIncomeRecordsInTable = "<span class=""count-badge-tick""><i class=""fa fa-check"" aria-hidden=""true""></i></span>"
@@ -745,7 +684,7 @@ function GetGroupName($nGroupId) {
 //FUNCTION GetRealEstateRecordsInTable(isResidence, showTick)
 //    Dim intOut : intOut = 0
 //    Dim CountRecordsRS : Set CountRecordsRS = Server.CreateObject("ADODB.Recordset")
-//    Dim CountRecordsSQL : CountRecordsSQL = "SELECT COUNT(*) AS thisCount FROM RealEstate WHERE IsResidence = '" & isResidence & "' AND ApplicantId = " & formatDbField(Session("activeApplicantId"), "int", false)
+//    Dim CountRecordsSQL : CountRecordsSQL = "SELECT COUNT(*) AS thisCount FROM RealEstate WHERE IsResidence = '" & isResidence & "' AND ApplicantId = " & formatDbField($_SESSION["activeApplicantId"), "int", false)
 //    CountRecordsRS.open CountRecordsSQL, db
 //    intOut = CountRecordsRS("thisCount")
 //    CountRecordsRS.Close
@@ -776,7 +715,7 @@ function GetGroupName($nGroupId) {
 //        "FROM " & _
 //        "   Applicant " & _
 //        "WHERE " & _
-//        "   UserId = " & formatDbField(Session("userId"), "int", false)
+//        "   UserId = " & formatDbField($_SESSION["userId"), "int", false)
 //    CountRecordsRS.open CountRecordsSQL, db
 //    intOut = CountRecordsRS("thisCount")
 //    CountRecordsRS.Close
@@ -794,7 +733,7 @@ function GetGroupName($nGroupId) {
 //        "FROM " & _
 //        "   Applicant " & _
 //        "WHERE " & _
-//        "   UserId = " & formatDbField(Session("userId"), "int", false)
+//        "   UserId = " & formatDbField($_SESSION["userId"), "int", false)
 //    MemberRS.open MemberSQL, db
 //    Dim cutFullName : cutFullName = ""
 //    Dim fullName : fullName = MemberRS("ApplicantFirstName") & " " & MemberRS("ApplicantLastName")
@@ -814,16 +753,16 @@ function GetGroupName($nGroupId) {
 //END FUNCTION
 //
 //FUNCTION GetApplicantById()
-//    IF Session("CurrentApplicantName") = "" THEN
+//    IF $_SESSION["CurrentApplicantName") = "" THEN
 //        Dim ApplicantRS : Set ApplicantRS = Server.CreateObject("ADODB.Recordset")
-//        Dim ApplicantSQL : ApplicantSQL = "SELECT ApplicantFirstName, ApplicantLastName FROM Applicant WHERE ApplicantId = " & formatDbField(Session("activeApplicantId"), "int", false)
+//        Dim ApplicantSQL : ApplicantSQL = "SELECT ApplicantFirstName, ApplicantLastName FROM Applicant WHERE ApplicantId = " & formatDbField($_SESSION["activeApplicantId"), "int", false)
 //        ApplicantRS.open ApplicantSQL, db
 //        IF NOT ApplicantRS.EOF THEN
-//            Session("CurrentApplicantName") = ApplicantRS("ApplicantFirstName") & " " & ApplicantRS("ApplicantLastName")
+//            $_SESSION["CurrentApplicantName") = ApplicantRS("ApplicantFirstName") & " " & ApplicantRS("ApplicantLastName")
 //        END IF
 //        ApplicantRS.Close
 //    END IF
-//    GetApplicantById = "<b>" & Session("CurrentApplicantName") & "</b>"
+//    GetApplicantById = "<b>" & $_SESSION["CurrentApplicantName") & "</b>"
 //END FUNCTION
 //
 //FUNCTION GetBrokerNameById(nBrokerId)
@@ -841,12 +780,12 @@ function GetGroupName($nGroupId) {
 //END FUNCTION
 //
 //SUB SetApplicantById()
-//    IF Session("CurrentApplicantName") = "" THEN
+//    IF $_SESSION["CurrentApplicantName") = "" THEN
 //        Dim ApplicantRS : Set ApplicantRS = Server.CreateObject("ADODB.Recordset")
-//        Dim ApplicantSQL : ApplicantSQL = "SELECT ApplicantFirstName, ApplicantLastName FROM Applicant WHERE ApplicantId = " & formatDbField(Session("activeApplicantId"), "int", false)
+//        Dim ApplicantSQL : ApplicantSQL = "SELECT ApplicantFirstName, ApplicantLastName FROM Applicant WHERE ApplicantId = " & formatDbField($_SESSION["activeApplicantId"), "int", false)
 //        ApplicantRS.open ApplicantSQL, db
 //        IF NOT ApplicantRS.EOF THEN
-//            Session("CurrentApplicantName") = ApplicantRS("ApplicantFirstName") & " " & ApplicantRS("ApplicantLastName")
+//            $_SESSION["CurrentApplicantName") = ApplicantRS("ApplicantFirstName") & " " & ApplicantRS("ApplicantLastName")
 //        END IF
 //        ApplicantRS.Close
 //    END IF
@@ -861,7 +800,7 @@ function GetGroupName($nGroupId) {
 //        "FROM " & _
 //        "   Applicant " & _
 //        "WHERE " & _
-//        "   UserId = " & formatDbField(Session("userId"), "int", false)
+//        "   UserId = " & formatDbField($_SESSION["userId"), "int", false)
 //    MemberRS.open MemberSQL, db
 //    IF NOT MemberRS.EOF THEN
 //        strOut = MemberRS("ApplicantId")
@@ -884,9 +823,9 @@ function GetGroupName($nGroupId) {
 //        "   ApplicantId = " & formatDbField(nMemberId, "int", false)
 //    ApplicantRS.open ApplicantSQL, db
 //    IF NOT ApplicantRS.EOF THEN
-//        Session("MEMBER-AGE") = ApplicantRS("ApplicantAge")
-//        Session("memberCurrencyCode") = GetDropdownFieldCode(ApplicantRS("ApplicantCurrency"))
-//        Session("activeApplicantName") = ApplicantRS("ApplicantFirstName") & " " & ApplicantRS("ApplicantLastName")
+//        $_SESSION["MEMBER-AGE") = ApplicantRS("ApplicantAge")
+//        $_SESSION["memberCurrencyCode") = GetDropdownFieldCode(ApplicantRS("ApplicantCurrency"))
+//        $_SESSION["activeApplicantName") = ApplicantRS("ApplicantFirstName") & " " & ApplicantRS("ApplicantLastName")
 //    END IF
 //    ApplicantRS.Close
 //
@@ -898,7 +837,7 @@ function GetGroupName($nGroupId) {
 //    Dim strOut : strOut = ""
 //    Dim GetIdRS : Set GetIdRS = Server.CreateObject("ADODB.Recordset")
 //    Dim GetIdSQL : GetIdSQL = _
-//        "SELECT " & nField & " FROM " & nTable & " WHERE ApplicantId = " & formatDbField(Session("activeApplicantId"), "int", false) & " LIMIT 1"
+//        "SELECT " & nField & " FROM " & nTable & " WHERE ApplicantId = " & formatDbField($_SESSION["activeApplicantId"), "int", false) & " LIMIT 1"
 //    GetIdRS.open GetIdSQL, db
 //    IF NOT GetIdRS.EOF THEN strOut = GetIdRS(nField)
 //    GetIdRS.Close
@@ -1178,7 +1117,7 @@ function GetGroupName($nGroupId) {
 //        "   User AS u " & _
 //        "   LEFT OUTER JOIN Groups AS ug ON u.Groups = ug.GroupId " & _
 //        "WHERE " & _
-//        "   UserId = " & formatDbField(Session("userId"), "int", false)
+//        "   UserId = " & formatDbField($_SESSION["userId"), "int", false)
 //    userRS.open userSQL, db
 //    IF NOT userRS.EOF THEN
 //        userGroup = userRS("GroupName")
@@ -1275,16 +1214,16 @@ function GetGroupName($nGroupId) {
 //        "   FreeExpirationDate = NULL " & _
 //        " WHERE UserId = " & formatDbField(nUser, "int", false) & ";"
 //    db.Execute(strSQL)
-//    Session("FreeExpirationDate") = ""
+//    $_SESSION["FreeExpirationDate") = ""
 //
-//    Session("userPaymentTierId") = nPaymentTierId
+//    $_SESSION["userPaymentTierId") = nPaymentTierId
 //
 //    Dim PaymentNameRS : Set PaymentNameRS = Server.CreateObject("ADODB.Recordset")
 //    Dim PaymentNameSQL : PaymentNameSQL = "SELECT PaymentTierCode, PaymentTierType FROM PaymentTier WHERE PaymentTierId = " & formatDbField(nPaymentTierId, "int", false)
 //    PaymentNameRS.Open PaymentNameSQL, db
 //    IF NOT PaymentNameRS.EOF THEN
-//        Session("userPaymentTierCode") = PaymentNameRS("PaymentTierCode")
-//        Session("userPaymentTierType") = PaymentNameRS("PaymentTierType")
+//        $_SESSION["userPaymentTierCode") = PaymentNameRS("PaymentTierCode")
+//        $_SESSION["userPaymentTierType") = PaymentNameRS("PaymentTierType")
 //    END IF
 //    PaymentNameRS.Close
 //END SUB
@@ -1376,7 +1315,7 @@ function GetGroupName($nGroupId) {
 //        "FROM " & _
 //        "   Incomes " & _
 //        "WHERE " & fieldId & " = " & formatDbField(fieldValue, "int", false) & " " & _
-//        "  AND ApplicantId = " & formatDbField(Session("activeApplicantId"), "int", false) & " " & _
+//        "  AND ApplicantId = " & formatDbField($_SESSION["activeApplicantId"), "int", false) & " " & _
 //        "LIMIT 1"
 //    getIncomeIdRS.open getIncomeIdSQL, db
 //    IF NOT getIncomeIdRS.EOF THEN incomeId = getIncomeIdRS("IncomeId")
@@ -1395,7 +1334,7 @@ function GetGroupName($nGroupId) {
 //        db.Execute(strSQL)
 //    ELSE
 //        Dim incomeColumns : incomeColumns = "ApplicantId,IncomeTypeId,IncomeDetails," & fieldId & ",EntityId"
-//        Dim incomeValues : incomeValues = Session("activeApplicantId") & "," & formatDbField(incomeType, "int", false) & "," & formatDbField(incomeDetails, "text", false) & "," & formatDbField(fieldValue, "int", true) & "," & formatDbField(entityId, "int", true)
+//        Dim incomeValues : incomeValues = $_SESSION["activeApplicantId") & "," & formatDbField(incomeType, "int", false) & "," & formatDbField(incomeDetails, "text", false) & "," & formatDbField(fieldValue, "int", true) & "," & formatDbField(entityId, "int", true)
 //        Call InsertNewRecord("Incomes", incomeColumns, incomeValues)
 //    END IF
 //END SUB
@@ -1467,37 +1406,37 @@ function GetGroupName($nGroupId) {
 //END FUNCTION
 //
 //SUB IsRecordOwner(nApplicantId, url)
-//    IF cStr(Session("UserId")) <> cStr(nApplicantId) THEN
-//        Session("hasAlert") = true
-//        Session("alertType") = "danger"
-//        Session("alertMessage") = "You do not have permission to view this record..!"
+//    IF cStr($_SESSION["UserId")) <> cStr(nApplicantId) THEN
+//        $_SESSION["hasAlert") = true
+//        $_SESSION["alertType") = "danger"
+//        $_SESSION["alertMessage") = "You do not have permission to view this record..!"
 //        IF Trim(url & "") = "" THEN
-//            Response.Redirect("/")
+//            header("Location: " . BASE_URL ."/")
 //        ELSE
-//            Response.Redirect("/" & url & "/")
+//            header("Location: " . BASE_URL ."/" & url & "/")
 //        END IF
 //    END IF
 //END SUB
 //
 //SUB recordNotFound(url)
-//    Session("hasAlert") = true
-//    Session("alertType") = "danger"
-//    Session("alertMessage") = "Sorry, this record was not found."
+//    $_SESSION["hasAlert") = true
+//    $_SESSION["alertType") = "danger"
+//    $_SESSION["alertMessage") = "Sorry, this record was not found."
 //    IF cToStr(url) = "" THEN
-//        Response.Redirect("/")
+//        header("Location: " . BASE_URL ."/")
 //    ELSE
-//        Response.Redirect("/" & url & "/")
+//        header("Location: " . BASE_URL ."/" & url & "/")
 //    END IF
 //END SUB
 //
 //SUB NoValidRecordPassed(url)
-//    Session("hasAlert") = true
-//    Session("alertType") = "danger"
-//    Session("alertMessage") = "Sorry, a valid field id must be passed."
+//    $_SESSION["hasAlert") = true
+//    $_SESSION["alertType") = "danger"
+//    $_SESSION["alertMessage") = "Sorry, a valid field id must be passed."
 //    IF cToStr(url) = "" THEN
-//        Response.Redirect("/")
+//        header("Location: " . BASE_URL ."/")
 //    ELSE
-//        Response.Redirect("/" & url & "/")
+//        header("Location: " . BASE_URL ."/" & url & "/")
 //    END IF
 //END SUB
 //
@@ -1516,7 +1455,7 @@ function GetGroupName($nGroupId) {
 //        "FROM " & _
 //        "   Scorecard " & _
 //        "WHERE " & _
-//        "   PaymentTierType = '" & Session("userPaymentTierType") & "' " & _
+//        "   PaymentTierType = '" & $_SESSION["userPaymentTierType") & "' " & _
 //        "   AND IsVisible = 1 " & _
 //        "ORDER BY " & _
 //        "   RowOrder;"
@@ -1573,7 +1512,7 @@ function GetGroupName($nGroupId) {
 //END FUNCTION
 //
 //FUNCTION BreadcrumbHome()
-//    Session("CurrentDash") = "home"
+//    $_SESSION["CurrentDash") = "home"
 //    BreadcrumbHome = _
 //        "<li><a href=""/""><i class=""fa fa-home fa-fw"" title=""Home"" aria-hidden=""true""></i></a></li>" & vbCr & _
 //        "<li id=""bcrmb-home""><a href=""/"">Home</a></li>" & vbCr & _
@@ -1618,9 +1557,9 @@ function GetGroupName($nGroupId) {
 //
 //SUB AdvanceWizardCounter(moduleName)
 //    IF cToStr(moduleName) = "" THEN EXIT SUB
-//    Dim currentAmount : currentAmount = cToInt(Session("wizard." & moduleName & ".Count"))
+//    Dim currentAmount : currentAmount = cToInt($_SESSION["wizard." & moduleName & ".Count"))
 //    Dim newAmount : newAmount = currentAmount + 1
-//    Session("wizard." & moduleName & ".Count") = newAmount
+//    $_SESSION["wizard." & moduleName & ".Count") = newAmount
 //END SUB
 //
 //FUNCTION ShowPaginationExtend(pageNumber, maxPage, pageUri, filter, filterValue, filter2, filter2Value, filter3, filter3Value)
@@ -1748,7 +1687,7 @@ function GetGroupName($nGroupId) {
 //    GetFastLinkToken = "error"
 //
 //    Response.LCID = 1033
-//    Dim URI : URI = INTEGRATION_ROOT_URL & "fastLinkToken/" & Session("activeApplicantId")
+//    Dim URI : URI = INTEGRATION_ROOT_URL & "fastLinkToken/" & $_SESSION["activeApplicantId")
 //
 //    Dim srvXmlHttp : Set srvXmlHttp = Server.CreateObject("MSXML2.ServerXMLHTTP")
 //    srvXmlHttp.Open "GET", URI, False
@@ -1770,39 +1709,39 @@ function GetGroupName($nGroupId) {
 //' ### UPDATES ALL EXTERNAL ACCOUNTS PERTAINING TO THE ACTIVE APPLICANT TO BE CALLED WHEN FASTLINK IS CLOSED ###
 //SUB UpdateExternalAccounts
 //    Response.LCID = 1033
-//    Dim URI : URI = INTEGRATION_ROOT_URL & "refreshExternalAccountsForApplicant/" & Session("activeApplicantId")
+//    Dim URI : URI = INTEGRATION_ROOT_URL & "refreshExternalAccountsForApplicant/" & $_SESSION["activeApplicantId")
 //
 //    Dim srvXmlHttp : Set srvXmlHttp = Server.CreateObject("MSXML2.ServerXMLHTTP")
 //    srvXmlHttp.Open "PATCH", URI, False
 //	srvXmlHttp.Send
 //	
 //	If srvXmlHttp.waitForResponse(8) Then
-//        Call LogReport(1, "Refreshed external accounts for applicant", Session("userId"))
+//        Call LogReport(1, "Refreshed external accounts for applicant", $_SESSION["userId"))
 //	ELSE
-//		Call LogReport(1, "Request timeout - Unable to refresh external accounts for applicant", Session("userId"))
+//		Call LogReport(1, "Request timeout - Unable to refresh external accounts for applicant", $_SESSION["userId"))
 //    End If
 //END SUB
 //
 //' ### UPDATES ALL APPLICANT'S EXTERNAL ACCOUNTS PERTAINING TO THE USER TO BE CALLED WHEN THE USER LOGS IN ###
 //SUB UpdateExternalAccountsAtLogin
 //    Response.LCID = 1033
-//    Dim URI : URI = INTEGRATION_ROOT_URL & "refreshExternalAccountsForUser/" & Session("userId") & "?async=true"
+//    Dim URI : URI = INTEGRATION_ROOT_URL & "refreshExternalAccountsForUser/" & $_SESSION["userId") & "?async=true"
 //
 //    Dim srvXmlHttp : Set srvXmlHttp = Server.CreateObject("MSXML2.ServerXMLHTTP")
 //    srvXmlHttp.Open "PATCH", URI, True
 //    srvXmlHttp.Send
 //	
 //	If srvXmlHttp.waitForResponse(8) Then
-//        Call LogReport(1, "Refreshed external accounts for user", Session("userId"))
+//        Call LogReport(1, "Refreshed external accounts for user", $_SESSION["userId"))
 //	ELSE
-//		Call LogReport(1, "Request timeout - Unable to refresh external accounts for user", Session("userId"))
+//		Call LogReport(1, "Request timeout - Unable to refresh external accounts for user", $_SESSION["userId"))
 //    End If
 //END SUB
 //
 //' ### UNREGISTERS AN ACCOUNT FROM THE YODLEE DATABASE TO BE CALLED WHEN THE USER DELETES AN ACCOUNT ###
 //SUB UnlinkIndividualAccount(accountType, accountId)
 //    Response.LCID = 1033
-//    Dim URI : URI = INTEGRATION_ROOT_URL & "unlinkExternalAccount/" & Session("activeApplicantId") & "?accountType=" & accountType & "&accountId=" & accountId
+//    Dim URI : URI = INTEGRATION_ROOT_URL & "unlinkExternalAccount/" & $_SESSION["activeApplicantId") & "?accountType=" & accountType & "&accountId=" & accountId
 //
 //    Response.AppendToLog URI
 //    Dim srvXmlHttp : Set srvXmlHttp = Server.CreateObject("MSXML2.ServerXMLHTTP")
@@ -1810,17 +1749,17 @@ function GetGroupName($nGroupId) {
 //	srvXmlHttp.Send
 //	
 //	If srvXmlHttp.waitForResponse(8) Then
-//        Call LogReport(1, "Unlinked " & accountType & " account with ID " & accountId, Session("userId"))
+//        Call LogReport(1, "Unlinked " & accountType & " account with ID " & accountId, $_SESSION["userId"))
 //	ELSE
 //    Response.Write("Accounts were not unlinked")
-//		Call LogReport(1, "Request timeout - Unable to unlink " & accountType & " account with ID " & accountId, Session("userId"))
+//		Call LogReport(1, "Request timeout - Unable to unlink " & accountType & " account with ID " & accountId, $_SESSION["userId"))
 //    End If
 //END SUB
 //
 //' ### RECONCILES ACCOUNT PROVIDERS BETWEEN CALCUTRACK AND YODLEE ###
 //SUB ReconcileAccountProviders
 //    Response.LCID = 1033
-//    Dim URI : URI = INTEGRATION_ROOT_URL & "reconcileAccountProviders/" & Session("activeApplicantId")
+//    Dim URI : URI = INTEGRATION_ROOT_URL & "reconcileAccountProviders/" & $_SESSION["activeApplicantId")
 //
 //    Response.AppendToLog URI
 //    Set srvXmlHttp = Server.CreateObject("MSXML2.ServerXMLHTTP")
@@ -1828,9 +1767,9 @@ function GetGroupName($nGroupId) {
 //	srvXmlHttp.Send
 //	
 //	If srvXmlHttp.waitForResponse(8) Then
-//        Call LogReport(1, "Reconciled providers for applicant", Session("userId"))
+//        Call LogReport(1, "Reconciled providers for applicant", $_SESSION["userId"))
 //	ELSE
-//		Call LogReport(1, "Request timeout - Unable to reconcile providers for applicant", Session("userId"))
+//		Call LogReport(1, "Request timeout - Unable to reconcile providers for applicant", $_SESSION["userId"))
 //    End If
 //END SUB
 //
@@ -1839,7 +1778,7 @@ function GetGroupName($nGroupId) {
 //' This function DOES NOT delete underlying accounts, it just unlinks them from Yodlee
 //FUNCTION DeleteProviderAccount(providerId)
 //	Response.LCID = 1033
-//    Dim URI : URI = INTEGRATION_ROOT_URL & "applicant/" & Session("activeApplicantId") & "/provider/" & providerId
+//    Dim URI : URI = INTEGRATION_ROOT_URL & "applicant/" & $_SESSION["activeApplicantId") & "/provider/" & providerId
 //
 //    Response.AppendToLog URI
 //    Set srvXmlHttp = Server.CreateObject("MSXML2.ServerXMLHTTP")
@@ -1847,15 +1786,15 @@ function GetGroupName($nGroupId) {
 //	srvXmlHttp.Send
 //	
 //	If srvXmlHttp.waitForResponse(8) Then
-//        Call LogReport(1, "Deleted provider for applicant", Session("userId"))
+//        Call LogReport(1, "Deleted provider for applicant", $_SESSION["userId"))
 //	ELSE
-//		Call LogReport(1, "Request timeout - Unable to get providers for applicant", Session("userId"))
+//		Call LogReport(1, "Request timeout - Unable to get providers for applicant", $_SESSION["userId"))
 //    End If
 //END FUNCTION
 //
 //FUNCTION GetUnsupportedAccountsForApplicant()
 //    Response.LCID = 1033
-//    Dim URI : URI = INTEGRATION_ROOT_URL & "applicant/" & Session("activeApplicantId") & "/externalAccounts?supported=NOT_SUPPORTED"
+//    Dim URI : URI = INTEGRATION_ROOT_URL & "applicant/" & $_SESSION["activeApplicantId") & "/externalAccounts?supported=NOT_SUPPORTED"
 //
 //    Response.AppendToLog URI
 //    Set srvXmlHttp = Server.CreateObject("MSXML2.ServerXMLHTTP")
@@ -1873,7 +1812,7 @@ function GetGroupName($nGroupId) {
 //
 //FUNCTION ReportFastlinkError(code, title, action, message, fnToCall)
 //    Response.LCID = 1033
-//    Dim URI : URI = INTEGRATION_ROOT_URL & "statistics/applicant/" & Session("activeApplicantId") & "/fastLinkErrors"
+//    Dim URI : URI = INTEGRATION_ROOT_URL & "statistics/applicant/" & $_SESSION["activeApplicantId") & "/fastLinkErrors"
 //
 //    Dim body : Set body = New JSONobject
 //    body.Add "code", code
@@ -1919,7 +1858,7 @@ function GetGroupName($nGroupId) {
 //
 //FUNCTION GetApplicantProviders()
 //    Response.LCID = 1033
-//    Dim URI : URI = INTEGRATION_ROOT_URL & "applicant/" & Session("activeApplicantId") & "/providers/"
+//    Dim URI : URI = INTEGRATION_ROOT_URL & "applicant/" & $_SESSION["activeApplicantId") & "/providers/"
 //
 //    Set srvXmlHttp = Server.CreateObject("MSXML2.ServerXMLHTTP")
 //    srvXmlHttp.Open "GET", URI, True
@@ -1927,12 +1866,12 @@ function GetGroupName($nGroupId) {
 //	
 //    Set jsonObj = New JSONobject
 //	If srvXmlHttp.waitForResponse(8) Then
-//        Call LogReport(1, "Got providers for applicant", Session("userId"))
+//        Call LogReport(1, "Got providers for applicant", $_SESSION["userId"))
 //        IF srvXmlHttp.status = 200 THEN
 //            Dim jsonOutput : Set jsonOutput = jsonObj.Parse(srvXmlHttp.responseText)
 //        END IF
 //	ELSE
-//		Call LogReport(1, "Request timeout - Unable to get providers for applicant", Session("userId"))
+//		Call LogReport(1, "Request timeout - Unable to get providers for applicant", $_SESSION["userId"))
 //    End If
 //
 //    Set srvXmlHttp = Nothing
@@ -1941,7 +1880,7 @@ function GetGroupName($nGroupId) {
 //
 //FUNCTION TrackFastLinkError(code, title, message, action, fnToCall)
 //    Response.LCID = 1033
-//    Dim URI : URI = INTEGRATION_ROOT_URL & "statistics/applicant/" & Session("activeApplicantId") & "/fastLinkErrors/"
+//    Dim URI : URI = INTEGRATION_ROOT_URL & "statistics/applicant/" & $_SESSION["activeApplicantId") & "/fastLinkErrors/"
 //
 //    ' instantiate the class
 //    Dim JSON : Set JSON = New JSONobject
@@ -1959,9 +1898,9 @@ function GetGroupName($nGroupId) {
 //	srvXmlHttp.Send JSON.Serialize()
 //
 //    If srvXmlHttp.waitForResponse(8) Then
-//        Call LogReport(1, "Got providers for applicant", Session("userId"))
+//        Call LogReport(1, "Got providers for applicant", $_SESSION["userId"))
 //	ELSE
-//		Call LogReport(1, "Request timeout - Unable to get track fastlink error for applicant", Session("userId"))
+//		Call LogReport(1, "Request timeout - Unable to get track fastlink error for applicant", $_SESSION["userId"))
 //    End If
 //END FUNCTION
 //
@@ -1976,10 +1915,10 @@ function GetGroupName($nGroupId) {
 //    Set jsonObj = New JSONobject
 //	If srvXmlHttp.waitForResponse(8) Then
 //        IF srvXmlHttp.status = 204 THEN
-//            Call LogReport(1, "Unregistered Applicant from Yodlee", Session("userId"))
+//            Call LogReport(1, "Unregistered Applicant from Yodlee", $_SESSION["userId"))
 //        END IF
 //	ELSE
-//		Call LogReport(1, "Request timeout - Unable to get providers for applicant", Session("userId"))
+//		Call LogReport(1, "Request timeout - Unable to get providers for applicant", $_SESSION["userId"))
 //    End If
 //
 //    Set srvXmlHttp = Nothing
@@ -2033,7 +1972,7 @@ function GetGroupName($nGroupId) {
 //
 //FUNCTION ShowDateTime(thisDate, dateFormat)
 //    IF cToStr(thisDate) = "" THEN EXIT FUNCTION
-//    Dim offSet : offSet = Session("timeZoneOffset") * -1
+//    Dim offSet : offSet = $_SESSION["timeZoneOffset") * -1
 //    Dim displayDate : displayDate = DateAdd("h", offSet, thisDate)
 //    IF cToStr(dateFormat) <> "" THEN displayDate = FormatDateTime(displayDate, dateFormat)
 //    ShowDateTime = displayDate
@@ -2047,7 +1986,7 @@ function GetGroupName($nGroupId) {
 //    Dim paryEntities : Const ENTITY_ID = 0 : Const ENTITY_NAME = 1
 //    Dim entityListRS : Set entityListRS = Server.CreateObject("ADODB.Recordset")
 //    Dim entityListSQL : entityListSQL = ""
-//    IF Session("userPaymentTierType") = "PRO" THEN
+//    IF $_SESSION["userPaymentTierType") = "PRO" THEN
 //        ' ### IF PROFESSIONAL TIER ###
 //        entityListSQL = _
 //            "SELECT " & _
@@ -2056,7 +1995,7 @@ function GetGroupName($nGroupId) {
 //            " FROM ( " & _
 //            "       SELECT " & _
 //            "           '' AS EntityId, " & _
-//            "           '" & Session("CurrentApplicantName") & "' AS EntityName " & _
+//            "           '" & $_SESSION["CurrentApplicantName") & "' AS EntityName " & _
 //            "       FROM " & _
 //            "          Entity " & _
 //            "       UNION  " & _
@@ -2066,7 +2005,7 @@ function GetGroupName($nGroupId) {
 //            "       FROM " & _
 //            "          Entity " & _
 //            "       WHERE " & _
-//            "          ApplicantId = " & formatDbField(Session("activeApplicantId"), "int", false) & _
+//            "          ApplicantId = " & formatDbField($_SESSION["activeApplicantId"), "int", false) & _
 //            " ) AS entities " & _
 //            " ORDER BY " & _
 //            "    EntityId ASC"
@@ -2075,7 +2014,7 @@ function GetGroupName($nGroupId) {
 //        entityListSQL = _
 //            "SELECT " & _
 //            "   '' AS EntityId, " & _
-//            "   '" & Session("CurrentApplicantName") & "' AS EntityName "
+//            "   '" & $_SESSION["CurrentApplicantName") & "' AS EntityName "
 //    END IF
 //    entityListRS.open entityListSQL, db
 //    IF NOT (entityListRS.BOF AND entityListRS.EOF) THEN

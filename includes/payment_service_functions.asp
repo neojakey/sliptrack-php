@@ -122,41 +122,41 @@ FUNCTION LoadProfileForCustomer(userId)
 	IF srvXmlHttp.status = 200 THEN
 		Dim jsonObj : Set jsonObj = New JSONobject
 		Dim jsonOutput : Set jsonOutput = jsonObj.Parse(srvXmlHttp.responseText)
-		Session("userProfileLevel") = jsonObj.value("product")
-		Session("userProfileStatus") = jsonObj.value("subscriptionStatus")
+		$_SESSION["userProfileLevel") = jsonObj.value("product")
+		$_SESSION["userProfileStatus") = jsonObj.value("subscriptionStatus")
 		' ### ACTIVE statuses
 		' Incomplete - First 24 hours after subscription creation
 		' past_due - Renewal failed but is not canceled yet
-		IF Session("userProfileStatus") = "active" OR _
-		  Session("userProfileStatus") = "trialing" OR _ 
-		  Session("userProfileStatus") = "incomplete" OR _ 
-		  Session("userProfileStatus") = "past_due" THEN 
+		IF $_SESSION["userProfileStatus") = "active" OR _
+		  $_SESSION["userProfileStatus") = "trialing" OR _ 
+		  $_SESSION["userProfileStatus") = "incomplete" OR _ 
+		  $_SESSION["userProfileStatus") = "past_due" THEN 
 			IF jsonObj.value("product") = "personal" THEN
-				Session("userPaymentTierId")   = 2
-				Session("userPaymentTierCode") = "Personal"
-				Session("userPaymentTierType") = "PER"
+				$_SESSION["userPaymentTierId")   = 2
+				$_SESSION["userPaymentTierCode") = "Personal"
+				$_SESSION["userPaymentTierType") = "PER"
 			ELSEIF jsonObj.value("product") = "professional" THEN
-				Session("userPaymentTierId")   = 4
-				Session("userPaymentTierCode") = "Professional"
-				Session("userPaymentTierType") = "PRO"
+				$_SESSION["userPaymentTierId")   = 4
+				$_SESSION["userPaymentTierCode") = "Professional"
+				$_SESSION["userPaymentTierType") = "PRO"
 			ELSE
-				Session("userPaymentTierId")   = 1
-				Session("userPaymentTierCode") = "Free"
-				Session("userPaymentTierType") = "FRE"
+				$_SESSION["userPaymentTierId")   = 1
+				$_SESSION["userPaymentTierCode") = "Free"
+				$_SESSION["userPaymentTierType") = "FRE"
 			END IF
 		' ### TERMINAL INACTIVE statuses
 		' Canceled - This shouldn't happen - payments-service filters these out
 		' Incomplete_explired - Initial subscription invoice failed > 24 hours ago
 		' Unpaid - Not enabled in Stripe settings but good to add it
-		ELSEIF Session("userProfileStatus") = "canceled" OR _ 
-		  Session("userProfileStatus") = "incomplete_expired" OR _ 
-		  Session("userProfileStatus") = "unpaid" THEN 
-			Session("userPaymentTierId")   = 1
-			Session("userPaymentTierCode") = "Free"
-			Session("userPaymentTierType") = "FRE"
+		ELSEIF $_SESSION["userProfileStatus") = "canceled" OR _ 
+		  $_SESSION["userProfileStatus") = "incomplete_expired" OR _ 
+		  $_SESSION["userProfileStatus") = "unpaid" THEN 
+			$_SESSION["userPaymentTierId")   = 1
+			$_SESSION["userPaymentTierCode") = "Free"
+			$_SESSION["userPaymentTierType") = "FRE"
 		END IF
 		
-		Session("isLocal") = jsonObj.value("isLocalOnly")
+		$_SESSION["isLocal") = jsonObj.value("isLocalOnly")
 	END IF
 	
 	Set srvXmlHttp = Nothing
@@ -239,7 +239,7 @@ FUNCTION CreateCheckoutSession(stripePriceId)
 	Response.LCID = 1033
 	Dim URI : URI = PAYMENTS_ROOT_URL & "session"
 	
-	Dim sessionRequest : sessionRequest = "{ ""userId"": """ & Session("userId") & """, ""priceId"": """ & stripePriceId & """}"
+	Dim sessionRequest : sessionRequest = "{ ""userId"": """ & $_SESSION["userId") & """, ""priceId"": """ & stripePriceId & """}"
 	
 	Dim srvXmlHttp : Set srvXmlHttp = Server.CreateObject("MSXML2.ServerXMLHTTP")
     srvXmlHttp.Open "POST", URI, False
@@ -262,7 +262,7 @@ END FUNCTION
 ' where they can manage their Stripe subscription
 FUNCTION GetBillingPortalLink()
 	Response.LCID = 1033
-	Dim URI : URI = PAYMENTS_ROOT_URL & "session/billing/" & Session("userId")
+	Dim URI : URI = PAYMENTS_ROOT_URL & "session/billing/" & $_SESSION["userId")
 		
 	Dim srvXmlHttp : Set srvXmlHttp = Server.CreateObject("MSXML2.ServerXMLHTTP")
     srvXmlHttp.Open "POST", URI, False

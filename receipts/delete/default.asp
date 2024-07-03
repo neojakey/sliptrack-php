@@ -7,12 +7,12 @@ Dim receiptId : receiptId = Request("id")
 
 IF Trim(receiptId & "") <> "" THEN
     ' ### DELETE ISSUER RECORD ###
-    db.Execute("DELETE FROM [Receipts] WHERE [UserId] = " & formatDbField(Session("userId"), "int", false) & " AND [ReceiptId] = " & formatDbField(receiptId, "int", false))
+    db.Execute("DELETE FROM [Receipts] WHERE [UserId] = " & formatDbField($_SESSION["userId"), "int", false) & " AND [ReceiptId] = " & formatDbField(receiptId, "int", false))
 
     ' ### ADD TO SYSTEM LOG AND USER ALERT ###
-    Call LogReport(1, "Receipt has been deleted", Session("userId"))
+    Call LogReport(1, "Receipt has been deleted", $_SESSION["userId"))
     Call SetUserAlert("success", "Receipt deleted successfully")
 END IF
-Response.Redirect("/receipts/")
+header("Location: " . BASE_URL ."/receipts/")
 %>
 <!-- #include virtual="/includes/closeconnection.asp" -->

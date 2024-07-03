@@ -13,7 +13,7 @@ FUNCTION makeAggregatorCalculation(cashFlowType, nMonth)
             "FROM " & _
             "   Expenses " & _
             "WHERE " & _
-            "   ApplicantId = " & formatDbField(Session("activeApplicantId"), "int", false) & ";"
+            "   ApplicantId = " & formatDbField($_SESSION["activeApplicantId"), "int", false) & ";"
         monthlyActualsRS.open monthlyActualsSQL, db
         IF NOT monthlyActualsRS.EOF THEN
             Dim expenseTotal : expenseTotal = monthlyActualsRS("expenseTotal")
@@ -28,7 +28,7 @@ FUNCTION makeAggregatorCalculation(cashFlowType, nMonth)
             "FROM " & _
             "   Incomes " & _
             "WHERE " & _
-            "   ApplicantId = " & formatDbField(Session("activeApplicantId"), "int", false) & ";"
+            "   ApplicantId = " & formatDbField($_SESSION["activeApplicantId"), "int", false) & ";"
         monthlyActualsRS.open monthlyActualsSQL, db
         IF NOT monthlyActualsRS.EOF THEN
             Dim incomeTotal : incomeTotal = monthlyActualsRS("incomeTotal")

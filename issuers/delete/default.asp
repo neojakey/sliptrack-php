@@ -7,12 +7,12 @@ Dim issuerId : issuerId = Request("id")
 
 IF Trim(issuerId & "") <> "" THEN
     ' ### DELETE ISSUER RECORD ###
-    db.Execute("DELETE FROM [Issuers] WHERE [UserId] = " & formatDbField(Session("userId"), "int", false) & " AND [IssuerId] = " & formatDbField(issuerId, "int", false))
+    db.Execute("DELETE FROM [Issuers] WHERE [UserId] = " & formatDbField($_SESSION["userId"), "int", false) & " AND [IssuerId] = " & formatDbField(issuerId, "int", false))
 
     ' ### ADD TO SYSTEM LOG AND USER ALERT ###
-    Call LogReport(1, "Issuer has been deleted", Session("userId"))
+    Call LogReport(1, "Issuer has been deleted", $_SESSION["userId"))
     Call SetUserAlert("success", "Issuer deleted successfully")
 END IF
-Response.Redirect("/issuers/")
+header("Location: " . BASE_URL ."/issuers/")
 %>
 <!-- #include virtual="/includes/closeconnection.asp" -->
