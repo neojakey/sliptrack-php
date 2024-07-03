@@ -4,7 +4,7 @@ $(function () {
     $('#site-theme').kendoDropDownList();
 });
 
-function validate() {
+async function validate() {
     var action = $('#form-action').val();
     var userId = $('#hid-userid').val();
     var orgEmail = $('#org-email-address').val().toLowerCase();
@@ -29,25 +29,21 @@ function validate() {
     if (!hasError) {
         /* CHECK IF EMAIL ADDRESS HAS CHANGED */
         if (orgEmail !== newEmail) {
-            var promise = existenceCheck(userId, newEmail);
             if (orgEmail !== newEmail) {
-                promise.then(function (data) {
-                    if (data === 'True') {
-                        alert('A user already exists with this email address');
-                        $('#email').focus();
-                    } else {
-                        if (action === 'ADD') {
-                            hasError = validateText('password', 'Please enter the password.', hasError);
-                        }
-                        hasError = validateText('payment-tier', 'Please select a payment tier.', hasError);
-                        hasError = validateText('user-group', 'Please select a user group.', hasError);
-                        validateEnd('user-form', hasError);
+                var doesExist = await existenceCheck(userId, newEmail);
+                doesExist = removeUTF8BOM(doesExist);
+
+                if (doesExist === 'EXISTS') {
+                    alert('A user already exists with this email address');
+                    $('#email').focus();
+                } else {
+                    if (action === 'ADD') {
+                        hasError = validateText('password', 'Please enter the password.', hasError);
                     }
-                }, function (xhr) {
-                    hasError = true;
-                    console.log(xhr);
-                    alert('An error was thrown during the existence check. Consult the JS console, or contact your web developer');
-                });
+                    hasError = validateText('payment-tier', 'Please select a payment tier.', hasError);
+                    hasError = validateText('user-group', 'Please select a user group.', hasError);
+                    validateEnd('user-form', hasError);
+                }
             }
         } else {
             if (action === 'ADD') {
@@ -61,17 +57,19 @@ function validate() {
 }
 
 function existenceCheck(thisUserId, thisEmail) {
-    var promiseObj = new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         $.ajax({
-            url: '/admin/users/existence_check.asp?id=' + thisUserId + '&value=' + thisEmail,
+            url: $base + '/admin/users/existence_check.php?id=' + thisUserId + '&value=' + thisEmail,
             method: 'GET',
             cache: false,
+            datatype: 'html',
             async: false
-        }).done(function (data) {
-            resolve(data);
+        }).done(function (response) {
+            resolve(response);
         }).fail(function (xhr) {
-            reject(xhr);
+            console.error(xhr);
+            alert('An error was thrown during the existence check. Consult the JS console, or contact your web developer');
+            reject();
         });
     });
-    return promiseObj;
 }

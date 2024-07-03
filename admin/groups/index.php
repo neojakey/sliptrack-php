@@ -32,7 +32,7 @@ if (!$canView) {
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title><%=SITE_NAME%> - Group Area</title>
+    <title><?=SITE_NAME?> - Group Area</title>
     <?php include ROOT_PATH . "includes/stylesheets.php" ?>
 </head>
 
@@ -60,7 +60,7 @@ if (!$canView) {
                     <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;User Groups
                 </div>
                 <div class="add-button-wrapper">
-                    <button type="button" class="primary-btn" onclick="location.href='<?=BASE_URL?>/admin/groups/add/index.php';"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Add Group</button>
+                    <button type="button" class="primary-btn" onclick="location.href='<?=BASE_URL?>/admin/groups/add.php';"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Add Group</button>
                 </div>
                 <div id="alert-wrapper" style="display:none">
                     <div id="alert">

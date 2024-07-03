@@ -47,8 +47,8 @@ receiptRS.Close
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title><%=SITE_NAME%> - Receipt Area</title>
-    <!--#include virtual="/includes/stylesheets.asp" -->
+    <title><?=SITE_NAME?> - Receipt Area</title>
+    <?php include ROOT_PATH . "includes/stylesheets.php" ?>
     <link rel="stylesheet" type="text/css" href="/receipts/css/receipt_addedit.css"/>
 </head>
 
@@ -66,24 +66,24 @@ receiptRS.Close
                 </div>
                 <div class="user-wrapper" id="user-menu-link">
                     <span id="desktop-user-menu-bars"><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>
-                    <span id="desktop-user-menu-name"><%=Session("userFullName")%></span>
+                    <span id="desktop-user-menu-name"><?=$_SESSION["userFullName"]?></span>
                     <span><i class="fa fa-caret-down" aria-hidden="true"></i></span>
                 </div>
             </header>
             <section>
                 <h1 class="page-title">Edit Receipt</h1>
                 <div class="breadcrumb">
-                    <a href="/">Home</a><%=SPACER%><a href="/receipts/">Receipts</a><%=SPACER%>Edit Receipt
+                    <a href="/">Home</a><?=SPACER?><a href="/receipts/">Receipts</a><?=SPACER?>Edit Receipt
                 </div>
                 <form action="/receipts/save/" method="post" id="form-new-receipt" name="frmNewReceipt">
                     <input type="hidden" name="hidReceiptId" value="<%=receiptId%>"/>
                     <table class="form-table">
                         <tr>
-                            <td>Date <%=Application("REQUIRED")%>: <%=receiptDate%></td>
+                            <td>Date <?=REQUIRED?>: <%=receiptDate%></td>
                             <td><input type="date" name="tbReceiptDate" id="receipt-date" value="<%=receiptDate%>"/></td>
                         </tr>
                         <tr>
-                            <td>Folio Number <%=Application("REQUIRED")%>:</td>
+                            <td>Folio Number <?=REQUIRED?>:</td>
                             <td><input type="text" class="k-textbox" name="tbReceiptFolio" id="receipt-folio" value="<%=receiptFolio%>" maxlength="80" style="width:400px"/></td>
                         </tr>
                         <tr>
@@ -92,25 +92,25 @@ receiptRS.Close
                         </tr>
                         <%=ShowSectionBorder()%>
                         <tr>
-                            <td>Receipt Description <%=Application("REQUIRED")%>:</td>
+                            <td>Receipt Description <?=REQUIRED?>:</td>
                             <td><textarea class="k-textbox" name="taReceiptDescription" rows="4" id="receipt-description" maxlength="300" style="width:400px" placeholder="Description of Receipt"><%=receiptDescription%></textarea></td>
                         </tr>
                         <%=ShowSectionBorder()%>
                         <tr>
-                            <td>Issuer: <%=Application("REQUIRED")%></td>
+                            <td>Issuer: <?=REQUIRED?></td>
                             <td class="issuer-wrapper"><%=CreateDropmenu("IssuerId", "IssuerName", "Issuers", "", "Issuer-Id", "", issuerId)%></td>
                         </tr>
                         <tr>
-                            <td>CDFI Type <%=Application("REQUIRED")%>:</td>
+                            <td>CDFI Type <?=REQUIRED?>:</td>
                             <td class="cdfi-wrapper"><%=CreateDropdown("B4Y6797994", "", cdfiTypeId, "CDFI-Type-Id")%></td>
                         </tr>
                         <tr>
-                            <td>Payment Type <%=Application("REQUIRED")%>:</td>
+                            <td>Payment Type <?=REQUIRED?>:</td>
                             <td class="payment-type-wrapper"><%=CreateDropdown("33JE90W645", "", paymentTypeId, "Payment-Type-Id")%></td>
                         </tr>
                         <%=ShowSectionBorder()%>
                         <tr>
-                            <td>Sub-Total <%=Application("REQUIRED")%>:</td>
+                            <td>Sub-Total <?=REQUIRED?>:</td>
                             <td><input type="number" name="tbSubTotal" id="sub-total" value="<%=FormatMoney(subTotal)%>"/></td>
                         </tr>
                         <tr>
@@ -118,7 +118,7 @@ receiptRS.Close
                             <td><input type="number" name="tbIVA" id="iva" value="<%=FormatMoney(iva)%>"/></td>
                         </tr>
                         <tr>
-                            <td>Total <%=Application("REQUIRED")%>:</td>
+                            <td>Total <?=REQUIRED?>:</td>
                             <td><input type="number" name="tbTotal" id="total" value="<%=FormatMoney(total)%>"/></td>
                         </tr>
                         <tr>

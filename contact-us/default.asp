@@ -5,8 +5,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title>Contact Us - <%=SITE_NAME%></title>
-    <!--#include virtual="/includes/stylesheets.asp" -->
+    <title>Contact Us - <?=SITE_NAME?></title>
+    <?php include ROOT_PATH . "includes/stylesheets.php" ?>
     <link rel="stylesheet" type="text/css" href="/content/Styles/responsive.css"/>
     <link rel="stylesheet" type="text/css" href="/contact-us/css/default.css"/>
     <link rel="stylesheet" type="text/css" href="/content/Styles/social-media-bar.css"/>
@@ -72,16 +72,16 @@
                 <input type="hidden" name="hidPaymentTier" id="hid-payment-tier" value="<%=Session("userPaymentTierCode")%>"/>
                 <table border="0" class="data-form">
                     <tr>
-                        <td>Full Name <%=Application("REQUIRED")%>:</td>
+                        <td>Full Name <?=REQUIRED?>:</td>
                     </tr>
                     <tr>
-                        <td><input type="text" class="k-textbox" name="tbFullName" id="full-name" value="<%=Session("userFullName")%>" maxlength="200"/></td>
+                        <td><input type="text" class="k-textbox" name="tbFullName" id="full-name" value="<?=$_SESSION["userFullName"]?>" maxlength="200"/></td>
                     </tr>
                     <tr class="height6">
                         <td></td>
                     </tr>
                     <tr>
-                        <td>Email Address <%=Application("REQUIRED")%>:</td>
+                        <td>Email Address <?=REQUIRED?>:</td>
                     </tr>
                     <tr>
                         <td><input type="text" class="k-textbox" name="tbEmailAddress" id="email-address" value="<%=Session("userEmail")%>" maxlength="200"/></td>
@@ -90,7 +90,7 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td>Subject <%=Application("REQUIRED")%>:</td>
+                        <td>Subject <?=REQUIRED?>:</td>
                     </tr>
                     <tr>
                         <td><input type="text" class="k-textbox" name="tbSubject" id="subject" maxlength="80"/></td>
@@ -99,7 +99,7 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td>Description <%=Application("REQUIRED")%>:</td>
+                        <td>Description <?=REQUIRED?>:</td>
                     </tr>
                     <tr>
                         <td><textarea class="k-textbox" name="taDescription" id="description" maxlength="2000"></textarea></td>

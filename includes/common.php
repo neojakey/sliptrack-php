@@ -2,6 +2,8 @@
 // ### CONSTANTS ###
 define("SITE_NAME", "Slip Saver");
 define("SPACER", "&nbsp;&nbsp;<i class=\"fa fa-caret-right\" style=\"color:#ABABAB\" aria-hidden=\"true\"></i>&nbsp;&nbsp;");
+define("REQUIRED", "<img src=\"" . BASE_URL . "/images/required.gif\" title=\"Required Field\" alt=\"Required\"/>");
+
 
 // ### GLOBAL VARIABLES ###
 $db;
@@ -20,7 +22,6 @@ session_start();
 $db = InitiateConnection();
 
 // ### CHECK FOR SESSION ###
-echo "Page URL: " . $nPageUrl;
 if (!strpos($nPageUrl, "login.php")) {
     CheckForValidLogin();
 }

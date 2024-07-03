@@ -29,9 +29,10 @@ function formatDbField($fieldString, $fieldType, $fieldAllowsNulls) {
             return "'" . str_replace("'", "''", $fieldString) . "'";
         }
     } elseif ($fieldType === "bit") {
+        echo "fieldString3 = " . $fieldString . "</br>";
         if ($fieldString === "") {
             return "NULL";
-        } elseif ($fieldString) {
+        } elseif ($fieldString || $fieldString === "1") {
             return "1";
         } else {
             return "0";
@@ -70,7 +71,7 @@ function formatDbFieldAdd($fieldString, $fieldType, $fieldAllowsNulls) {
     } elseif ($fieldType === "bit") {
         if (trim($fieldString . "") === "") {
             return NULL;
-        } elseif ($fieldString) {
+        } elseif ($fieldString || $fieldString === "1") {
             return "1";
         } else {
             return "0";
@@ -95,6 +96,9 @@ function CheckNulls($str) {
 }
 
 function LogReport($logType, $logText, $logUserId) {
+    if (trim($logUserId . "") === "") {
+        return;
+    }
     $logColumns = "LogType,LogText,LogUserId";
     $logValues = formatDbField($logType, "int", 0) . "," . formatDbField($logText, "text", false) . "," . formatDbField($logUserId, "int", false);
     InsertNewRecord("systemlog", $logColumns, $logValues);
@@ -103,7 +107,7 @@ function LogReport($logType, $logText, $logUserId) {
 function InsertNewRecord($tableName, $columns, $values) {
     global $db;
     $sql = "INSERT INTO " . $tableName . " (" . $columns . ") VALUES (" . $values . ")";
-    echo $sql;
+    echo "SQL STATEMENT = " . $sql . "</br>";
     if ($db -> query($sql) === false) {
         echo "Error: " . $sql . "<br>" . $db -> error;
     }
@@ -117,7 +121,6 @@ function CheckForValidLogin() {
 
 function RemoveSpecialChars($str) {
     $str = trim($str) . "";
-    if (empty($str)) return;
     $OutStr = trim($str);
     $OutStr = str_replace("`", "", $OutStr);
     $OutStr = str_replace("^", "", $OutStr);
@@ -205,6 +208,77 @@ function HowLongAgo($datetime) {
     return $pstrOut;
 }
 
+function CreateDropmenu($fieldId, $fieldName, $tableName, $fieldOrder, $selectName, $selectPlaceholder, $currentValue) {
+    $strOut = ""; $menuSQL = "";
+    if (trim($fieldOrder . "" == "")) { $fieldOrder = $fieldName; }
+    if (trim($selectPlaceholder . "" == "")) { $selectPlaceholder = "Select One..."; }
+
+    global $db;
+    $menuSQL = "SELECT " . $fieldId . ", " . $fieldName . " FROM `" . $tableName . "` ORDER BY " . $fieldOrder;
+    $response = mysqli_query($db, $menuSQL);
+    $row_cnt = mysqli_num_rows($response);
+
+    $strOut = "<select name=\"dd" . str_replace("-", "", $selectName) . "\" id=\"" . strtolower($selectName) . "\">";
+    if ($row_cnt === 0) {
+        $strOut = $strOut . "<option value=\"\">No Records Found</option>";
+    } else {
+        $strOut = $strOut . "<option value=\"\">" . $selectPlaceholder . "</option>";
+        while($menuRS = mysqli_fetch_assoc($response)) {
+            if (trim($currentValue) !== "") {
+                if ($menuRS[$fieldId] == $currentValue) {
+                    $strOut = $strOut . "<option value=\"" . $menuRS[$fieldId] . "\" selected=\"selected\">" . $menuRS[$fieldName] . "</option>";
+                } else {
+                    $strOut = $strOut . "<option value=\"" . $menuRS[$fieldId] . "\">" . $menuRS[$fieldName] . "</option>";
+                }
+            } else {
+                $strOut = $strOut . "<option value=\"" . $menuRS[$fieldId] . "\">" . $menuRS[$fieldName] . "</option>";
+            }
+        }
+    }
+    $strOut = $strOut . "</select>";
+    return $strOut;
+}
+
+function ShowSectionBorder() {
+    return "<tr style=\"height:8px\">
+                <td colspan=\"2\" class=\"dotted-line\"></td>
+            </tr>
+            <tr style=\"height:8px\">
+                <td colspan=\"2\"></td>
+            </tr>";
+}
+
+function hasPermission($nSection, $nAction) {
+    global $db;
+    $boolPermission = false;
+    $checkPermissionsSQL = "
+        SELECT 1 FROM `UserGroup`
+        WHERE
+           (" . $nSection . " LIKE '%" . $nAction . "%' OR " . $nSection . " = 'full')
+           AND `GroupId` = " . $_SESSION["userGroup"] . "";
+    $response = mysqli_query($db, $checkPermissionsSQL);
+    $row_cnt = mysqli_num_rows($response);
+
+    if ($row_cnt > 0) $boolPermission = true;
+    return $boolPermission;
+}
+
+function GetGroupName($nGroupId) {
+    if (trim($nGroupId) . "" === "") {
+        return;
+    }
+    global $db;
+    $groupNameSQL = "SELECT `GroupName` FROM `UserGroup` WHERE `GroupId` = " . formatDbField($nGroupId, "int", false);
+    $response = mysqli_query($db, $groupNameSQL);
+    $row_cnt = mysqli_num_rows($response);
+    if ($row_cnt !== 0) {
+        $row = mysqli_fetch_assoc($response);
+        $groupName = $row["GroupName"];
+    } else {
+        return;
+    }
+    return $groupName;
+}
 
 // ### FUNCTIONS AND SUBS ###
 //FUNCTION StateDropmenu(nStateId, nFieldName)
@@ -233,46 +307,6 @@ function HowLongAgo($datetime) {
 //    StateDropmenu = strOut
 //END FUNCTION
 //
-//FUNCTION CreateDropmenu(fieldId, fieldName, tableName, fieldOrder, selectName, selectPlaceholder, currentValue)
-//    Dim strOut : strOut = ""
-//    Dim menuSQL : menuSQL = ""
-//    IF Trim(fieldOrder & "") = "" THEN fieldOrder = fieldName
-//    IF Trim(selectPlaceholder & "") = "" THEN selectPlaceholder = "Select One..."
-//    Dim menuRS : Set menuRS = Server.CreateObject("ADODB.Recordset")
-//    IF tableName = "Entity" THEN
-//        menuSQL = "SELECT " & fieldId & ", " & fieldName & " FROM [" & tableName & "] WHERE ApplicantId = " & formatDbField(Session("activeApplicantId"), "int", false) & " ORDER BY " & fieldOrder
-//    ELSE
-//        menuSQL = "SELECT " & fieldId & ", " & fieldName & " FROM [" & tableName & "] ORDER BY " & fieldOrder
-//    END IF
-//    menuRS.open menuSQL, db
-//    strOut = "<select name=""dd" & Replace(selectName, "-", "") & """ id=""" & lCase(selectName) & """>" & vbCr
-//    IF menuRS.EOF THEN
-//        IF tableName = "Entity" THEN
-//            Call SetApplicantById
-//            strOut = strOut & "<option value="""">" & Session("CurrentApplicantName") & "</option>" & vbCr
-//        ELSE
-//            strOut = strOut & "<option value="""">No Records Found</option>" & vbCr
-//        END IF
-//    ELSE
-//        strOut = strOut & "<option value="""">" & selectPlaceholder & "</option>" & vbCr
-//        menuRS.MoveFirst
-//        DO WHILE NOT menuRS.EOF
-//            IF Trim(currentValue & "") <> "" THEN
-//                IF cInt(menuRS(fieldId)) = cInt(currentValue) THEN
-//                    strOut = strOut & "<option value=""" & menuRS(fieldId) & """ selected=""selected"">" & menuRS(fieldName) & "</option>" & vbCr
-//                ELSE
-//                    strOut = strOut & "<option value=""" & menuRS(fieldId) & """>" & menuRS(fieldName) & "</option>" & vbCr
-//                END IF
-//            ELSE
-//                strOut = strOut & "<option value=""" & menuRS(fieldId) & """>" & menuRS(fieldName) & "</option>" & vbCr
-//            END IF
-//            menuRS.movenext
-//        LOOP
-//    END IF
-//    menuRS.Close
-//    strOut = strOut & "</select>"
-//    CreateDropmenu = strOut
-//END FUNCTION
 //
 //SUB HasMemberPageAccess(url)
 //    IF Session("userPaymentTierCode") = "Standard" THEN
@@ -417,16 +451,6 @@ function HowLongAgo($datetime) {
 //    IF (IsNumeric(thisValue) OR varType(thisValue) = 14) THEN
 //        ShowAsDollars = "$" & FormatNumber(cToDbl(thisValue), 2)
 //    END IF
-//END FUNCTION
-//
-//FUNCTION ShowSectionBorder()
-//    ShowSectionBorder = _
-//        "<tr style=""height:8px"">" & vbCr & _
-//        "<td colspan=""2"" class=""dotted-line""></td>" & vbCr & _
-//        "</tr>" & vbCr & _
-//        "<tr style=""height:8px"">" & vbCr & _
-//        "<td colspan=""2""></td>" & vbCr & _
-//        "</tr>" & vbCr
 //END FUNCTION
 //
 //FUNCTION rndString(lengthString)
@@ -605,22 +629,6 @@ function HowLongAgo($datetime) {
 //    ELSE
 //        FormatMoney = Replace(FormatNumber(nAmount, 2), ",", "")
 //    END IF
-//END FUNCTION
-//
-
-//
-//FUNCTION hasPermission(nSection, nAction)
-//    Dim boolPermission : boolPermission = false
-//    Dim CheckPermissionsRS : Set CheckPermissionsRS = Server.CreateObject("ADODB.Recordset")
-//    Dim CheckPermissionsSQL : CheckPermissionsSQL = _
-//        "SELECT 1 FROM [Group] " & _
-//        " WHERE " & _
-//        "   (" & nSection & " LIKE '%" & nAction & "%' OR " & nSection & " = 'full')" & _
-//        "   AND [GroupId] = " & Session("userGroup")
-//    CheckPermissionsRS.Open CheckPermissionsSQL, db
-//    IF NOT CheckPermissionsRS.EOF THEN boolPermission = true
-//    CheckPermissionsRS.Close
-//    hasPermission = boolPermission
 //END FUNCTION
 //
 //FUNCTION RecordsInTable(tableName)
@@ -1159,20 +1167,6 @@ function HowLongAgo($datetime) {
 //    END IF
 //END FUNCTION
 //
-//FUNCTION GetGroupName(nGroupId)
-//    IF Trim(nGroupId & "") = "" THEN EXIT FUNCTION
-//    Dim groupNameRS : Set groupNameRS = Server.CreateObject("ADODB.Recordset")
-//    Dim groupNameSQL : groupNameSQL = _
-//        "SELECT [GroupName] FROM [Group] WHERE [GroupId] = " & formatDbField(nGroupId, "int", false)
-//    groupNameRS.open groupNameSQL, db
-//    IF NOT groupNameRS.EOF THEN
-//        Dim groupName : groupName = groupNameRS("GroupName")
-//    ELSE
-//        EXIT FUNCTION
-//    END IF
-//    groupNameRS.Close
-//    GetGroupName = groupName
-//END FUNCTION
 //
 //FUNCTION isSuperUser()
 //    Dim userGroup : userGroup = ""

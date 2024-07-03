@@ -6,8 +6,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title><%=SITE_NAME%> - Issuer Area</title>
-    <!--#include virtual="/includes/stylesheets.asp" -->
+    <title><?=SITE_NAME?> - Issuer Area</title>
+    <?php include ROOT_PATH . "includes/stylesheets.php" ?>
     <link rel="stylesheet" type="text/css" href="/issuers/css/issuer_addedit.css"/>
 </head>
 
@@ -25,28 +25,28 @@
                 </div>
                 <div class="user-wrapper" id="user-menu-link">
                     <span id="desktop-user-menu-bars"><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>
-                    <span id="desktop-user-menu-name"><%=Session("userFullName")%></span>
+                    <span id="desktop-user-menu-name"><?=$_SESSION["userFullName"]?></span>
                     <span><i class="fa fa-caret-down" aria-hidden="true"></i></span>
                 </div>
             </header>
             <section>
                 <h1 class="page-title">Add New Issuer</h1>
                 <div class="breadcrumb">
-                    <a href="/">Home</a><%=SPACER%><a href="/issuers/">Issuers</a><%=SPACER%>Add New Issuer
+                    <a href="/">Home</a><?=SPACER?><a href="/issuers/">Issuers</a><?=SPACER?>Add New Issuer
                 </div>
                 <form action="/issuers/save/" method="post" id="form-new-issuer" name="frmNewIssuer">
                     <table class="form-table">
                         <tr>
-                            <td>Issuer RFC <%=Application("REQUIRED")%>:</td>
+                            <td>Issuer RFC <?=REQUIRED?>:</td>
                             <td><input type="text" class="k-textbox" name="tbIssuerRFC" id="issuer-rfc" maxlength="15" style="width:150px"/></td>
                         </tr>
                         <tr>
-                            <td>Issuer Name <%=Application("REQUIRED")%>:</td>
+                            <td>Issuer Name <?=REQUIRED?>:</td>
                             <td><input type="text" class="k-textbox" name="tbIssuerName" id="issuer-name" maxlength="80" style="width:500px"/></td>
                         </tr>
                         <%=ShowSectionBorder()%>
                         <tr>
-                            <td>Tax Regime <%=Application("REQUIRED")%>:</td>
+                            <td>Tax Regime <?=REQUIRED?>:</td>
                             <td class="tax-regime-wrapper"><%=CreateDropdown("64AFG03R01", "", "", "Tax-Regime-Id")%></td>
                         </tr>
                         <%=ShowSectionBorder()%>

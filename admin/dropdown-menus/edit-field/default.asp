@@ -53,8 +53,8 @@ Dim dropdownListName : dropdownListName = GetDropdownListName(dropdownFieldParen
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title><%=SITE_NAME%> - Group Area</title>
-    <!--#include virtual="/includes/stylesheets.asp" -->
+    <title><?=SITE_NAME?> - Group Area</title>
+    <?php include ROOT_PATH . "includes/stylesheets.php" ?>
     <style type="text/css">
         .button-wrapper {
             padding: 12px 12px 12px 212px;
@@ -76,25 +76,25 @@ Dim dropdownListName : dropdownListName = GetDropdownListName(dropdownFieldParen
                 </div>
                 <div class="user-wrapper" id="user-menu-link">
                     <span id="desktop-user-menu-bars"><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>
-                    <span id="desktop-user-menu-name"><%=Session("userFullName")%></span>
+                    <span id="desktop-user-menu-name"><?=$_SESSION["userFullName"]?></span>
                     <span><i class="fa fa-caret-down" aria-hidden="true"></i></span>
                 </div>
             </header>
             <section>
                 <h1 class="page-title">Add New Dropdown Menu Field</h1>
                 <div class="breadcrumb">
-                    <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="/admin/dropdown-menus/">Dropdown Menus</a><%=SPACER%><a href="/admin/dropdown-menus/list/?id=<%=dropdownListId%>"><%=dropdownListName%></a><%=SPACER%>Edit Dropdown Field
+                    <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="/admin/dropdown-menus/">Dropdown Menus</a><?=SPACER?><a href="/admin/dropdown-menus/list/?id=<%=dropdownListId%>"><%=dropdownListName%></a><?=SPACER?>Edit Dropdown Field
                 </div>
                 <form action="/admin/dropdown-menus/save-field/" id="dropdown-field-form" method="post">
                     <input type="hidden" name="hidDropdownFieldId" value="<%=dropdownFieldId%>"/>
                     <input type="hidden" name="hidParentId" value="<%=dropdownFieldParentId%>"/>
                     <table class="form-table">
                         <tr>
-                            <td>Dropdown Field Name <%=Application("REQUIRED")%>:</td>
+                            <td>Dropdown Field Name <?=REQUIRED?>:</td>
                             <td><input type="text" class="k-textbox" id="dropdown-field-name" name="tbDropdownFieldName" value="<%=dropdownFieldName%>" style="width:500px" maxlength="200"/></td>
                         </tr>
                         <tr>
-                            <td>Dropdown Field Code <%=Application("REQUIRED")%>:</td>
+                            <td>Dropdown Field Code <?=REQUIRED?>:</td>
                             <td><input type="text" class="k-textbox" id="dropdown-field-code" style="width:120px" name="tbDropdownFieldCode" value="<%=dropdownFieldCode%>" maxlength="10"/></td>
                         </tr>
                         <tr>

@@ -27,8 +27,8 @@ Dim groupName : groupName = GetGroupName(groupId)
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title><%=SITE_NAME%> - User Area</title>
-    <!--#include virtual="/includes/stylesheets.asp" -->
+    <title><?=SITE_NAME?> - User Area</title>
+    <?php include ROOT_PATH . "includes/stylesheets.php" ?>
     <link rel="stylesheet" href="/admin/groups/css/group_edit.css"/>
 </head>
 
@@ -47,14 +47,14 @@ Dim groupName : groupName = GetGroupName(groupId)
             </div>
             <div class="user-wrapper" id="user-menu-link">
                 <span id="desktop-user-menu-bars"><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>
-                <span id="desktop-user-menu-name"><%=Session("userFullName")%></span>
+                <span id="desktop-user-menu-name"><?=$_SESSION["userFullName"]?></span>
                 <span><i class="fa fa-caret-down" aria-hidden="true"></i></span>
             </div>
         </header>
         <section>
             <h1 class="page-title"><%=groupName%> Group Members</h1>
             <div class="breadcrumb">
-                <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="/admin/groups/">User Groups</a><%=SPACER%><%=groupName%> Group Permissions
+                <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="/admin/groups/">User Groups</a><?=SPACER?><%=groupName%> Group Permissions
             </div>
             <div class="add-button-wrapper">
                 <button type="button" class="primary-btn" onclick="location.href='/admin/groups/add/';"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Add Group</button>

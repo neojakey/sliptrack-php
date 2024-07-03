@@ -131,8 +131,8 @@ END IF
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<title><%=SITE_NAME%> - User Area</title>
-<!--#include virtual="/includes/stylesheets.asp" -->
+<title><?=SITE_NAME?> - User Area</title>
+<?php include ROOT_PATH . "includes/stylesheets.php" ?>
 <link rel="stylesheet" type="text/css" href="/content/Styles/start.css"/>
 </head>
 

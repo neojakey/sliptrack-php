@@ -25,8 +25,8 @@ groupRS.Close
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title><%=SITE_NAME%> - Group Area</title>
-    <!--#include virtual="/includes/stylesheets.asp" -->
+    <title><?=SITE_NAME?> - Group Area</title>
+    <?php include ROOT_PATH . "includes/stylesheets.php" ?>
 </head>
 
 <body>
@@ -43,20 +43,20 @@ groupRS.Close
                 </div>
                 <div class="user-wrapper" id="user-menu-link">
                     <span id="desktop-user-menu-bars"><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>
-                    <span id="desktop-user-menu-name"><%=Session("userFullName")%></span>
+                    <span id="desktop-user-menu-name"><?=$_SESSION["userFullName"]?></span>
                     <span><i class="fa fa-caret-down" aria-hidden="true"></i></span>
                 </div>
             </header>
             <section>
                 <h1 class="page-title">Add New Group</h1>
                 <div class="breadcrumb">
-                <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="/admin/groups/">User Groups</a><%=SPACER%>Edit Group Name
+                <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="/admin/groups/">User Groups</a><?=SPACER?>Edit Group Name
                 </div>
                 <form action="/admin/groups/save/" method="post" id="form-new-group" name="frmNewGroup">
                     <input type="hidden" name="hidGroupId" value="<%=groupId%>"/>
                     <table class="form-table">
                         <tr>
-                            <td>Group Name <%=Application("REQUIRED")%>:</td>
+                            <td>Group Name <?=REQUIRED?>:</td>
                             <td><input type="text" class="k-textbox" name="tbGroupName" id="group-name" value="<%=groupName%>" maxlength="50" style="width:400px"/></td>
                         </tr>
                     </table>

@@ -6,8 +6,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title><%=SITE_NAME%> - User Area</title>
-    <!--#include virtual="/includes/stylesheets.asp" -->
+    <title><?=SITE_NAME?> - User Area</title>
+    <?php include ROOT_PATH . "includes/stylesheets.php" ?>
 </head>
 
 <body>
@@ -25,7 +25,7 @@
             </div>
             <div class="user-wrapper" id="user-menu-link">
                 <span id="desktop-user-menu-bars"><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>
-                <span id="desktop-user-menu-name"><%=Session("userFullName")%></span>
+                <span id="desktop-user-menu-name"><?=$_SESSION["userFullName"]?></span>
                 <span><i class="fa fa-caret-down" aria-hidden="true"></i></span>
             </div>
         </header>

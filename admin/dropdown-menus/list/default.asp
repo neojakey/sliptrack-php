@@ -31,8 +31,8 @@ Dim dropdownListName : dropdownListName = GetDropdownListName(dropdownListId)
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title><%=SITE_NAME%> - Group Area</title>
-    <!--#include virtual="/includes/stylesheets.asp" -->
+    <title><?=SITE_NAME?> - Group Area</title>
+    <?php include ROOT_PATH . "includes/stylesheets.php" ?>
 </head>
 
 <body>
@@ -49,14 +49,14 @@ Dim dropdownListName : dropdownListName = GetDropdownListName(dropdownListId)
                 </div>
                 <div class="user-wrapper" id="user-menu-link">
                     <span id="desktop-user-menu-bars"><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>
-                    <span id="desktop-user-menu-name"><%=Session("userFullName")%></span>
+                    <span id="desktop-user-menu-name"><?=$_SESSION["userFullName"]?></span>
                     <span><i class="fa fa-caret-down" aria-hidden="true"></i></span>
                 </div>
             </header>
             <section>
                 <h1 class="page-title">Dropdown Menus</h1>
                 <div class="breadcrumb">
-                    <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="/admin/dropdown-menus/">Dropdown Menus</a><%=SPACER%><%=dropdownListName%>
+                    <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="/admin/dropdown-menus/">Dropdown Menus</a><?=SPACER?><%=dropdownListName%>
                 </div>
                 <% IF canAdd THEN %>
                 <div class="add-button-wrapper">

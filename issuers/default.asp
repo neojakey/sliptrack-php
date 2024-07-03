@@ -7,8 +7,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title><%=SITE_NAME%> - Issuer</title>
-    <!--#include virtual="/includes/stylesheets.asp" -->
+    <title><?=SITE_NAME?> - Issuer</title>
+    <?php include ROOT_PATH . "includes/stylesheets.php" ?>
     <link type="text/css" rel="stylesheet" href="/css/pagination.css"/>
 </head>
 
@@ -26,14 +26,14 @@
                 </div>
                 <div class="user-wrapper" id="user-menu-link">
                     <span id="desktop-user-menu-bars"><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>
-                    <span id="desktop-user-menu-name"><%=Session("userFullName")%></span>
+                    <span id="desktop-user-menu-name"><?=$_SESSION["userFullName"]?></span>
                     <span><i class="fa fa-caret-down" aria-hidden="true"></i></span>
                 </div>
             </header>
             <section>
                 <h1 class="page-title">Issuers</h1>
                 <div class="breadcrumb">
-                    <a href="/">Home</a><%=SPACER%>Issuers
+                    <a href="/">Home</a><?=SPACER?>Issuers
                 </div>
                 <div class="add-button-wrapper">
                     <button type="button" class="primary-btn" onclick="location.href='/issuers/add/';"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Add Issuer</button>

@@ -14,8 +14,11 @@ function GetSectionPermission($fieldName) {
     $canView = false; $canCreate = false;
     $canEdit = false; $canDelete = false;
 
-    if ($permissionField == "full") {
-        $canView = true; $canCreate = true; $canEdit = true; $canDelete = true;
+    if ($permissionField === "full") {
+        $canView = true;
+        $canCreate = true;
+        $canEdit = true;
+        $canDelete = true;
     } else {
         if (strpos($permissionField, "view") > -1) $canView = true;
         if (strpos($permissionField, "create") > -1) $canCreate = true;

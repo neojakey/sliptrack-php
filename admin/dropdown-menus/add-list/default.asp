@@ -24,8 +24,8 @@ END IF
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title><%=SITE_NAME%> - Dropdown Area</title>
-    <!--#include virtual="/includes/stylesheets.asp" -->
+    <title><?=SITE_NAME?> - Dropdown Area</title>
+    <?php include ROOT_PATH . "includes/stylesheets.php" ?>
 </head>
 
 <body>
@@ -42,19 +42,19 @@ END IF
                 </div>
                 <div class="user-wrapper" id="user-menu-link">
                     <span id="desktop-user-menu-bars"><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>
-                    <span id="desktop-user-menu-name"><%=Session("userFullName")%></span>
+                    <span id="desktop-user-menu-name"><?=$_SESSION["userFullName"]?></span>
                     <span><i class="fa fa-caret-down" aria-hidden="true"></i></span>
                 </div>
             </header>
             <section>
                 <h1 class="page-title">Add New Dropdown Menu</h1>
                 <div class="breadcrumb">
-                    <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="/admin/dropdown-menus/">Dropdown Menus</a><%=SPACER%>Add Dropdown Menu
+                    <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="/admin/dropdown-menus/">Dropdown Menus</a><?=SPACER?>Add Dropdown Menu
                 </div>
                 <form action="/admin/dropdown-menus/save/" id="dropdownlist-form" method="post">
                     <table class="form-table">
                         <tr>
-                            <td>Dropdown List Name <%=Application("REQUIRED")%>:</td>
+                            <td>Dropdown List Name <?=REQUIRED?>:</td>
                             <td><input type="text" class="k-textbox" id="dropdown-list-name" style="width:250px" name="tbDropdownListName" maxlength="50"/></td>
                         </tr>
                         <% Dim blockCode : blockCode = GetRandom(10) %>

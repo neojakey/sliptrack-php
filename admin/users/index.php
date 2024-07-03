@@ -8,7 +8,7 @@ $adminAry = GetSectionPermission("prmAdmin");
 $canViewAdmin = GetActionPermission("view", $adminAry);
 if (!$canViewAdmin) {
     SetUserAlert("danger", "You do not have permission to access administration.");
-    header("Location: login.php");
+    header("Location: " . BASE_URL ."/index.php");
 }
 
 // ### DOES THE USER HAVE USER PERMISSIONS ###
@@ -17,13 +17,15 @@ $canView = GetActionPermission("view", $permissionsAry);
 $canAdd = GetActionPermission("create", $permissionsAry);
 $canEdit = GetActionPermission("edit", $permissionsAry);
 $canDelete = GetActionPermission("delete", $permissionsAry);
-if (!$canView) { header("Location: /admin/index.php"); }
+if (!$canView) {
+    header("Location: " . BASE_URL ."/admin/index.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title><?php echo SITE_NAME ?> - User Area</title>
+    <title><?=SITE_NAME?> - User Area</title>
     <?php include ROOT_PATH . "includes/stylesheets.php" ?>
 </head>
 
@@ -52,7 +54,7 @@ if (!$canView) { header("Location: /admin/index.php"); }
                 <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;User Management
             </div>
             <div class="add-button-wrapper">
-                <button type="button" class="primary-btn" onclick="location.href='/admin/users/add/';"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Add User</button>
+                <button type="button" class="primary-btn" onclick="location.href='<?=BASE_URL?>/admin/users/add.php';"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Add User</button>
             </div>
             <div id="alert-wrapper" style="display:none">
                 <div id="alert">
@@ -63,7 +65,7 @@ if (!$canView) { header("Location: /admin/index.php"); }
                 <thead>
                     <?php
                     global $db;
-                    $usersSQL = <<<SQL
+                    $usersSQL = "
                         SELECT
                            u.`FirstName`, u.`LastName`, u.`EmailAddress`,
                            u.`Created`, u.`UserId`, ug.`GroupName`, ug.`GroupId`
@@ -71,8 +73,7 @@ if (!$canView) { header("Location: /admin/index.php"); }
                            `User` AS u
                            INNER JOIN `userGroup` AS ug ON u.`GroupId` = ug.`GroupId`
                          ORDER BY
-                           u.`LastName` ASC, u.`FirstName` ASC
-                    SQL;
+                           u.`LastName` ASC, u.`FirstName` ASC";
                     $response = mysqli_query($db, $usersSQL);
                     $row_cnt = mysqli_num_rows($response);
                     ?>
@@ -96,16 +97,16 @@ if (!$canView) { header("Location: /admin/index.php"); }
                             <tr>
                                 <td><?=$usersRS["LastName"] . ", " . $usersRS["FirstName"]?></td>
                                 <td><a href="mailto:<?=$usersRS["EmailAddress"]?>"><?=$usersRS["EmailAddress"]?></a></td>
-                                <td><a href="/admin/groups/members/?id=<?=$usersRS["GroupId"]?>"><?=$usersRS["GroupName"]?></a></td>
-                                <td><?=HowLongAgo($usersRS["Created"])?></td>
+                                <td><a href="<?=BASE_URL?>/admin/groups/members.php?id=<?=$usersRS["GroupId"]?>"><?=$usersRS["GroupName"]?></a></td>
+                                <td><?=date("F j, Y, g:i a", strtotime($usersRS["Created"]))?></td>
                                 <td>
                                     <div class="data-grid-icons">
                                         <?php
                                         if ($canEdit) {
-                                            echo "<a href=\"/admin/users/edit/?id=" . $usersRS["UserId"] . "\" title=\"Edit\"><i class=\"fa fa-pencil fa-fw\" aria-hidden=\"true\"></i></a>";
+                                            echo "<a href=\"" . BASE_URL . "/admin/users/edit.php?id=" . $usersRS["UserId"] . "\" title=\"Edit\"><i class=\"fa fa-pencil fa-fw\" aria-hidden=\"true\"></i></a>";
                                         } else {
                                             if (intval($_SESSION["userId"]) == intval($usersRS["UserId"])) {
-                                                echo "<a href=\"/admin/users/edit/?id=" . $usersRS["UserId"] . "\" title=\"Edit\"><i class=\"fa fa-pencil fa-fw\" aria-hidden=\"true\"></i></a>";
+                                                echo "<a href=\"/admin/users/edit.php?id=" . $usersRS["UserId"] . "\" title=\"Edit\"><i class=\"fa fa-pencil fa-fw\" aria-hidden=\"true\"></i></a>";
                                             } else {
                                                 echo "<i class=\"fa fa-pencil fa-fw disabled\" aria-hidden=\"true\" title=\"You do not have permission to edit\"></i>";
                                             }
@@ -114,13 +115,13 @@ if (!$canView) { header("Location: /admin/index.php"); }
                                             if (intval($_SESSION["userId"]) == intval($usersRS["UserId"])) {
                                                 echo "<i class=\"fa fa-times fa-fw disabled\" aria-hidden=\"true\" title=\"You can't delete your own account\"></i>";
                                             } else {
-                                                echo "<a href=\"javascript:void(0);\" onclick=\"ConfirmUserDelete('" . $usersRS("UserId") . "');\" title=\"Delete\"><i class=\"fa fa-times fa-fw\" aria-hidden=\"true\"></i></a>";
+                                                echo "<a href=\"javascript:void(0);\" onclick=\"ConfirmUserDelete('" . $usersRS["UserId"] . "');\" title=\"Delete\"><i class=\"fa fa-times fa-fw\" aria-hidden=\"true\"></i></a>";
                                             }
                                         } else {
                                             echo "<i class=\"fa fa-times fa-fw disabled\" aria-hidden=\"true\" title=\"You do not have permission to delete\"></i>";
                                         }
                                         if (intval($_SESSION["userId"]) == intval($usersRS["UserId"])) {
-                                            echo "<a href=\"/admin/users/password/\" title=\"Change Password\"><i class=\"fa fa-shield fa-fw\" aria-hidden=\"true\"></i></a>";
+                                            echo "<a href=\"" . BASE_URL . "/admin/users/password.php\" title=\"Change Password\"><i class=\"fa fa-shield fa-fw\" aria-hidden=\"true\"></i></a>";
                                         } else {
                                             echo "<i class=\"fa fa-shield fa-fw disabled\" aria-hidden=\"true\"></i>";
                                         }
@@ -145,7 +146,7 @@ if (!$canView) { header("Location: /admin/index.php"); }
     function ConfirmUserDelete(userId) {
         var agree = confirm('Are you sure you wish to delete this user?\n');
         if (agree) {
-            document.location.href = '/admin/users/delete/?id=' + userId;
+            document.location.href = '<?=BASE_URL?>/admin/users/delete.php?id=' + userId;
         }
     }
 </script>

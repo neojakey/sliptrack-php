@@ -9,6 +9,13 @@ $(function () {
     });
 });
 
+function removeUTF8BOM(str) { // FUNCTION TO REMOVE BYTE ORDER MARKS
+    if (str.charCodeAt(0) === 0xFEFF) {
+        return str.slice(1); // ### REMOVE THE FIRST CHARACTER (BOM)
+    }
+    return str; // ### NO BOM FOUND, RETURN THE ORIGINAL STRING
+}
+
 function LeavePage(strUrl) {
     var agree = confirm('Are you sure you want to cancel?\n\nClick OK to confirm. Any unsaved changes you have made will be lost.');
     if (agree) {

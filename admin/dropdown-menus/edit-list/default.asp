@@ -44,8 +44,8 @@ dropdownListRS.Close
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<title>Edit Dropdown List | User Area | <%=SITE_NAME%></title>
-<!--#include virtual="/includes/stylesheets.asp" -->
+<title>Edit Dropdown List | User Area | <?=SITE_NAME?></title>
+<?php include ROOT_PATH . "includes/stylesheets.php" ?>
 <style type="text/css">
 .data-form tr > td:first-child {
     width: 220px;
@@ -82,11 +82,11 @@ dropdownListRS.Close
             <input type="hidden" name="hidDropdownListId" value="<%=Request("id")%>"/>
             <table border="0" class="data-form">
                 <tr>
-                    <td>Dropdown List Name <%=Application("REQUIRED")%>:</td>
+                    <td>Dropdown List Name <?=REQUIRED?>:</td>
                     <td><input type="text" class="k-textbox" id="dropdown-list-name" name="tbDropdownListName" value="<%=dropdownListName%>" maxlength="50"/></td>
                 </tr>
                 <tr>
-                    <td>Dropdown Code <%=Application("REQUIRED")%>:</td>
+                    <td>Dropdown Code <?=REQUIRED?>:</td>
                     <td><input type="text" class="k-textbox" name="tbDropdownCode" id="dropdown-code" value="<%=dropDownCode%>"/></td>
                 </tr>
             </table>
