@@ -14,7 +14,7 @@ function formatDbField($fieldString, $fieldType, $fieldAllowsNulls) {
         if ($fieldAllowsNulls && trim($fieldString . "") === "") {
             return "NULL";
         } else {
-            return "'" . str_replace("'", "''", $fieldString) . "'";
+            return "'" . $fieldString . "'";
         }
     } elseif ($fieldType === "int") {
         if ($fieldAllowsNulls && (trim($fieldString . "") === "" || !is_numeric($fieldString))) {
@@ -26,10 +26,9 @@ function formatDbField($fieldString, $fieldType, $fieldAllowsNulls) {
         if ($fieldAllowsNulls && $fieldString === "") {
             return "NULL";
         } else {
-            return "'" . str_replace("'", "''", $fieldString) . "'";
+            return "'" . $fieldString . "'";
         }
     } elseif ($fieldType === "bit") {
-        echo "fieldString3 = " . $fieldString . "</br>";
         if ($fieldString === "") {
             return "NULL";
         } elseif ($fieldString || $fieldString === "1") {
@@ -99,6 +98,7 @@ function LogReport($logType, $logText, $logUserId) {
     if (trim($logUserId . "") === "") {
         return;
     }
+    $logText = EscapeSql($logText);
     $logColumns = "LogType,LogText,LogUserId";
     $logValues = formatDbField($logType, "int", 0) . "," . formatDbField($logText, "text", false) . "," . formatDbField($logUserId, "int", false);
     InsertNewRecord("systemlog", $logColumns, $logValues);
@@ -119,6 +119,11 @@ function CheckForValidLogin() {
     if (!$_SESSION["loggedIn"]) {
         header("Location: login.php");
     }
+}
+
+function EscapeSql($str) {
+    global $db;
+    return mysqli_real_escape_string($db, trim($str));
 }
 
 function RemoveSpecialChars($str) {
@@ -203,9 +208,7 @@ function hasPermission($nSection, $nAction) {
 }
 
 function GetGroupName($nGroupId) {
-    if (trim($nGroupId) . "" === "") {
-        return;
-    }
+    if (trim($nGroupId) . "" === "") return;
     global $db;
     $groupNameSQL = "SELECT `GroupName` FROM `UserGroup` WHERE `GroupId` = " . formatDbField($nGroupId, "int", false);
     $response = mysqli_query($db, $groupNameSQL);
@@ -217,6 +220,32 @@ function GetGroupName($nGroupId) {
         return;
     }
     return $groupName;
+}
+
+function GetRandom($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[random_int(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
+function GetListName($id) {
+    if (trim($id . "") === "") return;
+    global $db;
+    $ListName = "";
+    $listSQL = "SELECT `ListName` FROM `List` WHERE `ListId` = " . formatDbField($id, "int", false) . "";
+    $response = mysqli_query($db, $listSQL);
+    $row_cnt = mysqli_num_rows($response);
+    if ($row_cnt !== 0) {
+        $row = mysqli_fetch_assoc($response);
+        $ListName = $row["ListName"];
+    } else {
+        return;
+    }
+    return $ListName;
 }
 
 // ### FUNCTIONS AND SUBS ###
@@ -1136,17 +1165,6 @@ function GetGroupName($nGroupId) {
 //    hasDataInField = boolOut
 //END FUNCTION
 //
-//FUNCTION GetRandom(charCount)
-//    Randomize
-//    FOR r = 1 TO charCount
-//        IF (Int((1 - 0 + 1) * Rnd + 0)) THEN
-//            GetRandom = GetRandom & Chr(Int((90 - 65 + 1) * Rnd + 65))
-//        ELSE
-//            GetRandom = GetRandom & Chr(Int((57 - 48 + 1) * Rnd + 48))
-//        END IF
-//    NEXT
-//END FUNCTION
-//
 //SUB SaveProfilePaymentHistory(nPaymentTierId, nUser, nOutcome, dAmount, sAuthorizationId, sCaptureId, bIsTrialPeriod, sAmazonOrderReferenceId, sAmazonBillingAgreementId)
 //    IF Trim(nPaymentTierId & "") = "" OR Trim(nUser & "") = "" THEN EXIT SUB
 //
@@ -1228,24 +1246,6 @@ function GetGroupName($nGroupId) {
 //    PaymentNameRS.Close
 //END SUB
 //
-//FUNCTION GetDropdownListName(id)
-//    IF Trim(id & "") = "" THEN EXIT FUNCTION
-//    Dim dropDownParentName : dropDownParentName = ""
-//    Dim dropdownListRS : Set dropdownListRS = Server.CreateObject("ADODB.Recordset")
-//    Dim dropdownListSQL : dropdownListSQL = _
-//        "SELECT " & _
-//        "   DropDownParentName " & _
-//        " FROM " & _
-//        "   DropDownParent " & _
-//        " WHERE " & _
-//        "   DropDownParentId = " & formatDbField(id, "int", false)
-//    dropdownListRS.open dropdownListSQL, db
-//    IF NOT dropdownListRS.EOF THEN
-//        dropDownParentName = dropdownListRS("DropDownParentName")
-//    END IF
-//    dropdownListRS.Close
-//    GetDropdownListName = dropDownParentName
-//END FUNCTION
 //
 //FUNCTION CreateDropdown(dropdownCode, selectPlaceholder, currentValue, selectName)
 //    Dim strOut : strOut = ""

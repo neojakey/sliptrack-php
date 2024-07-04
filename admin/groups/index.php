@@ -8,7 +8,7 @@ $adminAry = GetSectionPermission("prmAdmin");
 $canViewAdmin = GetActionPermission("view", $adminAry);
 if (!$canViewAdmin) {
     SetUserAlert("danger", "You do not have permission to access administration.");
-    header("Location: login.php");
+    header("Location: " . BASE_URL ."/index.php");
 }
 
 // ### DOES THE USER HAVE GROUP VIEW PERMISSION ###
@@ -62,7 +62,7 @@ if (!$canView) {
                 </div>
                 <?php
                 global $db;
-                $userGroupsSQL = <<<SQL
+                $userGroupsSQL = "
                     SELECT
                        g.`GroupId`,
                        g.`GroupName`,
@@ -70,8 +70,7 @@ if (!$canView) {
                      FROM
                        `usergroup` AS g
                      ORDER BY
-                       g.`GroupName`
-                SQL;
+                       g.`GroupName`";
                 $response = mysqli_query($db, $userGroupsSQL);
                 $row_cnt = mysqli_num_rows($response);
                 ?>

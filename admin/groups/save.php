@@ -5,8 +5,8 @@
 <?php
 global $db;
 
-$groupId = mysqli_real_escape_string($db, trim($_POST["hidGroupId"]));
-$groupName = mysqli_real_escape_string($db, trim($_POST["tbGroupName"]));
+$groupId = EscapeSql($_POST["hidGroupId"]);
+$groupName = EscapeSql($_POST["tbGroupName"]);
 
 if ($groupId !== "") {
     // ### MODIFY GROUP DATABASE RECORD ###

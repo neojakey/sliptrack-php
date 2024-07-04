@@ -30,11 +30,11 @@
                 <span>Groups</span>
             </a>
         </div>
-        <?php if (strpos($siteUrl, "/admin/dropdown-menus/index.php") > -1) { $cssSelected = "selected"; } else { $cssSelected = ""; } ?>
+        <?php if (strpos($siteUrl, "/admin/lists/index.php") > -1) { $cssSelected = "selected"; } else { $cssSelected = ""; } ?>
         <div>
-            <a href="<?=BASE_URL?>/admin/dropdown-menus/index.php" title="Manage Dropdown Menus" class="<?=$cssSelected?>">
+            <a href="<?=BASE_URL?>/admin/lists/index.php" title="Manage Lists" class="<?=$cssSelected?>">
                 <i class="fa fa-list fa-fw" aria-hidden="true"></i>
-                <span>Menus</span>
+                <span>Lists</span>
             </a>
         </div>
         <?php if (strpos($siteUrl, "/admin/system-log/index.php") > -1) { $cssSelected = "selected"; } else { $cssSelected = ""; } ?>

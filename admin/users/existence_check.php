@@ -6,8 +6,8 @@
 global $db;
 $doesExist = "NOT-EXIST";
 
-$emailAddress = mysqli_real_escape_string($db, $_GET["value"]);
-$userId = mysqli_real_escape_string($db, $_GET["id"]);
+$emailAddress = EscapeSql($_GET["value"]);
+$userId = EscapeSql($_GET["id"]);
 
 if ($userId == "") { // ### NEW USER, NO EXISTING USERID
     $checkSQL = "SELECT `UserId` FROM `User` WHERE `EmailAddress` = '" . $emailAddress . "';";

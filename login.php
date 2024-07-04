@@ -6,9 +6,9 @@ if (isset($_POST["submit"])) {
     session_start();
     global $db;
     $nUserName = trim($_POST["tbUsername"]);
-    $nUserName = mysqli_real_escape_string($db, $nUserName);
+    $nUserName = EscapeSql($nUserName);
     $nPassword = trim($_POST["tbPassword"]);
-    $nPassword = mysqli_real_escape_string($db, $nPassword);
+    $nPassword = EscapeSql($nPassword);
 
     if ($nUserName . "" <> "") {
         $userSQL = <<<SQL

@@ -6,14 +6,14 @@
 global $db;
 
 // ### DEFINE AND ASSIGN VARIABLES ###
-$userId = mysqli_real_escape_string($db, trim($_POST["hidUserId"]));
-$firstName = mysqli_real_escape_string($db, trim($_POST["tbFirstName"]));
-$lastName = mysqli_real_escape_string($db, trim($_POST["tbLastName"]));
-$email = mysqli_real_escape_string($db, trim($_POST["tbEmail"]));
-$userGroup = mysqli_real_escape_string($db, trim($_POST["ddUserGroup"]));
-$darkMode = mysqli_real_escape_string($db, trim($_POST["ddSiteTheme"]));
-$userName = mysqli_real_escape_string($db, strtolower(substr($firstName, 0, 1) . $lastName));
-$passWord = mysqli_real_escape_string($db, trim($_POST["tbPassword"]));
+$userId = EscapeSql($_POST["hidUserId"]);
+$firstName = EscapeSql($_POST["tbFirstName"]);
+$lastName = EscapeSql($_POST["tbLastName"]);
+$email = EscapeSql($_POST["tbEmail"]);
+$userGroup = EscapeSql($_POST["ddUserGroup"]);
+$darkMode = EscapeSql($_POST["ddSiteTheme"]);
+$userName = EscapeSql(strtolower(substr($firstName, 0, 1) . $lastName));
+$passWord = EscapeSql($_POST["tbPassword"]);
 
 if ($userId . "" !== "") {
     // ### UPDATE USER ###

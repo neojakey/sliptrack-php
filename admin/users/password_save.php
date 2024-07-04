@@ -6,7 +6,7 @@
 global $db;
 
 // ### DECLARE AND SET VARIABLES ###
-$password = mysqli_real_escape_string($db, trim($_POST["tbPassword"]));
+$password = EscapeSql($_POST["tbPassword"]);
 
 // ### UPDATE PASSWORD FOR USER ###
 $strSQL = "
