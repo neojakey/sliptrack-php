@@ -92,7 +92,7 @@ if (!$canView) {
                         while($userGroupsRS = mysqli_fetch_assoc($response)) {
                             ?>
                                 <tr>
-                                    <td><a href="<?=BASE_URL?>/admin/groups/members/?id=<?=$userGroupsRS["GroupId"]?>"><?=$userGroupsRS["GroupName"]?></a></td>
+                                    <td><a href="<?=BASE_URL?>/admin/groups/members.php?id=<?=$userGroupsRS["GroupId"]?>"><?=$userGroupsRS["GroupName"]?></a></td>
                                     <td><?=$userGroupsRS["nUsersInGroup"]?></td>
                                     <td>
                                         <div class="data-grid-icons">
