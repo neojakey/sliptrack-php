@@ -11,7 +11,7 @@ $listName = EscapeSql($_POST["tbListName"]);
 $listCode = EscapeSql($_POST["tbListCode"]);
 
 if (trim($listId . "") <> "") {
-    // ### UPDATE DROPDOWN LIST RECORD ###
+    // ### UPDATE LIST RECORD ###
     $strSQL = "
         UPDATE `List` SET
            `ListName` = " . formatDbField($listName, "text", false) . ",
@@ -22,17 +22,17 @@ if (trim($listId . "") <> "") {
     mysqli_query($db, $strSQL);
 
     // ### ADD TO SYSTEM LOG AND USER ALERT ###
-    LogReport(1, "The Dropdown List '" . $listName . "' has been edited", $_SESSION["userId"]);
-    SetUserAlert("success", "Dropdown list edited successfully");
+    LogReport(1, "The List '" . $listName . "' has been edited", $_SESSION["userId"]);
+    SetUserAlert("success", "List edited successfully");
 } else {
-    // ### ADD DROPDOWN LIST RECORD ###
+    // ### ADD LIST RECORD ###
     $listColumns = "ListName,ListCode";
     $listValues = formatDbField($listName, "text", false) . ",". formatDbField($listCode, "text", false);
     $listId = InsertNewRecord("List", $listColumns, $listValues);
 
     // ### ADD TO SYSTEM LOG AND USER ALERT ###
-    LogReport(1, "The Dropdown List '" . $listName . "' has been added", $_SESSION["userId"]);
-    SetUserAlert("success", "Dropdown list added successfully");
+    LogReport(1, "The List '" . $listName . "' has been added", $_SESSION["userId"]);
+    SetUserAlert("success", "List added successfully");
 }
 
 // ### REDIRECT USER ###

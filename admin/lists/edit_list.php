@@ -19,7 +19,7 @@ if (!$canEdit) {
     header("Location: " . BASE_URL ."/admin/lists/index.php");
 }
 
-// ### GET DROPDOWN LIST ###
+// ### GET LIST ###
 $listId = $_GET["id"];
 global $db;
 

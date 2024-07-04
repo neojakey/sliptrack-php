@@ -3,7 +3,7 @@
 define("SITE_NAME", "Slip Saver");
 define("SPACER", "&nbsp;&nbsp;<i class=\"fa fa-caret-right\" style=\"color:#ABABAB\" aria-hidden=\"true\"></i>&nbsp;&nbsp;");
 define("REQUIRED", "<img src=\"" . BASE_URL . "/images/required.gif\" title=\"Required Field\" alt=\"Required\"/>");
-
+define("START_YEAR", "2023");
 
 // ### GLOBAL VARIABLES ###
 $db;

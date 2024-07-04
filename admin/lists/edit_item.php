@@ -40,7 +40,7 @@ $row_cnt = mysqli_num_rows($response);
 if ($row_cnt === 0) {
     $_SESSION["hasAlert"] = true;
     $_SESSION["alertType"] = "info";
-    $_SESSION["alertMessage"] = "Dropdown Field was not Found..!";
+    $_SESSION["alertMessage"] = "List Item was not Found..!";
     header("Location: " . BASE_URL ."/admin/lists/index.php");
 } else {
     $listItemRS = mysqli_fetch_assoc($response);
@@ -88,15 +88,15 @@ $listName = GetListName($listId);
                     <input type="hidden" name="hidListId" value="<?=$listId?>"/>
                     <table class="form-table">
                         <tr>
-                            <td>Dropdown Field Name <?=REQUIRED?>:</td>
+                            <td>Item Name <?=REQUIRED?>:</td>
                             <td><input type="text" class="k-textbox" id="item-name" name="tbItemName" value="<?=$listItemName?>" style="width:500px" maxlength="200"/></td>
                         </tr>
                         <tr>
-                            <td>Dropdown Field Code <?=REQUIRED?>:</td>
+                            <td>Item Code <?=REQUIRED?>:</td>
                             <td><input type="text" class="k-textbox" id="item-code" style="width:120px" name="tbItemCode" value="<?=$listItemCode?>" maxlength="10"/></td>
                         </tr>
                         <tr>
-                            <td>Dropdown Field Description:</td>
+                            <td>Item Description:</td>
                             <td><textarea class="k-textbox" id="item-description" maxlength="255" style="width:450px; height:100px; border: 1px #CCC solid" name="tbItemDescription"><?=$listItemDescription?></textarea></td>
                         </tr>
                     </table>

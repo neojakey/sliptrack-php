@@ -13,7 +13,7 @@ $itemDescription = EscapeSql($_POST["tbItemDescription"]);
 $listId = EscapeSql($_POST["hidListId"]);
 
 if ($itemId . "" <> "") {
-    // ### UPDATE LIST RECORD ###
+    // ### UPDATE LIST ITEM RECORD ###
     $strSQL = "
         UPDATE `ListItems` SET
            ListItemName = " . formatDbField($itemName, "text", false) . ",
@@ -27,9 +27,9 @@ if ($itemId . "" <> "") {
 
     // ### ADD TO SYSTEM LOG AND USER ALERT ###
     LogReport(1, "The List Item '" . $itemName . "' has been edited", $_SESSION["userId"]);
-    SetUserAlert("success", "Dropdown field edited successfully");
+    SetUserAlert("success", "List item edited successfully");
 } else {
-    // ### INSERT DROPDOWN RECORD ###
+    // ### INSERT LIST ITEM RECORD ###
     $itemColumns = "ListItemName,ListItemCode,ListItemDescription,ListId";
     $itemValues = formatDbField($itemName, "text", false) . ",
               " . formatDbField($itemCode, "text", false) . ",
@@ -39,7 +39,7 @@ if ($itemId . "" <> "") {
 
     // ### ADD TO SYSTEM LOG AND USER ALERT ###
     LogReport(1, "The List Item '" . $itemName . "' has been added", $_SESSION["userId"]);
-    SetUserAlert("success", "Dropdown field added successfully");
+    SetUserAlert("success", "List item added successfully");
 }
 
 // ### REDIRECT USER ###

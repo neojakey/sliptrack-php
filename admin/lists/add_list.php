@@ -23,7 +23,7 @@ if (!$canAdd) {
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title><?=SITE_NAME?> - Dropdown Area</title>
+    <title><?=SITE_NAME?> - List Area</title>
     <?php include ROOT_PATH . "includes/stylesheets.php" ?>
 </head>
 

@@ -248,6 +248,10 @@ function GetListName($id) {
     return $ListName;
 }
 
+function isDateTime($str) {
+    return (date('Y-m-d H:i:s', strtotime($str)) == $str);
+}
+
 // ### FUNCTIONS AND SUBS ###
 //FUNCTION StateDropmenu(nStateId, nFieldName)
 //    IF Trim(nFieldName & "") = "" THEN nFieldName = "StateId"

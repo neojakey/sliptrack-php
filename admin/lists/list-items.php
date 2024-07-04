@@ -119,7 +119,7 @@ $listName = GetListName($listId);
                                                     <a href="javascript:ConfirmDelete('<?=$ListItemsRS["ListItemId"]?>');" title="Delete"><img src="/images/icons/cross.png" alt=""/></a>
                                                 <?php } ?>
                                             <?php } else { ?>
-                                                <i class="fa fa-times fa-fw disabled" aria-hidden="true" title="You do not have permission to delete this dropdown menu item"></i>
+                                                <i class="fa fa-times fa-fw disabled" aria-hidden="true" title="You do not have permission to delete this list item"></i>
                                             <?php } ?>
                                         </div>
                                     </td>
