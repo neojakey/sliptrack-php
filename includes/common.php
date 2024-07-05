@@ -13,7 +13,7 @@ $host = $_SERVER['HTTP_HOST'];
 $protocol = $_SERVER['PROTOCOL'] = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? 'https' : 'http';
 
 // ### PAGE URLS ###
-$nPageUrl = $protocol . "://" . $host . $_SERVER["SCRIPT_NAME"];
+$siteUrl = $protocol . "://" . $host . $_SERVER["SCRIPT_NAME"];
 
 // ### START SESSION ###
 session_start();
@@ -22,7 +22,7 @@ session_start();
 $db = InitiateConnection();
 
 // ### CHECK FOR SESSION ###
-if (!strpos($nPageUrl, "login.php")) {
+if (!strpos($siteUrl, "login.php")) {
     CheckForValidLogin();
 }
 ?>

@@ -1,7 +1,6 @@
         <?php
         $cssSelected = "";
-        $siteUrl = $_SERVER["REQUEST_URI"];
-        if ($siteUrl == "/index.php") { $cssSelected = "selected"; } else { $cssSelected = ""; }
+        if ($siteUrl === BASE_URL . "/index.php") { $cssSelected = "selected"; } else { $cssSelected = ""; }
         ?>
         <div>
             <a href="<?=BASE_URL?>/index.php" title="Home Page" class="<?=$cssSelected?>">
@@ -9,7 +8,7 @@
                 <span>Home</span>
             </a>
         </div>
-        <?php if ($siteUrl == "/admin/index.php") { $cssSelected = "selected"; } else { $cssSelected = ""; } ?>
+        <?php if (strpos($siteUrl, "/admin/index.php") > -1) { $cssSelected = "selected"; } else { $cssSelected = ""; } ?>
         <div>
             <a href="<?=BASE_URL?>/admin/index.php" title="Administration Section" class="<?=$cssSelected?>">
                 <i class="fa fa-cogs fa-fw" aria-hidden="true"></i>

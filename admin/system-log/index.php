@@ -47,9 +47,9 @@ $rsEnd = $xDate . " 23:59:59";
 $ddYearStart = START_YEAR;
 $ddYearEnd = date("Y");
 
-echo "thisYear = " . $thisYear . "<br>";
-echo "thisMonth = " . $thisMonth . "<br>";
-echo "thisDay = " . $thisDay . "<br>";
+//echo "thisYear = " . $thisYear . "<br>";
+//echo "thisMonth = " . $thisMonth . "<br>";
+//echo "thisDay = " . $thisDay . "<br>";
 
 if (isset($xDate)) {
     if (!isset($_GET["nUser"])) {

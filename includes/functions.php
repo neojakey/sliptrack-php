@@ -117,7 +117,7 @@ function InsertNewRecord($tableName, $columns, $values) {
 
 function CheckForValidLogin() {
     if (!$_SESSION["loggedIn"]) {
-        header("Location: login.php");
+        header("Location: " . BASE_URL . "/login.php");
     }
 }
 
@@ -169,7 +169,7 @@ function CreateDropmenu($fieldId, $fieldName, $tableName, $fieldOrder, $selectNa
         $strOut = $strOut . "<option value=\"\">" . $selectPlaceholder . "</option>";
         while($menuRS = mysqli_fetch_assoc($response)) {
             if (trim($currentValue) !== "") {
-                if ($menuRS[$fieldId] == $currentValue) {
+                if ($menuRS[$fieldId] === $currentValue) {
                     $strOut = $strOut . "<option value=\"" . $menuRS[$fieldId] . "\" selected=\"selected\">" . $menuRS[$fieldName] . "</option>";
                 } else {
                     $strOut = $strOut . "<option value=\"" . $menuRS[$fieldId] . "\">" . $menuRS[$fieldName] . "</option>";
@@ -248,9 +248,29 @@ function GetListName($id) {
     return $ListName;
 }
 
-function isDateTime($str) {
-    return (date('Y-m-d H:i:s', strtotime($str)) == $str);
+function NoValidRecordPassed($url) {
+    $_SESSION["hasAlert"] = true;
+    $_SESSION["alertType"] = "danger";
+    $_SESSION["alertMessage"] = "Sorry, a valid field id must be passed.";
+    if (isset($url)) {
+        header("Location: " . BASE_URL ."/index.php");
+    } else {
+        header("Location: " . BASE_URL ."/" . $url . "/index.php");
+    }
 }
+
+function RecordNotFound($url) {
+    $_SESSION["hasAlert"] = true;
+    $_SESSION["alertType"] = "danger";
+    $_SESSION["alertMessage"] = "Sorry, this record was not found.";
+    if (isset($url)) {
+        header("Location: " . BASE_URL ."/index.php");
+    } else {
+        header("Location: " . BASE_URL ."/" . $url . "/index.php");
+    }
+}
+
+
 
 // ### FUNCTIONS AND SUBS ###
 //FUNCTION StateDropmenu(nStateId, nFieldName)
@@ -1002,44 +1022,81 @@ function isDateTime($str) {
 //    GetResourceBlock = pStrOut
 //END FUNCTION
 //
-
+function ShowPagination($pageNumber, $maxPage, $recordsOnPage) {
+    if (ceil($maxPage / $recordsOnPage) > 0):
+        echo "<ul class=\"pagination\">";
+        if ($pageNumber > 1):
+            echo "<li class=\"prev\"><a href=\"pagination.php?page=" . $pageNumber - 1 . "\">Prev</a></li>";
+        endif;
+        if ($pageNumber > 3):
+            echo "<li class=\"start\"><a href=\"pagination.php?page=1\">1</a></li>";
+            echo "<li class=\"dots\">...</li>";
+        endif;
+        
+        if ($pageNumber - 2 > 0):
+            echo "<li class=\"page\"><a href=\"pagination.php?page=" . $pageNumber-2 . "\">" . $pageNumber-2 . "</a></li>";
+        endif;
+        if ($pageNumber - 1 > 0):
+            echo "<li class=\"page\"><a href=\"pagination.php?page=" . $pageNumber-1 . "\">" . $pageNumber-1 . "</a></li>";
+        endif;
+        
+        echo "<li class=\"currentpage\"><a href=\"pagination.php?page=" . $pageNumber . "\">" . $pageNumber . "</a></li>";
+        
+        if ($pageNumber + 1 < ceil($maxPage / $recordsOnPage) + 1):
+            echo "<li class=\"page\"><a href=\"pagination.php?page=" . $pageNumber + 1 . "\">" . $pageNumber + 1 . "</a></li>";
+        endif;
+        if ($pageNumber + 2 < ceil($maxPage / $recordsOnPage) + 1):
+            echo "<li class=\"page\"><a href=\"pagination.php?page=" . $pageNumber + 2 . "\">" . $pageNumber + 2 . "</a></li>";
+        endif;
+        
+        if ($pageNumber < ceil($maxPage / $recordsOnPage)-2):
+            echo "<li class=\"dots\">...</li>";
+            echo "<li class=\"end\"><a href=\"pagination.php?page=" . ceil($maxPage / $recordsOnPage) . "\">" . ceil($maxPage / $recordsOnPage) . "</a></li>";
+        endif;
+        
+        if ($pageNumber < ceil($maxPage / $recordsOnPage)):
+            echo "<li class=\"next\"><a href=\"pagination.php?page=" . $pageNumber + 1 . "\">Next</a></li>";
+        endif;
+        echo "</ul>";
+    endif;
+}
 //
-//FUNCTION ShowPagination(pageNumber, maxPage, pageUri, filter, filterValue)
-//    Dim i, pstrOut
-//    Dim page : page = cInt(pageNumber)
-//    maxPage = cInt(maxPage)
-//    IF maxPage <= 1 THEN EXIT FUNCTION
+//function ShowPagination($pageNumber, $maxPage, $pageUri, $filter, $filterValue) {
+//    $i;
+//    $pstrOut;
+//    $page = intval($pageNumber);
+//    $maxPage = intval($maxPage);
+//    if ($maxPage <= 1) return;
 //
-//    Dim pageUrl : pageUrl = ""
-//    IF cToStr(filter) <> "" THEN
-//        pageUrl = pageUri & "?" & filter & "=" & filterValue & "&"
-//    ELSE
-//        pageUrl = pageUri & "?"
-//    END IF
+//    $pageUrl = "";
+//    if (trim($filter . "") !== "") {
+//        $pageUrl = $pageUri . "?" . $filter . "=" . $filterValue . "&";
+//    } else {
+//        $pageUrl = $pageUri . "?";
+//    }
 //
-//    pstrOut = pstrOut & "" _
-//          & "<ul class=""pagination"">" & vbCr
+//    $pstrOut = $pstrOut . "<ul class=\"pagination\">";
 //
-//    IF page >= 2 THEN
-//        pstrOut = pstrOut & "<li><a href=""" & pageUrl & "page=1""><i class=""fa fa-caret-left"" aria-hidden=""true""></i>&nbsp;&nbsp;First</a></li>"
-//    END IF
-//    IF page >= 2 THEN
-//        pstrOut = pstrOut & "<li><a href=""" & pageUrl & "page=" & page - 1 & """><i class=""fa fa-caret-left"" aria-hidden=""true""></i>&nbsp;&nbsp;Previous</a></li>"
-//    END IF
-//    IF maxPage > 5 THEN
-//        nPageT = page + 4
-//        nPageCountDiff = maxPage - page
-//        IF nPageCountDiff = 0 THEN
-//            nPageCountDiff2 = 4
-//        ELSEIF nPageCountDiff = 1 THEN
-//            nPageCountDiff2 = 3
-//        ELSEIF nPageCountDiff = 2 THEN
-//            nPageCountDiff2 = 2
-//        ELSE
-//            nPageCountDiff2 = 1
-//        END IF
-//        IF nPageT > maxPage THEN
-//            IF nPageCountDiff <= 3 THEN
+//    if ($page >= 2) {
+//        $pstrOut = $pstrOut . "<li><a href=\"" . $pageUrl . "page=1\"><i class=\"fa fa-caret-left\" aria-hidden=\"true\"></i>&nbsp;&nbsp;First</a></li>";
+//    }
+//    if ($page >= 2) {
+//        $pstrOut = $pstrOut . "<li><a href=\"" . $pageUrl . "page=" . $page - 1 . "\"><i class=\"fa fa-caret-left\" aria-hidden=\"true\"></i>&nbsp;&nbsp;Previous</a></li>";
+//    }
+//    if ($maxPage > 5) {
+//        $nPageT = $page + 4;
+//        $nPageCountDiff = $maxPage - $page;
+//        if ($nPageCountDiff === 0) {
+//            $nPageCountDiff2 = 4;
+//        } elseif ($nPageCountDiff === 1) {
+//            $nPageCountDiff2 = 3;
+//        } elseif ($nPageCountDiff === 2) {
+//            $nPageCountDiff2 = 2;
+//        } else {
+//            $nPageCountDiff2 = 1;
+//        }
+//        if ($nPageT > $maxPage) {
+//            if ($nPageCountDiff <= 3) {
 //                FOR iPages = page - nPageCountDiff2 to maxPage
 //                    IF ipages = page THEN
 //                        pstrOut = pstrOut & "<li><b>" & iPages & "</b></li>"
@@ -1419,28 +1476,6 @@ function isDateTime($str) {
 //        ELSE
 //            header("Location: " . BASE_URL ."/" & url & "/")
 //        END IF
-//    END IF
-//END SUB
-//
-//SUB recordNotFound(url)
-//    $_SESSION["hasAlert") = true
-//    $_SESSION["alertType") = "danger"
-//    $_SESSION["alertMessage") = "Sorry, this record was not found."
-//    IF cToStr(url) = "" THEN
-//        header("Location: " . BASE_URL ."/")
-//    ELSE
-//        header("Location: " . BASE_URL ."/" & url & "/")
-//    END IF
-//END SUB
-//
-//SUB NoValidRecordPassed(url)
-//    $_SESSION["hasAlert") = true
-//    $_SESSION["alertType") = "danger"
-//    $_SESSION["alertMessage") = "Sorry, a valid field id must be passed."
-//    IF cToStr(url) = "" THEN
-//        header("Location: " . BASE_URL ."/")
-//    ELSE
-//        header("Location: " . BASE_URL ."/" & url & "/")
 //    END IF
 //END SUB
 //

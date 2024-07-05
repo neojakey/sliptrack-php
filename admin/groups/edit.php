@@ -26,7 +26,7 @@ $groupName = GetGroupName($groupId);
 global $db;
 $sectionsSQL = "
     SELECT
-        `prmAdmin`, `prmGroups`, `prmUsers`, `prmSystemLog`, `prmLists`
+        `prmAdmin`, `prmGroups`, `prmUsers`, `prmSystemLog`, `prmLists`, `prmSources`, `prmArticles`
     FROM
         `UserGroup`
     WHERE
@@ -40,6 +40,8 @@ if ($row_cnt !== 0) {
     $usersSection = $row["prmUsers"];
     $systemLogSection = $row["prmSystemLog"];
     $listsSection = $row["prmLists"];
+    $sourcesSection = $row["prmSources"];
+    $articlesSection = $row["prmArticles"];
 }
 ?>
 <!DOCTYPE html>
@@ -89,6 +91,7 @@ if ($row_cnt !== 0) {
                     <ul>
                         <li class="k-state-active">Account</li>
                         <li>System</li>
+                        <li>Content</li>
                     </ul>
                     <div class="tabstrip-content-wrapper">
                         <h3>Account Permissions</h3>
@@ -160,6 +163,38 @@ if ($row_cnt !== 0) {
                                 <td><input type="checkbox" class="k-checkbox" id="edit-lists" name="cbEdit_Lists" value="edit" onclick="FullControlCheck('Lists')"<?php if ($listsSection === "full" || str_contains($listsSection, "edit")) { ?> checked="checked"<?php } ?><?php if ($listsSection === "full") { ?> disabled="disabled"<?php } ?>/><label for="edit-lists" class="k-checkbox-label"></label></td>
                                 <td><input type="checkbox" class="k-checkbox" id="delete-lists" name="cbDelete_Lists" value="delete" onclick="FullControlCheck('Lists')"<?php if ($listsSection === "full" || str_contains($listsSection, "delete")) { ?> checked="checked"<?php } ?><?php if ($listsSection === "full") { ?> disabled="disabled"<?php } ?>/><label for="delete-lists" class="k-checkbox-label"></label></td>
                                 <td><input type="checkbox" class="k-checkbox" id="view-lists" name="cbView_Lists" value="view" onclick="FullControlCheck('Lists')"<?php if ($listsSection === "full" || str_contains($listsSection, "view")) { ?> checked="checked"<?php } ?><?php if ($listsSection === "full") { ?> disabled="disabled"<?php } ?>/><label for="view-lists" class="k-checkbox-label"></label></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="tabstrip-content-wrapper">
+                        <h3>Content Permissions</h3>
+                        <table class="permission-grid">
+                            <tr>
+                                <td>Section</td>
+                                <td></td>
+                                <td>Full Control</td>
+                                <td>Create</td>
+                                <td>Edit</td>
+                                <td>Delete</td>
+                                <td>View</td>
+                            </tr>
+                            <tr>
+                                <td>Sources</td>
+                                <td id="SavingSources">&nbsp;</td>
+                                <td><input type="checkbox" class="k-checkbox" id="full-sources" name="cbFullControl_Sources" value="full" onclick="PermToggle('Sources');"<?php if ($sourcesSection === "full") { ?> checked="checked"<?php } ?>/><label for="full-sources" class="k-checkbox-label"></label></td>
+                                <td><input type="checkbox" class="k-checkbox" id="create-sources" name="cbCreate_Sources" value="create" onclick="FullControlCheck('Sources')"<?php if ($sourcesSection === "full" || str_contains($sourcesSection, "create")) { ?> checked="checked"<?php } ?><?php if (strpos($sourcesSection, "full") !== 0) { ?> disabled="disabled"<?php } ?>/><label for="create-sources" class="k-checkbox-label"></label></td>
+                                <td><input type="checkbox" class="k-checkbox" id="edit-sources" name="cbEdit_Sources" value="edit" onclick="FullControlCheck('Sources')"<?php if ($sourcesSection === "full" || str_contains($sourcesSection, "edit")) { ?> checked="checked"<?php } ?><?php if (strpos($sourcesSection, "full") !== 0) { ?> disabled="disabled"<?php } ?>/><label for="edit-sources" class="k-checkbox-label"></label></td>
+                                <td><input type="checkbox" class="k-checkbox" id="delete-sources" name="cbDelete_Sources" value="delete" onclick="FullControlCheck('Sources')"<?php if ($sourcesSection === "full" || str_contains($sourcesSection, "delete")) { ?> checked="checked"<?php } ?><?php if (strpos($sourcesSection, "full") !== 0) { ?> disabled="disabled"<?php } ?>/><label for="delete-sources" class="k-checkbox-label"></label></td>
+                                <td><input type="checkbox" class="k-checkbox" id="view-sources" name="cbView_Sources" value="view" onclick="FullControlCheck('Sources')"<?php if ($sourcesSection === "full" || str_contains($sourcesSection, "view")) { ?> checked="checked"<?php } ?><?php if (strpos($sourcesSection, "full") !== 0) { ?> disabled="disabled"<?php } ?>/><label for="view-sources" class="k-checkbox-label"></label></td>
+                            </tr>
+                            <tr>
+                                <td>Articles</td>
+                                <td id="SavingArticles">&nbsp;</td>
+                                <td><input type="checkbox" class="k-checkbox" id="full-articles" name="cbFullControl_Articles" value="full" onclick="PermToggle('Articles');"<?php if ($articlesSection === "full") { ?> checked="checked"<?php } ?>/><label for="full-articles" class="k-checkbox-label"></label></td>
+                                <td><input type="checkbox" class="k-checkbox" id="create-articles" name="cbCreate_Articles" value="create" onclick="FullControlCheck('Articles')"<?php if ($articlesSection === "full" || str_contains($articlesSection, "create")) { ?> checked="checked"<?php } ?><?php if ($articlesSection === "full") { ?> disabled="disabled"<?php } ?>/><label for="create-articles" class="k-checkbox-label"></label></td>
+                                <td><input type="checkbox" class="k-checkbox" id="edit-articles" name="cbEdit_Articles" value="edit" onclick="FullControlCheck('Articles')"<?php if ($articlesSection === "full" || str_contains($articlesSection, "edit")) { ?> checked="checked"<?php } ?><?php if ($articlesSection === "full") { ?> disabled="disabled"<?php } ?>/><label for="edit-articles" class="k-checkbox-label"></label></td>
+                                <td><input type="checkbox" class="k-checkbox" id="delete-articles" name="cbDelete_Articles" value="delete" onclick="FullControlCheck('Articles')"<?php if ($articlesSection === "full" || str_contains($articlesSection, "delete")) { ?> checked="checked"<?php } ?><?php if ($articlesSection === "full") { ?> disabled="disabled"<?php } ?>/><label for="delete-articles" class="k-checkbox-label"></label></td>
+                                <td><input type="checkbox" class="k-checkbox" id="view-articles" name="cbView_Articles" value="view" onclick="FullControlCheck('Articles')"<?php if ($articlesSection === "full" || str_contains($articlesSection, "view")) { ?> checked="checked"<?php } ?><?php if ($articlesSection === "full") { ?> disabled="disabled"<?php } ?>/><label for="view-articles" class="k-checkbox-label"></label></td>
                             </tr>
                         </table>
                     </div>
