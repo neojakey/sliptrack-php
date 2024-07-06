@@ -47,12 +47,13 @@ if (!$canAdd) {
                     <input type="hidden" name="hidArticleId" value=""/>
                     <table class="form-table">
                         <tr>
-                            <td>Article Title <?=REQUIRED?>:</td>
-                            <td><input type="text" class="k-textbox" name="tbArticleTitle" id="article-title" maxlength="100" style="width:600px"/></td>
-                        </tr>
-                        <tr>
                             <td>Article Url <?=REQUIRED?>:</td>
                             <td><input type="text" class="k-textbox" name="tbArticleUrl" id="article-url" maxlength="500" style="width:600px"/></td>
+                        </tr>
+                        <?=ShowSectionBorder()?>
+                        <tr>
+                            <td>Article Title <?=REQUIRED?>:</td>
+                            <td><input type="text" class="k-textbox" name="tbArticleTitle" id="article-title" maxlength="100" style="width:600px"/></td>
                         </tr>
                         <tr>
                             <td>Article Image Url:</td>

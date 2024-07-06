@@ -1,0 +1,14 @@
+.article-img {
+    width: 48px;
+    margin: 5px 0;
+    border: 1px #626262 solid;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.no-image {
+    font-size: 48px;
+    margin: 5px 0px;
+    color: #777;
+}

@@ -24,7 +24,7 @@ if (trim($sourceId . "") !== "") {
     mysqli_query($db, $strSQL);
 
     // ### ADD TO SYSTEM LOG AND USER ALERT ###
-    LogReport(1, "The Source has been edited", $_SESSION["userId"]);
+    LogReport(1, "Source has been edited", $_SESSION["userId"]);
     SetUserAlert("success", "Source edited successfully");
 } else {
     // ### INSERT SOURCE RECORD ###
@@ -35,8 +35,8 @@ if (trim($sourceId . "") !== "") {
     InsertNewRecord("Sources", $sourceColumns, $sourceValues);
 
     // ### ADD TO SYSTEM LOG AND USER ALERT ###
-    LogReport(1, "The Source has been added", $_SESSION["userId"]);
-    SetUserAlert("success", "Issuer added successfully");
+    LogReport(1, "Source has been added", $_SESSION["userId"]);
+    SetUserAlert("success", "Source added successfully");
 }
 
 header("Location: " . BASE_URL ."/sources/index.php");

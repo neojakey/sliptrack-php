@@ -115,7 +115,7 @@ if (!$canViewSources) {
                 <?php } ?>
                 </table>
                 <div class="pagination-wrapper">
-                    <?=ShowPagination($page, $pageCount, $recordsOnPage)?>
+                    <?=ShowPagination($page, $pageCount, $recordsOnPage, BASE_URL . "/sources/index.php");?>
                 </div>
             </section>
         </div>

@@ -107,7 +107,7 @@ function LogReport($logType, $logText, $logUserId) {
 function InsertNewRecord($tableName, $columns, $values) {
     global $db;
     $sql = "INSERT INTO " . $tableName . " (" . $columns . ") VALUES (" . $values . ")";
-    //echo "SQL STATEMENT = " . $sql . "</br>";
+    echo "SQL STATEMENT = " . $sql . "</br>";
     if ($db -> query($sql) === false) {
         echo "Error: " . $sql . "<br>" . $db -> error;
     } else {
@@ -270,7 +270,74 @@ function RecordNotFound($url) {
     }
 }
 
+function CalculateCTR($nClicks, $nImpressions) {
+    if ($nImpressions > 0) {
+        $ctr = round(($nClicks / $nImpressions) * 100, 2);
+    } else {
+        $ctr = 0;
+    }
+    return $ctr;
+}
 
+function GetSourceName($id) {
+    if (trim($id . "") === "") return;
+    global $db;
+    $SourceName = "";
+    $listSQL = "SELECT `SourceName` FROM `Sources` WHERE `SourceId` = " . formatDbField($id, "int", false) . "";
+    $response = mysqli_query($db, $listSQL);
+    $row_cnt = mysqli_num_rows($response);
+    if ($row_cnt !== 0) {
+        $row = mysqli_fetch_assoc($response);
+        $SourceName = $row["SourceName"];
+    } else {
+        return;
+    }
+    return $SourceName;
+}
+
+function ShowPagination($pageNumber, $maxPage, $recordsOnPage, $pageUri) {
+    if (strpos($pageUri, "?") === false) {
+        $pageUri .= "?";
+    } else {
+        $pageUri .= "&";
+    }
+    if (ceil($maxPage / $recordsOnPage) > 0):
+        echo "<ul class=\"pagination\">";
+        if ($pageNumber > 1):
+            echo "<li class=\"prev\"><a href=\"" . $pageUri . "page=" . $pageNumber - 1 . "\">Prev</a></li>";
+        endif;
+        if ($pageNumber > 3):
+            echo "<li class=\"start\"><a href=\"" . $pageUri . "page=1\">1</a></li>";
+            echo "<li class=\"dots\">...</li>";
+        endif;
+        
+        if ($pageNumber - 2 > 0):
+            echo "<li class=\"page\"><a href=\"" . $pageUri . "page=" . $pageNumber-2 . "\">" . $pageNumber-2 . "</a></li>";
+        endif;
+        if ($pageNumber - 1 > 0):
+            echo "<li class=\"page\"><a href=\"" . $pageUri . "page=" . $pageNumber-1 . "\">" . $pageNumber-1 . "</a></li>";
+        endif;
+        
+        echo "<li><b>" . $pageNumber . "</b></li>";
+        
+        if ($pageNumber + 1 < ceil($maxPage / $recordsOnPage) + 1):
+            echo "<li class=\"page\"><a href=\"" . $pageUri . "page=" . $pageNumber + 1 . "\">" . $pageNumber + 1 . "</a></li>";
+        endif;
+        if ($pageNumber + 2 < ceil($maxPage / $recordsOnPage) + 1):
+            echo "<li class=\"page\"><a href=\"" . $pageUri . "page=" . $pageNumber + 2 . "\">" . $pageNumber + 2 . "</a></li>";
+        endif;
+        
+        if ($pageNumber < ceil($maxPage / $recordsOnPage)-2):
+            echo "<li class=\"dots\">...</li>";
+            echo "<li class=\"end\"><a href=\"" . $pageUri . "page=" . ceil($maxPage / $recordsOnPage) . "\">" . ceil($maxPage / $recordsOnPage) . "</a></li>";
+        endif;
+        
+        if ($pageNumber < ceil($maxPage / $recordsOnPage)):
+            echo "<li class=\"next\"><a href=\"" . $pageUri . "page=" . $pageNumber + 1 . "\">Next</a></li>";
+        endif;
+        echo "</ul>";
+    endif;
+}
 
 // ### FUNCTIONS AND SUBS ###
 //FUNCTION StateDropmenu(nStateId, nFieldName)
@@ -1022,147 +1089,6 @@ function RecordNotFound($url) {
 //    GetResourceBlock = pStrOut
 //END FUNCTION
 //
-function ShowPagination($pageNumber, $maxPage, $recordsOnPage) {
-    if (ceil($maxPage / $recordsOnPage) > 0):
-        echo "<ul class=\"pagination\">";
-        if ($pageNumber > 1):
-            echo "<li class=\"prev\"><a href=\"pagination.php?page=" . $pageNumber - 1 . "\">Prev</a></li>";
-        endif;
-        if ($pageNumber > 3):
-            echo "<li class=\"start\"><a href=\"pagination.php?page=1\">1</a></li>";
-            echo "<li class=\"dots\">...</li>";
-        endif;
-        
-        if ($pageNumber - 2 > 0):
-            echo "<li class=\"page\"><a href=\"pagination.php?page=" . $pageNumber-2 . "\">" . $pageNumber-2 . "</a></li>";
-        endif;
-        if ($pageNumber - 1 > 0):
-            echo "<li class=\"page\"><a href=\"pagination.php?page=" . $pageNumber-1 . "\">" . $pageNumber-1 . "</a></li>";
-        endif;
-        
-        echo "<li class=\"currentpage\"><a href=\"pagination.php?page=" . $pageNumber . "\">" . $pageNumber . "</a></li>";
-        
-        if ($pageNumber + 1 < ceil($maxPage / $recordsOnPage) + 1):
-            echo "<li class=\"page\"><a href=\"pagination.php?page=" . $pageNumber + 1 . "\">" . $pageNumber + 1 . "</a></li>";
-        endif;
-        if ($pageNumber + 2 < ceil($maxPage / $recordsOnPage) + 1):
-            echo "<li class=\"page\"><a href=\"pagination.php?page=" . $pageNumber + 2 . "\">" . $pageNumber + 2 . "</a></li>";
-        endif;
-        
-        if ($pageNumber < ceil($maxPage / $recordsOnPage)-2):
-            echo "<li class=\"dots\">...</li>";
-            echo "<li class=\"end\"><a href=\"pagination.php?page=" . ceil($maxPage / $recordsOnPage) . "\">" . ceil($maxPage / $recordsOnPage) . "</a></li>";
-        endif;
-        
-        if ($pageNumber < ceil($maxPage / $recordsOnPage)):
-            echo "<li class=\"next\"><a href=\"pagination.php?page=" . $pageNumber + 1 . "\">Next</a></li>";
-        endif;
-        echo "</ul>";
-    endif;
-}
-//
-//function ShowPagination($pageNumber, $maxPage, $pageUri, $filter, $filterValue) {
-//    $i;
-//    $pstrOut;
-//    $page = intval($pageNumber);
-//    $maxPage = intval($maxPage);
-//    if ($maxPage <= 1) return;
-//
-//    $pageUrl = "";
-//    if (trim($filter . "") !== "") {
-//        $pageUrl = $pageUri . "?" . $filter . "=" . $filterValue . "&";
-//    } else {
-//        $pageUrl = $pageUri . "?";
-//    }
-//
-//    $pstrOut = $pstrOut . "<ul class=\"pagination\">";
-//
-//    if ($page >= 2) {
-//        $pstrOut = $pstrOut . "<li><a href=\"" . $pageUrl . "page=1\"><i class=\"fa fa-caret-left\" aria-hidden=\"true\"></i>&nbsp;&nbsp;First</a></li>";
-//    }
-//    if ($page >= 2) {
-//        $pstrOut = $pstrOut . "<li><a href=\"" . $pageUrl . "page=" . $page - 1 . "\"><i class=\"fa fa-caret-left\" aria-hidden=\"true\"></i>&nbsp;&nbsp;Previous</a></li>";
-//    }
-//    if ($maxPage > 5) {
-//        $nPageT = $page + 4;
-//        $nPageCountDiff = $maxPage - $page;
-//        if ($nPageCountDiff === 0) {
-//            $nPageCountDiff2 = 4;
-//        } elseif ($nPageCountDiff === 1) {
-//            $nPageCountDiff2 = 3;
-//        } elseif ($nPageCountDiff === 2) {
-//            $nPageCountDiff2 = 2;
-//        } else {
-//            $nPageCountDiff2 = 1;
-//        }
-//        if ($nPageT > $maxPage) {
-//            if ($nPageCountDiff <= 3) {
-//                FOR iPages = page - nPageCountDiff2 to maxPage
-//                    IF ipages = page THEN
-//                        pstrOut = pstrOut & "<li><b>" & iPages & "</b></li>"
-//                    ELSE
-//                        pstrOut = pstrOut & "<li><a href=""" & pageUrl & "page=" & ipages & """>" & ipages & "</a></li>"
-//                    END IF
-//                NEXT
-//            ELSE
-//                FOR iPages = page to maxPage
-//                    IF ipages = page THEN
-//                        pstrOut = pstrOut & "<li><b>" & iPages & "</b></li>"
-//                    ELSE
-//                        pstrOut = pstrOut & "<li><a href=""" & pageUrl & "page=" & ipages & """>" & ipages & "</a></li>"
-//                    END IF
-//                NEXT
-//            END IF
-//        ELSE
-//            IF page = 1 THEN
-//                FOR iPages = page to page + 4
-//                    IF ipages = page THEN
-//                        pstrOut = pstrOut & "<li><b>" & iPages & "</b></li>"
-//                    ELSE
-//                        pstrOut = pstrOut & "<li><a href=""" & pageUrl & "page=" & ipages & """>" & ipages & "</a></li>"
-//                    END IF
-//                NEXT
-//            ELSEIF page = 2 THEN
-//                FOR iPages = page - 1 to page + 3
-//                    IF ipages = page THEN
-//                        pstrOut = pstrOut & "<li><b>" & iPages & "</b></li>"
-//                    ELSE
-//                        pstrOut = pstrOut & "<li><a href=""" & pageUrl & "page=" & ipages & """>" & ipages & "</a></li>"
-//                    END IF
-//                NEXT
-//            ELSE
-//                FOR iPages = page - 2 to page + 2
-//                    IF ipages = page THEN
-//                        pstrOut = pstrOut & "<li><b>" & iPages & "</b></li>"
-//                    ELSE
-//                        pstrOut = pstrOut & "<li><a href=""" & pageUrl & "page=" & ipages & """>" & ipages & "</a></li>"
-//                    END IF
-//                NEXT
-//            END IF
-//        END IF
-//    ELSE
-//        FOR iPages = 1 to maxPage
-//            IF ipages = page THEN
-//                pstrOut = pstrOut & "<li><b>" & ipages & "</b></li>"
-//            ELSE
-//                pstrOut = pstrOut & "<li><a href=""" & pageUrl & "page=" & ipages & """>" & ipages & "</a></li>"
-//            END IF
-//        NEXT
-//    END IF
-//    IF maxPage > 1 THEN
-//        IF page <> maxPage THEN
-//            pstrOut = pstrOut & "<li><a href=""" & pageUrl & "page=" & page+1 & """>Next&nbsp;&nbsp;<i class=""fa fa-caret-right"" aria-hidden=""true""></i></a></li>"
-//        END IF
-//    END IF
-//    IF maxPage > 1 THEN
-//        IF page <> maxPage THEN
-//            pstrOut = pstrOut & "<li><a href=""" & pageUrl & "page=" & maxPage & """>Last&nbsp;&nbsp;<i class=""fa fa-caret-right"" aria-hidden=""true""></i></a></li>"
-//        END IF
-//    END IF
-//
-//    pstrOut = pstrOut & "</ul>" & vbCr
-//    ShowPagination = pstrOut
-//END FUNCTION
 //
 //FUNCTION HelpIconDb(helpCode)
 //    IF Trim(helpCode & "") = "" THEN EXIT FUNCTION
