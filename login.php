@@ -11,8 +11,7 @@ if (isset($_POST["submit"])) {
     $password = EscapeSql($_POST["tbPassword"]);
 
     // ### LOG IN THE USER
-    $user = new User($userName, $password);
-    $user->userLogin();
+    User::userLogin($userName, $password);
 }
 ?>
 <!DOCTYPE html>

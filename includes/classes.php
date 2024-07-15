@@ -1,18 +1,15 @@
 <?php
 
 class User {
-    private $username;
-    private $password;
+    private static $username;
+    private static $password;
 
-    public function __construct($username, $password) {
-        $this->username = $username;
-        $this->password = $password;
-    }
-
-    public function userLogin() {
+    public static function userLogin($username, $password) {
         global $db;
+        self::$username = $username;
+        self::$password = $password;
 
-        if ($this->username . "" <> "") {
+        if (self::$username . "" <> "") {
             $userSQL = "
                 SELECT
                    `UserId`, `UserName`, `FirstName`,
@@ -21,7 +18,7 @@ class User {
                  FROM
                    `User`
                  WHERE
-                   `UserName` = '" . $this->username . "';
+                   `UserName` = '" . self::$username . "';
             ";
             $response = mysqli_query($db, $userSQL);
             $row_cnt = mysqli_num_rows($response);
@@ -32,7 +29,7 @@ class User {
                 $_SESSION["hasAlert"] = true;
                 $_SESSION["alertType"] = "danger";
                 $_SESSION["alertMessage"] = "User account email or password is incorrect.";
-            } elseif (!password_verify($this->password, $userRS["Password"])) {
+            } elseif (!password_verify(self::$password, $userRS["Password"])) {
                 // ### HANDLER: USER FOUND, PASSWORD INCORRECT ###
                 $_SESSION["hasAlert"] = true;
                 $_SESSION["alertType"] = "danger";
