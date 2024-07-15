@@ -32,9 +32,7 @@ $response = mysqli_query($db, $listItemSQL);
 $row_cnt = mysqli_num_rows($response);
 
 if ($row_cnt === 0) {
-    $_SESSION["hasAlert"] = true;
-    $_SESSION["alertType"] = "info";
-    $_SESSION["alertMessage"] = "List Item was not Found..!";
+    SystemAlert::SetAlert("The List Item was not Found..!", "info");
     header("Location: " . BASE_URL ."/admin/lists/index.php");
 } else {
     $listItemRS = mysqli_fetch_assoc($response);

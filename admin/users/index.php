@@ -44,9 +44,11 @@ if (!$userPermission["view"]) {
             <div class="breadcrumb">
                 <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;User Management
             </div>
+            <?php if ($userPermission["create"]) { ?>
             <div class="add-button-wrapper">
                 <button type="button" class="primary-btn" onclick="location.href='<?=BASE_URL?>/admin/users/add.php';"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Add User</button>
             </div>
+            <?php } ?>
             <div id="alert-wrapper" style="display:none">
                 <div id="alert">
                     <div id="alert-icon"></div>

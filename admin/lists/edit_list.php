@@ -22,9 +22,7 @@ $response = mysqli_query($db, $listSQL);
 $row_cnt = mysqli_num_rows($response);
 
 if ($row_cnt === 0) {
-    $_SESSION["hasAlert"] = true;
-    $_SESSION["alertType"] = "info";
-    $_SESSION["alertMessage"] = "List was not Found..!";
+    SystemAlert::SetAlert("The List was not Found..!", "info");
     header("Location: " . BASE_URL ."/admin/lists/index.php");
 } else {
     $listRS = mysqli_fetch_assoc($response);

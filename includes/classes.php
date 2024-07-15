@@ -172,7 +172,7 @@ class User {
         mysqli_query($db, $strSQL);
 
         // ### UPDATE SESSION VARIABLES IF ITS ME ###
-        if ($_SESSION["userId"] = $userId) {
+        if ($_SESSION["userId"] === $userId) {
             $_SESSION["userFirstName"] = $firstName;
             $_SESSION["userLastName"] = $lastName;
             $_SESSION["userFullName"] = $firstName . " " . $lastName;

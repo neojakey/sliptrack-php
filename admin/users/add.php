@@ -7,8 +7,8 @@
 UserPermissions::HasAdminAccesss();
 
 // ### DOES THE USER HAVE USER PERMISSIONS ###
-$userPermission = UserPermissions::GetUserPermission("users", "create");
-if (!$userPermission["create"]) {
+$userPermission = UserPermissions::GetUserPermission("Users", "create");
+if (!$userPermission) {
     SystemAlert::SetPermissionAlert("users", "create");
     header("Location: " . BASE_URL ."/admin/users/index.php");
 }

@@ -48,44 +48,7 @@ function formatDbField($fieldString, $fieldType, $fieldAllowsNulls) {
     }
 }
 
-function formatDbFieldAdd($fieldString, $fieldType, $fieldAllowsNulls) {
-    $fieldString = CheckNulls(RemoveSpecialChars($fieldString));
-    if ($fieldType === "text") {
-        if ($fieldAllowsNulls && trim($fieldString . "") === "") {
-            return NULL;
-        } else {
-            return str_replace("'", "''", $fieldString);
-        }
-    } elseif ($fieldType === "int") {
-        if ($fieldAllowsNulls && (trim($fieldString . "") === "" || !is_numeric($fieldString))) {
-            return NULL;
-        } else {
-            return $fieldString;
-        }
-    } elseif ($fieldType === "datetime") {
-        if ($fieldAllowsNulls && trim($fieldString . "") === "") {
-            return NULL;
-        } else {
-            return str_replace("'", "''", $fieldString);
-        }
-    } elseif ($fieldType === "bit") {
-        if (trim($fieldString . "") === "") {
-            return NULL;
-        } elseif ($fieldString || $fieldString === "1") {
-            return "1";
-        } else {
-            return "0";
-        }
-    } elseif ($fieldType === "decimal") {
-        if (trim($fieldString . "") === "") {
-            return NULL;
-        } elseif (is_numeric($fieldString)) {
-            return str_replace("'", "''", $fieldString);
-        } else {
-            return NULL;
-        }
-    }
-}
+
 
 function CheckNulls($str) {
     $strOut = $str;
@@ -139,13 +102,6 @@ function RemoveSpecialChars($str) {
     $OutStr = str_replace("{", "", $OutStr);
     $OutStr = str_replace("}", "", $OutStr);
     return $OutStr;
-}
-
-function SetUserAlert($alertType, $alertMessage) {
-    if (empty($alertType) || empty($alertMessage)) return;
-    $_SESSION["hasAlert"] = true;
-    $_SESSION["alertType"] = $alertType;
-    $_SESSION["alertMessage"] = $alertMessage;
 }
 
 function FormatPostedDate($thisDate) {
@@ -235,9 +191,7 @@ function GetListName($id) {
 }
 
 function NoValidRecordPassed($url) {
-    $_SESSION["hasAlert"] = true;
-    $_SESSION["alertType"] = "danger";
-    $_SESSION["alertMessage"] = "Sorry, a valid field id must be passed.";
+    SystemAlert::SetAlert("danger", "Sorry, a valid record id must be passed.");
     if (isset($url)) {
         header("Location: " . BASE_URL ."/index.php");
     } else {
@@ -246,9 +200,7 @@ function NoValidRecordPassed($url) {
 }
 
 function RecordNotFound($url) {
-    $_SESSION["hasAlert"] = true;
-    $_SESSION["alertType"] = "danger";
-    $_SESSION["alertMessage"] = "Sorry, this record was not found.";
+    SystemAlert::SetAlert("danger", "Sorry, this record was not found.");
     if (isset($url)) {
         header("Location: " . BASE_URL ."/index.php");
     } else {
@@ -1276,41 +1228,6 @@ function ShowPagination($pageNumber, $maxPage, $recordsOnPage, $pageUri) {
 //    Hash = SecureHash(str)
 //END FUNCTION
 //
-//SUB AddJoinedIncome(incomeDetails, fieldId, fieldValue, entityId)
-//    IF Trim(incomeDetails & "") = "" THEN EXIT SUB
-//    Dim incomeId : incomeId = ""
-//    Dim incomeType : incomeType = GetFieldByName("DropdownFieldId", "DropdownFieldName", "Reported Income", "DropDownFields")
-//
-//    Dim getIncomeIdRS : Set getIncomeIdRS = Server.CreateObject("ADODB.Recordset")
-//    Dim getIncomeIdSQL : getIncomeIdSQL = _
-//        "SELECT " & _
-//        "   IncomeId " & _
-//        "FROM " & _
-//        "   Incomes " & _
-//        "WHERE " & fieldId & " = " & formatDbField(fieldValue, "int", false) & " " & _
-//        "  AND ApplicantId = " & formatDbField($_SESSION["activeApplicantId"), "int", false) & " " & _
-//        "LIMIT 1"
-//    getIncomeIdRS.open getIncomeIdSQL, db
-//    IF NOT getIncomeIdRS.EOF THEN incomeId = getIncomeIdRS("IncomeId")
-//    getIncomeIdRS.Close
-//
-//    IF Trim(incomeId & "") <> "" THEN
-//        Dim strSQL : strSQL = _
-//            "UPDATE Incomes SET " & _
-//            "   IncomeTypeId = " & formatDbField(incomeType, "int", false) & ", " & _
-//            "   IncomeDetails = " & formatDbField(incomeDetails, "text", false) & ", " & _
-//            "   EntityId = " & formatDbField(entityId, "int", true) & ", " & _
-//            "   LastUpdated = CURRENT_TIMESTAMP() " & _
-//            " WHERE " & _
-//            "   IncomeId = " & formatDbField(incomeId, "int", false) & _
-//            "   AND " & fieldId & " = " & formatDbFieldAdd(fieldValue, "int", true) & ";"
-//        db.Execute(strSQL)
-//    ELSE
-//        Dim incomeColumns : incomeColumns = "ApplicantId,IncomeTypeId,IncomeDetails," & fieldId & ",EntityId"
-//        Dim incomeValues : incomeValues = $_SESSION["activeApplicantId") & "," & formatDbField(incomeType, "int", false) & "," & formatDbField(incomeDetails, "text", false) & "," & formatDbField(fieldValue, "int", true) & "," & formatDbField(entityId, "int", true)
-//        Call InsertNewRecord("Incomes", incomeColumns, incomeValues)
-//    END IF
-//END SUB
 //
 //FUNCTION ThisOrThat(LogicalExpression, ValueIfTrue, ValueIfFalse)
 //    IF LogicalExpression THEN
