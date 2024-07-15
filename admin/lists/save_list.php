@@ -5,35 +5,25 @@
 <?php
 global $db;
 
-// ### DECLARE AND SET PAGE VARIABLES ###
+// ### INITIALIZE VARIABLES ###
 $listId = EscapeSql($_POST["hidListId"]);
 $listName = EscapeSql($_POST["tbListName"]);
 $listCode = EscapeSql($_POST["tbListCode"]);
 
+// ### SET UP USER ALERT ###
+$alertAction = ($listId !== "") ? "edited" : "created";
+
 if (trim($listId . "") <> "") {
     // ### UPDATE LIST RECORD ###
-    $strSQL = "
-        UPDATE `List` SET
-           `ListName` = " . formatDbField($listName, "text", false) . ",
-           `ListCode` = " . formatDbField($listCode, "text", false) . "
-        WHERE
-           `ListId` = " . formatDbField($listId, "int", false) . "
-    ";
-    mysqli_query($db, $strSQL);
-
-    // ### ADD TO SYSTEM LOG AND USER ALERT ###
-    LogReport(1, "The List '" . $listName . "' has been edited", $_SESSION["userId"]);
-    SetUserAlert("success", "List edited successfully");
+    ParentList::UpdateList($listId, $listName, $listCode);
 } else {
-    // ### ADD LIST RECORD ###
-    $listColumns = "ListName,ListCode";
-    $listValues = formatDbField($listName, "text", false) . ",". formatDbField($listCode, "text", false);
-    $listId = InsertNewRecord("List", $listColumns, $listValues);
-
-    // ### ADD TO SYSTEM LOG AND USER ALERT ###
-    LogReport(1, "The List '" . $listName . "' has been added", $_SESSION["userId"]);
-    SetUserAlert("success", "List added successfully");
+    // ### CREATE LIST RECORD ###
+    ParentList::CreateList($listName, $listCode);
 }
+
+// ### ADD TO SYSTEM LOG AND USER ALERT ###
+SystemLog::LogReport(1, "The List '" . $listName . "' has been " . $alertAction, $_SESSION["userId"]);
+SystemAlert::SetAlert("success", "List " . $alertAction . " successfully");
 
 // ### REDIRECT USER ###
 header("Location: " . BASE_URL ."/admin/lists/index.php");

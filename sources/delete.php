@@ -6,10 +6,9 @@
 global $db;
 
 // ### DOES THE USER HAVE SOURCE PERMISSIONS ###
-$permissionsAry = GetSectionPermission("prmSources");
-$canDelete = GetActionPermission("delete", $permissionsAry);
+$canDelete = UserPermissions::GetUserPermission("Groups", "delete");
 if (!$canDelete) {
-    SetUserAlert("danger", "You do not have permission to delete sources.");
+    SystemAlert::SetPermissionAlert("delete", "sources");
     header("Location: " . BASE_URL ."/sources/index.php");
 }
 
@@ -20,8 +19,8 @@ if (trim($sourceId . "") !== "") {
     mysqli_query($db, "DELETE FROM `Sources` WHERE `SourceId` = " . formatDbField($sourceId, "int", false));
 
     // ### ADD TO SYSTEM LOG AND USER ALERT ###
-    LogReport(1, "Source has been deleted", $_SESSION["userId"]);
-    SetUserAlert("success", "Issuer deleted successfully");
+    SystemLog::LogReport(1, "Source has been deleted", $_SESSION["userId"]);
+    SystemAlert::SetAlert("success", "Source deleted successfully");
 }
 header("Location: " . BASE_URL ."/sources/index.php");
 ?>

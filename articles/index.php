@@ -4,10 +4,9 @@
 <?php include ROOT_PATH . "includes/common.php" ?>
 <?php
 // ### DOES THE USER HAVE ADMINSTRATION PERMISSION ###
-$articlesAry = GetSectionPermission("prmArticles");
-$canView = GetActionPermission("view", $articlesAry);
+$canView = UserPermissions::GetUserPermission("Articles", "view");
 if (!$canView) {
-    SetUserAlert("danger", "You do not have permission to access articles.");
+    SystemAlert::SetPermissionAlert("articles", "view");
     header("Location: " . BASE_URL ."/index.php");
 }
 ?>

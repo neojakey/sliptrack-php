@@ -4,25 +4,19 @@
 <?php include ROOT_PATH . "includes/common.php" ?>
 <?php
 // ### DOES THE USER HAVE ADMINSTRATION PERMISSION ###
-$adminAry = GetSectionPermission("prmAdmin");
-$canViewAdmin = GetActionPermission("view", $adminAry);
-if (!$canViewAdmin) {
-    SetUserAlert("danger", "You do not have permission to access administration.");
-    header("Location: " . BASE_URL ."/index.php");
-}
+UserPermissions::HasAdminAccesss();
 
 // ### DOES THE GROUP HAVE USER PERMISSIONS ###
-$permissionsAry = GetSectionPermission("prmGroups");
-$canView = GetActionPermission("view", $permissionsAry);
-$canEdit = GetActionPermission("edit", $permissionsAry);
+$canView = UserPermissions::GetUserPermission("Groups", "view");
+$canEdit = UserPermissions::GetUserPermission("Groups", "edit");
 if (!$canEdit) {
-    SetUserAlert("danger", "You do not have permission to edit groups.");
+    SystemAlert::SetPermissionAlert("groups", "edit");
     header("Location: " . BASE_URL ."/admin/groups/index.php");
 }
 
 // ### GET USER DATA ###
 $groupId = $_GET["id"];
-$groupName = GetGroupName($groupId);
+$groupName = Group::GetGroupName($groupId);
 ?>
 <!DOCTYPE html>
 <html lang="en">

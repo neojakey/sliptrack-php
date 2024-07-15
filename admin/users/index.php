@@ -4,20 +4,11 @@
 <?php include ROOT_PATH . "includes/common.php" ?>
 <?php
 // ### DOES THE USER HAVE ADMINSTRATION PERMISSION ###
-$adminAry = GetSectionPermission("prmAdmin");
-$canViewAdmin = GetActionPermission("view", $adminAry);
-if (!$canViewAdmin) {
-    SetUserAlert("danger", "You do not have permission to access administration.");
-    header("Location: " . BASE_URL ."/index.php");
-}
+UserPermissions::HasAdminAccesss();
 
 // ### DOES THE USER HAVE USER PERMISSIONS ###
-$permissionsAry = GetSectionPermission("prmUsers");
-$canView = GetActionPermission("view", $permissionsAry);
-$canAdd = GetActionPermission("create", $permissionsAry);
-$canEdit = GetActionPermission("edit", $permissionsAry);
-$canDelete = GetActionPermission("delete", $permissionsAry);
-if (!$canView) {
+$userPermission = UserPermissions::GetSectionAccess("Users");
+if (!$userPermission["view"]) {
     header("Location: " . BASE_URL ."/admin/index.php");
 }
 ?>
@@ -102,7 +93,7 @@ if (!$canView) {
                                 <td>
                                     <div class="data-grid-icons">
                                         <?php
-                                        if ($canEdit) {
+                                        if ($userPermission["edit"]) {
                                             echo "<a href=\"" . BASE_URL . "/admin/users/edit.php?id=" . $usersRS["UserId"] . "\" title=\"Edit\"><i class=\"fa fa-pencil fa-fw\" aria-hidden=\"true\"></i></a>";
                                         } else {
                                             if (intval($_SESSION["userId"]) == intval($usersRS["UserId"])) {
@@ -111,7 +102,7 @@ if (!$canView) {
                                                 echo "<i class=\"fa fa-pencil fa-fw disabled\" aria-hidden=\"true\" title=\"You do not have permission to edit\"></i>";
                                             }
                                         }
-                                        if ($canDelete) {
+                                        if ($userPermission["delete"]) {
                                             if (intval($_SESSION["userId"]) == intval($usersRS["UserId"])) {
                                                 echo "<i class=\"fa fa-times fa-fw disabled\" aria-hidden=\"true\" title=\"You can't delete your own account\"></i>";
                                             } else {

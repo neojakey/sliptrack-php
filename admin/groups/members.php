@@ -4,26 +4,18 @@
 <?php include ROOT_PATH . "includes/common.php" ?>
 <?php
 // ### DOES THE USER HAVE ADMINSTRATION PERMISSION ###
-$adminAry = GetSectionPermission("prmAdmin");
-$canViewAdmin = GetActionPermission("view", $adminAry);
-if (!$canViewAdmin) {
-    SetUserAlert("danger", "You do not have permission to access administration.");
-    header("Location: " . BASE_URL ."/index.php");
-}
+UserPermissions::HasAdminAccesss();
 
 // ### DOES THE USER HAVE GROUP VIEW PERMISSION ###
-$permissionsAry = GetSectionPermission("prmGroups");
-$canView = GetActionPermission("view", $permissionsAry);
-$canEdit = GetActionPermission("edit", $permissionsAry);
-$canDelete = GetActionPermission("delete", $permissionsAry);
-if (!$canView) {
-    SetUserAlert("danger", "You do not have permission to access groups.");
+$groupPermission = UserPermissions::GetSectionAccess("Groups");
+if (!$groupPermission["view"]) {
+    SystemAlert::SetPermissionAlert("groups", "view");
     header("Location: " . BASE_URL ."/admin/index.php");
 }
 
 // ### PAGE DECLARATIONS ###
 $groupId = $_GET["id"];
-$groupName = GetGroupName($groupId);
+$groupName = Group::GetGroupName($groupId);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,9 +49,11 @@ $groupName = GetGroupName($groupId);
             <div class="breadcrumb">
                 <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/index.php">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/groups/index.php">User Groups</a><?=SPACER?>&#39;<?=$groupName?>&#39; Group Members
             </div>
+            <?php if ($groupPermission["create"]) { ?>
             <div class="add-button-wrapper">
                 <button type="button" class="primary-btn" onclick="location.href='<?=BASE_URL?>/admin/groups/add.php';"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Add Group</button>
             </div>
+            <?php } ?>
             <div id="alert-wrapper" style="display:none">
                 <div id="alert">
                     <div id="alert-icon"></div>
@@ -107,7 +101,7 @@ $groupName = GetGroupName($groupId);
                                 <td><?=date("F j, Y, g:i a", strtotime($usersRS["Created"]))?></td>
                                 <td>
                                     <div class="data-grid-icons">
-                                        <?php if ($canEdit) { ?>
+                                        <?php if ($groupPermission["edit"]) { ?>
                                         <a href="<?=BASE_URL?>/admin/users/edit.php?id=<?=$usersRS["UserId"]?>" title="Edit"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i></a>
                                         <?php } else { ?>
                                             <?php if ($_SESSION["userId"] === $usersRS["UserId"]) { ?>
@@ -116,7 +110,7 @@ $groupName = GetGroupName($groupId);
                                             <i class="fa fa-pencil fa-fw disabled" aria-hidden="true" title="You do not have permission to edit"></i>
                                             <?php } ?>
                                         <?php } ?>
-                                        <?php if ($canDelete) { ?>
+                                        <?php if ($groupPermission["delete"]) { ?>
                                             <?php if ($_SESSION["userId"] === $usersRS["UserId"]) { ?>
                                             <i class="fa fa-times fa-fw disabled" aria-hidden="true" title="You can't delete your own account"></i>
                                             <?php } else { ?>

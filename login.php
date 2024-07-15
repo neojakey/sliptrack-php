@@ -11,7 +11,7 @@ if (isset($_POST["submit"])) {
     $password = EscapeSql($_POST["tbPassword"]);
 
     // ### LOG IN THE USER
-    User::userLogin($userName, $password);
+    User::UserLogin($userName, $password);
 }
 ?>
 <!DOCTYPE html>
@@ -105,15 +105,15 @@ if (isset($_POST["submit"])) {
     }
 </script>
 <?php
-if (isset($_SESSION["hasAlert"])) {
-    if ($_SESSION["hasAlert"]) { ?>
+if (isset($_SESSION["alertActive"])) {
+    if ($_SESSION["alertActive"]) { ?>
         <script type="text/javascript">
             $(function () {
-                ShowAlert(true, '<?php echo $_SESSION["alertType"] ?>', '<?php echo $_SESSION["alertMessage"] ?>');
+                ShowAlert(true, '<?=$_SESSION["alertType"] ?>', '<?=$_SESSION["alertMessage"] ?>');
             });
         </script>
         <?php
-        $_SESSION["hasAlert"] = false;
+        SystemAlert::ClearAlert();
     }
 }
 ?>

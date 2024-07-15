@@ -4,10 +4,9 @@
 <?php include ROOT_PATH . "includes/common.php" ?>
 <?php
 // ### DOES THE USER HAVE SOURCE PERMISSIONS ###
-$permissionsAry = GetSectionPermission("prmSources");
-$canEdit = GetActionPermission("edit", $permissionsAry);
+$canEdit = UserPermissions::GetUserPermission("Sources", "edit");
 if (!$canEdit) {
-    SetUserAlert("danger", "You do not have permission to edit sources in the system.");
+    SystemAlert::SetPermissionAlert("sources", "edit");
     header("Location: " . BASE_URL ."/sources/index.php");
 }
 

@@ -1,8 +1,6 @@
         <?php
         $cssSelected = "";
-        $permissionsAry = GetSectionPermission("prmAdmin");
-        $canViewAdmin = GetActionPermission("view", $permissionsAry);
-
+        $canViewAdmin = UserPermissions::GetUserPermission("Admin", "view");
         if ($siteUrl === BASE_URL . "/index.php") { $cssSelected = "selected"; } else { $cssSelected = ""; }
         ?>
         <div>

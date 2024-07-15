@@ -15,7 +15,7 @@ $protocol = $_SERVER['PROTOCOL'] = isset($_SERVER['HTTPS']) && !empty($_SERVER['
 // ### PAGE URLS ###
 $siteUrl = $protocol . "://" . $host . $_SERVER["SCRIPT_NAME"];
 
-// ### START SESSION ###
+// ### START SESSION TO USE SESSION VARIABLES ###
 session_start();
 
 // ### INITIATE CONNECTION TO DATABASE ###

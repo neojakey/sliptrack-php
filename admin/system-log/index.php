@@ -4,19 +4,12 @@
 <?php include ROOT_PATH . "includes/common.php" ?>
 <?php
 // ### DOES THE USER HAVE ADMINSTRATION PERMISSION ###
-$adminAry = GetSectionPermission("prmAdmin");
-$canViewAdmin = GetActionPermission("view", $adminAry);
-if (!$canViewAdmin) {
-    SetUserAlert("danger", "You do not have permission to access administration.");
-    header("Location: " . BASE_URL ."/index.php");
-}
+UserPermissions::HasAdminAccesss();
 
 // ### DOES THE USER HAVE LIST VIEW PERMISSION ###
-$logAry = GetSectionPermission("prmSystemLog");
-$canView = GetActionPermission("view", $logAry);
-$canDelete = GetActionPermission("delete", $logAry);
-if (!$canView) {
-    SetUserAlert("danger", "You do not have permission to access the system log.");
+$logPermission = UserPermissions::GetSectionAccess("SystemLog");
+if (!$logPermission["view"]) {
+    SystemAlert::SetPermissionAlert("view", "System Log");
     header("Location: " . BASE_URL ."/admin/index.php");
 }
 
@@ -254,7 +247,7 @@ if ($row_cnt !== 0) {
                                     <td><?=$rsDateTimeArray[1]?></td>
                                     <td><?=$logRS["LogText"]?></td>
                                     <td><a href="<?=BASE_URL?>/admin/system-log/index.php?nMonth=<?=$thisMonth?>&nYear=<?=$thisYear?>&nDay=<?=$thisDay?>&nUser=<?=$logRS["LogUserId"]?>"><?=$logRS["FirstName"] . " " . $logRS["LastName"]?></a></td>
-                                    <td><?php if ($canDelete) { ?>
+                                    <td><?php if ($logPermission["delete"]) { ?>
                                     <a href="javascript:void(0);" onclick="ConfirmEntryDelete('<?=$logRS["LogId"]?>');" title="Delete"><i class="fa fa-times fa-fw" aria-hidden="true"></i></a>
                                     <?php } else { ?>
                                     <i class="fa fa-times fa-fw disabled" aria-hidden="true" title="You don't have permission to delete system log events."></i>

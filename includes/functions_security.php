@@ -1,9 +1,9 @@
 ﻿<?php
-function GetSectionPermission($fieldName) {
-    if (empty($fieldName)) return;
+function GetSectionPermission($fieldName, $groupId) {
+    if ($fieldName === "" || $groupId === "") return;
     global $db;
     $permissionField = "";
-    $permissionSQL = "SELECT " . $fieldName . " FROM userGroup WHERE GroupId = " . formatDbField($_SESSION["userGroup"], "int", false);
+    $permissionSQL = "SELECT " . $fieldName . " FROM userGroup WHERE GroupId = " . formatDbField($groupId, "int", false);
     $response = mysqli_query($db, $permissionSQL);
     $row_cnt = mysqli_num_rows($response);
     $permissionRS = mysqli_fetch_assoc($response);

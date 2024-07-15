@@ -4,18 +4,12 @@
 <?php include ROOT_PATH . "includes/common.php" ?>
 <?php
 // ### DOES THE USER HAVE ADMINSTRATION PERMISSION ###
-$adminAry = GetSectionPermission("prmAdmin");
-$canViewAdmin = GetActionPermission("view", $adminAry);
-if (!$canViewAdmin) {
-    SetUserAlert("danger", "You do not have permission to access administration.");
-    header("Location: " . BASE_URL ."/index.php");
-}
+UserPermissions::HasAdminAccesss();
 
 // ### DOES THE USER HAVE LIST CREATE PERMISSION ###
-$listsAry = GetSectionPermission("prmLists");
-$canAdd = GetActionPermission("create", $listsAry);
-if (!$canAdd) {
-    SetUserAlert("danger", "You do not have permission to add lists.");
+$canCreate = UserPermissions::GetUserPermission("Lists", "create");
+if (!$canCreate) {
+    SystemAlert::SetPermissionAlert("lists", "create");
     header("Location: " . BASE_URL ."/admin/lists/index.php");
 }
 ?>

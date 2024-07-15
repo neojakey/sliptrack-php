@@ -5,42 +5,27 @@
 <?php
 global $db;
 
-// ### DEFINE AND ASSIGN VARIABLES ###
+// ### INITIALIZE VARIABLES ###
 $itemId = EscapeSql($_POST["hidListItemId"]);
 $itemName = EscapeSql($_POST["tbItemName"]);
 $itemCode = EscapeSql($_POST["tbItemCode"]);
 $itemDescription = EscapeSql($_POST["tbItemDescription"]);
 $listId = EscapeSql($_POST["hidListId"]);
 
+// ### SET UP USER ALERT ###
+$alertAction = ($itemId !== "") ? "edited" : "created";
+
 if ($itemId . "" <> "") {
     // ### UPDATE LIST ITEM RECORD ###
-    $strSQL = "
-        UPDATE `ListItems` SET
-           ListItemName = " . formatDbField($itemName, "text", false) . ",
-           ListItemCode = " . formatDbField($itemCode, "text", false) . ",
-           ListItemDescription = " . formatDbField($itemDescription, "text", true) . ",
-           ListId = " . formatDbField($listId, "int", false) . "
-        WHERE
-           ListItemId = " . formatDbField($itemId, "int", false) . "
-    ";
-    mysqli_query($db, $strSQL);
-
-    // ### ADD TO SYSTEM LOG AND USER ALERT ###
-    LogReport(1, "The List Item '" . $itemName . "' has been edited", $_SESSION["userId"]);
-    SetUserAlert("success", "List item edited successfully");
+    ChildList::UpdateListItem($itemId, $itemName, $itemCode, $itemDescription, $listId);
 } else {
-    // ### INSERT LIST ITEM RECORD ###
-    $itemColumns = "ListItemName,ListItemCode,ListItemDescription,ListId";
-    $itemValues = formatDbField($itemName, "text", false) . ",
-              " . formatDbField($itemCode, "text", false) . ",
-              " . formatDbField($itemDescription, "text", true) . ",
-              " . formatDbField($listId, "int", false);
-    InsertNewRecord("ListItems", $itemColumns, $itemValues);
-
-    // ### ADD TO SYSTEM LOG AND USER ALERT ###
-    LogReport(1, "The List Item '" . $itemName . "' has been added", $_SESSION["userId"]);
-    SetUserAlert("success", "List item added successfully");
+    // ### CREATE LIST ITEM RECORD ###
+    ChildList::CreateListItem($itemName, $itemCode, $itemDescription, $listId);
 }
+
+// ### ADD TO SYSTEM LOG AND USER ALERT ###
+SystemLog::LogReport(1, "The List Item '" . $itemName . "' has been " . $alertAction, $_SESSION["userId"]);
+SystemAlert::SetAlert("success", "List item " . $alertAction . " successfully");
 
 // ### REDIRECT USER ###
 header("Location: " . BASE_URL ."/admin/lists/list-items.php?id=" . $listId);

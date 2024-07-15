@@ -6,31 +6,25 @@
 global $db;
 
 // ### DOES THE USER HAVE ADMINSTRATION PERMISSION ###
-$adminAry = GetSectionPermission("prmAdmin");
-$canViewAdmin = GetActionPermission("view", $adminAry);
-if (!$canViewAdmin) {
-    SetUserAlert("danger", "You do not have permission to access administration.");
-    header("Location: " . BASE_URL ."/index.php");
-}
+UserPermissions::HasAdminAccesss();
 
 // ### DOES THE USER HAVE GROUP DELETE PERMISSION ###
-$permissionsAry = GetSectionPermission("prmGroups");
-$canDelete = GetActionPermission("delete", $permissionsAry);
+$canDelete = UserPermissions::GetUserPermission("Groups", "delete");
 if (!$canDelete) {
-    SetUserAlert("danger", "You do not have permission to delete groups.");
+    SystemAlert::SetPermissionAlert("groups", "delete");
     header("Location: " . BASE_URL ."/admin/groups/index.php");
 }
 
 // ### GET GROUP DATA ###
 $groupId = $_GET["id"];
-$groupName = GetGroupName($groupId);
+$groupName = Group::GetGroupName($groupId);
 
 // ### DELETE GROUP ###
-mysqli_query($db, "DELETE FROM `UserGroup` WHERE `GroupID` = " . formatDbField($groupId, "int", false));
+Group::DeleteGroup($groupId);
 
 // ### LOG AND CREATE USER ALERT ###
-LogReport(1, "Group " . $groupName . " has been deleted", $_SESSION["userId"]);
-SetUserAlert("success", "Group deleted successfully");
+SystemAlert::SetAlert("danger", "Group deleted successfully");
+SystemLog::LogReport(1, "Group " . $groupName . " has been deleted", $_SESSION["userId"]);
 
 // ### REDIRECT USER ###
 header("Location: " . BASE_URL ."/admin/groups/index.php");

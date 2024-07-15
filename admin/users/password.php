@@ -4,16 +4,10 @@
 <?php include ROOT_PATH . "includes/common.php" ?>
 <?php
 // ### DOES THE USER HAVE ADMINSTRATION PERMISSION ###
-$adminAry = GetSectionPermission("prmAdmin");
-$canViewAdmin = GetActionPermission("view", $adminAry);
-if (!$canViewAdmin) {
-    SetUserAlert("danger", "You do not have permission to access administration.");
-    header("Location: " . BASE_URL ."/index.php");
-}
+UserPermissions::HasAdminAccesss();
 
 // ### DOES THE USER HAVE USER PERMISSIONS ###
-$permissionsAry = GetSectionPermission("prmUsers");
-$canEdit = GetActionPermission("edit", $permissionsAry);
+$canEdit = UserPermissions::GetUserPermission("Users", "edit");
 if (!$canEdit) {
     header("Location: " . BASE_URL ."/admin/users/index.php");
 }

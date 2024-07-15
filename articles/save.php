@@ -5,12 +5,13 @@
 <?php
 global $db;
 
-// ### DEFINE AND ASSIGN VARIABLES ###
+// ### INITIALIZE VARIABLES ###
 $articleId = EscapeSql($_POST["hidArticleId"]);
 $articleTitle = EscapeSql($_POST["tbArticleTitle"]);
 $articleUrl = EscapeSql($_POST["tbArticleUrl"]);
 $articleImageUrl = EscapeSql($_POST["tbArticleImageUrl"]);
 $articleSourceId = EscapeSql($_POST["ddSource"]);
+$alertAction = ($articleId !== "") ? "edited" : "created";
 
 if (trim($articleId . "") !== "") {
     // ### UPDATE ARTICLE RECORD ###
@@ -24,23 +25,19 @@ if (trim($articleId . "") !== "") {
            `ArticleId` = " . formatDbField($articleId, "int", false) . "
     ";
     mysqli_query($db, $strSQL);
-
-    // ### ADD TO SYSTEM LOG AND USER ALERT ###
-    LogReport(1, "The Article has been edited", $_SESSION["userId"]);
-    SetUserAlert("success", "Article edited successfully");
 } else {
-    // ### INSERT ARTICLE RECORD ###
+    // ### CREATE ARTICLE RECORD ###
     $articleColumns = "ArticleTitle,ArticleUrl,ArticleImageUrl,ArticleSourceId";
     $articleValues = formatDbField($articleTitle, "text", false) . ",
                 " . formatDbField($articleUrl, "text", false) . ",
                 " . formatDbField($articleImageUrl, "text", true) . ",
                 " . formatDbField($articleSourceId, "int", false);
     InsertNewRecord("Articles", $articleColumns, $articleValues);
-
-    // ### ADD TO SYSTEM LOG AND USER ALERT ###
-    LogReport(1, "The Article has been added", $_SESSION["userId"]);
-    SetUserAlert("success", "Article added successfully");
 }
+
+// ### ADD TO SYSTEM LOG AND USER ALERT ###
+SystemLog::LogReport(1, "The Article has been " . $alertAction, $_SESSION["userId"]);
+SystemAlert::SetAlert("success", "Article " . $alertAction . " successfully");
 
 header("Location: " . BASE_URL ."/articles/index.php");
 ?>

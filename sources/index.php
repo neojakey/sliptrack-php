@@ -4,10 +4,9 @@
 <?php include ROOT_PATH . "includes/common.php" ?>
 <?php
 // ### DOES THE USER HAVE ADMINSTRATION PERMISSION ###
-$sourcesAry = GetSectionPermission("prmSources");
-$canViewSources = GetActionPermission("view", $sourcesAry);
-if (!$canViewSources) {
-    SetUserAlert("danger", "You do not have permission to access sources.");
+$canView = UserPermissions::GetUserPermission("Sources", "view");
+if (!$canView) {
+    SystemAlert::SetPermissionAlert("sources", "view");
     header("Location: " . BASE_URL ."/index.php");
 }
 ?>

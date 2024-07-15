@@ -4,10 +4,9 @@
 <?php include ROOT_PATH . "includes/common.php" ?>
 <?php
 // ### DOES THE USER HAVE SOURCE PERMISSIONS ###
-$permissionsAry = GetSectionPermission("prmArticles");
-$canEdit = GetActionPermission("edit", $permissionsAry);
+$canEdit = UserPermissions::GetUserPermission("Articles", "edit");
 if (!$canEdit) {
-    SetUserAlert("danger", "You do not have permission to edit articles in the system.");
+    SystemAlert::SetPermissionAlert("articles", "edit");
     header("Location: " . BASE_URL ."/articles/index.php");
 }
 

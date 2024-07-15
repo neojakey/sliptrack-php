@@ -2,6 +2,10 @@
 <?php include ROOT_PATH . "includes/functions.php" ?>
 <?php include ROOT_PATH . "includes/functions_security.php" ?>
 <?php include ROOT_PATH . "includes/common.php" ?>
+<?php
+// ### DOES THE USER HAVE ADMINSTRATION PERMISSION ###
+UserPermissions::HasAdminAccesss();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

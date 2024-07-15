@@ -208,21 +208,6 @@ function hasPermission($nSection, $nAction) {
     return $boolPermission;
 }
 
-function GetGroupName($nGroupId) {
-    if (trim($nGroupId) . "" === "") return;
-    global $db;
-    $groupNameSQL = "SELECT `GroupName` FROM `UserGroup` WHERE `GroupId` = " . formatDbField($nGroupId, "int", false);
-    $response = mysqli_query($db, $groupNameSQL);
-    $row_cnt = mysqli_num_rows($response);
-    if ($row_cnt !== 0) {
-        $row = mysqli_fetch_assoc($response);
-        $groupName = $row["GroupName"];
-    } else {
-        return;
-    }
-    return $groupName;
-}
-
 function GetRandom($length = 10) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);

@@ -4,10 +4,9 @@
 <?php include ROOT_PATH . "includes/common.php" ?>
 <?php
 // ### DOES THE USER HAVE SOURCE PERMISSIONS ###
-$permissionsAry = GetSectionPermission("prmSources");
-$canAdd = GetActionPermission("create", $permissionsAry);
-if (!$canAdd) {
-    SetUserAlert("danger", "You do not have permission to add sources to the system.");
+$canCreate = UserPermissions::GetUserPermission("Sources", "create");
+if (!$canCreate) {
+    SystemAlert::SetPermissionAlert("sources", "create");
     header("Location: " . BASE_URL ."/sources/index.php");
 }
 ?>

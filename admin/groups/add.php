@@ -4,18 +4,12 @@
 <?php include ROOT_PATH . "includes/common.php" ?>
 <?php
 // ### DOES THE USER HAVE ADMINSTRATION PERMISSION ###
-$adminAry = GetSectionPermission("prmAdmin");
-$canViewAdmin = GetActionPermission("view", $adminAry);
-if (!$canViewAdmin) {
-    SetUserAlert("danger", "You do not have permission to access administration.");
-    header("Location: " . BASE_URL ."/index.php");
-}
+UserPermissions::HasAdminAccesss();
 
 // ### DOES THE USER HAVE USER PERMISSIONS ###
-$permissionsAry = GetSectionPermission("prmGroups");
-$canAdd = GetActionPermission("create", $permissionsAry);
+$canAdd = UserPermissions::GetUserPermission("Groups", "create");
 if (!$canAdd) {
-    SetUserAlert("danger", "You do not have permission to add groups.");
+    SystemAlert::SetPermissionAlert("groups", "create");
     header("Location: " . BASE_URL ."/admin/groups/index.php");
 }
 ?>

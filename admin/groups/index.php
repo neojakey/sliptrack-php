@@ -4,20 +4,12 @@
 <?php include ROOT_PATH . "includes/common.php" ?>
 <?php
 // ### DOES THE USER HAVE ADMINSTRATION PERMISSION ###
-$adminAry = GetSectionPermission("prmAdmin");
-$canViewAdmin = GetActionPermission("view", $adminAry);
-if (!$canViewAdmin) {
-    SetUserAlert("danger", "You do not have permission to access administration.");
-    header("Location: " . BASE_URL ."/index.php");
-}
+UserPermissions::HasAdminAccesss();
 
 // ### DOES THE USER HAVE GROUP VIEW PERMISSION ###
-$groupsAry = GetSectionPermission("prmGroups");
-$canView = GetActionPermission("view", $groupsAry);
-$canEdit = GetActionPermission("edit", $groupsAry);
-$canDelete = GetActionPermission("delete", $groupsAry);
-if (!$canView) {
-    SetUserAlert("danger", "You do not have permission to access groups.");
+$groupPermission = UserPermissions::GetSectionAccess("Groups");
+if (!$groupPermission["view"]) {
+    SystemAlert::SetPermissionAlert("groups", "view");
     header("Location: " . BASE_URL ."/admin/index.php");
 }
 ?>
@@ -52,9 +44,11 @@ if (!$canView) {
                 <div class="breadcrumb">
                     <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;User Groups
                 </div>
+                <?php if ($groupPermission["create"]) { ?>
                 <div class="add-button-wrapper">
                     <button type="button" class="primary-btn" onclick="location.href='<?=BASE_URL?>/admin/groups/add.php';"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Add Group</button>
                 </div>
+                <?php } ?>
                 <div id="alert-wrapper" style="display:none">
                     <div id="alert">
                         <div id="alert-icon"></div>
@@ -96,11 +90,11 @@ if (!$canView) {
                                     <td><?=$userGroupsRS["nUsersInGroup"]?></td>
                                     <td>
                                         <div class="data-grid-icons">
-                                            <?php if ($canEdit) { ?>
+                                            <?php if ($groupPermission["edit"]) { ?>
                                                 <a href="<?=BASE_URL?>/admin/groups/edit.php?id=<?=$userGroupsRS["GroupId"]?>" title="Edit Group"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i></a>
                                                 <a href="<?=BASE_URL?>/admin/groups/name.php?id=<?=$userGroupsRS["GroupId"]?>" title="Edit Group Name"><i class="fa fa-font fa-fw" aria-hidden="true"></i></a>
                                             <?php } ?>
-                                            <?php if ($canDelete) { ?>
+                                            <?php if ($groupPermission["delete"]) { ?>
                                                 <?php if (intval($userGroupsRS["nUsersInGroup"]) > 0) { ?>
                                                     <i class="fa fa-times fa-fw disabled" aria-hidden="true" title="This group is currently assigned and cannot be deleted, reassign users before deleting"></i>
                                                 <?php } else { ?>

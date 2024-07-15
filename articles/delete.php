@@ -5,11 +5,10 @@
 <?php
 global $db;
 
-// ### DOES THE USER HAVE SOURCE PERMISSIONS ###
-$permissionsAry = GetSectionPermission("prmArticles");
-$canDelete = GetActionPermission("delete", $permissionsAry);
+// ### DOES THE USER HAVE ARTICLE PERMISSIONS ###
+$canDelete = UserPermissions::GetUserPermission("Articles", "delete");
 if (!$canDelete) {
-    SetUserAlert("danger", "You do not have permission to delete articles.");
+    SystemAlert::SetPermissionAlert("delete", "articles");
     header("Location: " . BASE_URL ."/articles/index.php");
 }
 
@@ -20,8 +19,8 @@ if (trim($articleId . "") <> "") {
     mysqli_query($db, "DELETE FROM `Articles` WHERE `ArticleId` = " . formatDbField($articleId, "int", false));
 
     // ### ADD TO SYSTEM LOG AND USER ALERT ###
-    LogReport(1, "Article has been deleted", $_SESSION["userId"]);
-    SetUserAlert("success", "Article deleted successfully");
+    SystemLog::LogReport(1, "Article " . $articleId . " has been deleted", $_SESSION["userId"]);
+    SystemAlert::SetAlert("success", "Article deleted successfully");
 }
 header("Location: " . BASE_URL ."/articles/index.php");
 ?>

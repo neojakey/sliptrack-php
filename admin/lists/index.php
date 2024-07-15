@@ -4,21 +4,12 @@
 <?php include ROOT_PATH . "includes/common.php" ?>
 <?php
 // ### DOES THE USER HAVE ADMINSTRATION PERMISSION ###
-$adminAry = GetSectionPermission("prmAdmin");
-$canViewAdmin = GetActionPermission("view", $adminAry);
-if (!$canViewAdmin) {
-    SetUserAlert("danger", "You do not have permission to access administration.");
-    header("Location: " . BASE_URL ."/index.php");
-}
+UserPermissions::HasAdminAccesss();
 
 // ### DOES THE USER HAVE LIST VIEW PERMISSION ###
-$listsAry = GetSectionPermission("prmLists");
-$canView = GetActionPermission("view", $listsAry);
-$canEdit = GetActionPermission("edit", $listsAry);
-$canAdd = GetActionPermission("create", $listsAry);
-$canDelete = GetActionPermission("delete", $listsAry);
-if (!$canView) {
-    SetUserAlert("danger", "You do not have permission to access lists.");
+$listPermission = UserPermissions::GetSectionAccess("Lists");
+if (!$listPermission["view"]) {
+    SystemAlert::SetPermissionAlert("lists", "view");
     header("Location: " . BASE_URL ."/admin/index.php");
 }
 ?>
@@ -53,7 +44,7 @@ if (!$canView) {
                 <div class="breadcrumb">
                     <a href="<?=BASE_URL?>/">Home</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;<a href="<?=BASE_URL?>/admin/">Administration</a>&nbsp;&nbsp;<i class="fa fa-caret-right" style="color:#ABABAB" aria-hidden="true"></i>&nbsp;&nbsp;Lists
                 </div>
-                <?php if ($canAdd) { ?>
+                <?php if ($listPermission["create"]) { ?>
                 <div class="add-button-wrapper">
                     <button type="button" class="primary-btn" onclick="location.href='<?=BASE_URL?>/admin/lists/add_list.php';"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Add List</button>
                 </div>
@@ -103,13 +94,13 @@ if (!$canView) {
                                 <td><?=$ListRS["entries"]?></td>
                                 <td>
                                     <div class="data-grid-icons">
-                                        <?php if ($canEdit) { ?>
+                                        <?php if ($listPermission["edit"]) { ?>
                                             <a href="<?=BASE_URL?>/admin/lists/edit_list.php?id=<?=$ListRS["ListId"]?>" title="Edit"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i></a>
                                         <?php } ?>
                                         <?php if (intval($ListRS["entries"]) > 0) { ?>
                                             <i class="fa fa-times fa-fw disabled" aria-hidden="true" title="This list is in use and cannot be deleted"></i>
                                         <?php } else { ?>
-                                            <?php if ($canDelete) { ?>
+                                            <?php if ($listPermission["delete"]) { ?>
                                                 <a href="javascript:ConfirmDelete('<?=$ListRS["ListId"]?>');" title="Delete"><i class="fa fa-times fa-fw" aria-hidden="true"></i></a>
                                             <?php } else { ?>
                                                 <i class="fa fa-times fa-fw disabled" aria-hidden="true" title="You do not have permission to delete this list"></i>
