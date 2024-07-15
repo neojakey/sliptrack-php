@@ -1,4 +1,5 @@
-﻿<?php
+﻿<?php include ROOT_PATH . "includes/classes.php" ?>
+<?php
 function InitiateConnection() {
     $connection = mysqli_connect('127.0.0.1', 'root', '@H2rf36t4DMq', 'receipts_php');
     if (!$connection) {
@@ -95,7 +96,7 @@ function CheckNulls($str) {
 }
 
 function LogReport($logType, $logText, $logUserId) {
-    if (trim($logUserId . "") === "") {
+    if (!isset($logUserId)) {
         return;
     }
     $logText = EscapeSql($logText);
