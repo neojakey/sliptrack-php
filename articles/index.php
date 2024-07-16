@@ -3,9 +3,9 @@
 <?php include ROOT_PATH . "includes/functions_security.php" ?>
 <?php include ROOT_PATH . "includes/common.php" ?>
 <?php
-// ### DOES THE USER HAVE ADMINSTRATION PERMISSION ###
-$canView = UserPermissions::GetUserPermission("Articles", "view");
-if (!$canView) {
+// ### DOES THE USER HAVE ARTICLE PERMISSION ###
+$articlePermission = UserPermissions::GetSectionAccess("Articles");
+if (!$articlePermission["view"]) {
     SystemAlert::SetPermissionAlert("articles", "view");
     header("Location: " . BASE_URL ."/index.php");
 }
@@ -18,6 +18,35 @@ if (!$canView) {
     <?php include ROOT_PATH . "includes/stylesheets.php" ?>
     <link type="text/css" rel="stylesheet" href="<?=BASE_URL?>/css/pagination.css"/>
     <link type="text/css" rel="stylesheet" href="<?=BASE_URL?>/css/images.css"/>
+    <style type="text/css">
+        .article-img {
+            width: 48px;
+            margin: 5px 0;
+            border: 1px #626262 solid;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .no-image {
+            font-size: 48px;
+            margin: 5px 0px;
+            color: #777;
+        }
+
+        .article-date {
+            display: inline-block;
+            font-size: 10px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding: 1px 0 0 0;
+            margin-top: 4px;
+        }
+
+        .article-cell {
+            padding: 8px !important;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -43,9 +72,11 @@ if (!$canView) {
                 <div class="breadcrumb">
                     <a href="<?=BASE_URL?>/index.php">Home</a><?=SPACER?>Articles
                 </div>
+                <?php if ($articlePermission["create"]) { ?>
                 <div class="add-button-wrapper">
                     <button type="button" class="primary-btn" onclick="location.href='<?=BASE_URL?>/articles/add.php';"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Add Article</button>
                 </div>
+                <?php } ?>
                 <div id="alert-wrapper" style="display:none">
                     <div id="alert">
                         <div id="alert-icon"></div>
@@ -109,11 +140,14 @@ if (!$canView) {
                                     <?php } else { ?>
                                         <td><img src="<?=$articlesRS["ArticleImageUrl"]?>" class="article-img" alt="" onerror="this.src='<?=$articlesRS["ArticleImageUrl"]?>';"/></td>
                                     <?php } ?>
-                                    <td><a href="<?=$articlesRS["ArticleUrl"]?>" target="_new"><?=$articlesRS["ArticleTitle"]?></a></td>
+                                    <td class="article-cell">
+                                        <a href="<?=$articlesRS["ArticleUrl"]?>" target="_new"><?=$articlesRS["ArticleTitle"]?></a></br>
+                                        <span class="article-date"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;<?=date("F j, Y, g:i a", strtotime($articlesRS["ArticleDate"]))?></span>
+                                    </td>
                                     <td><a href="<?=BASE_URL?>/articles/source.php?id=<?=$articlesRS["ArticleSourceId"]?>"><?=$articlesRS["SourceName"]?></a></td>
                                     <td><?=$articlesRS["ArticleViews"]?></td>
                                     <td><?=$articlesRS["ArticleClicks"]?></td>
-                                    <td><?=$ctr?></td>
+                                    <td><?=$ctr?>%</td>
                                     <td>
                                         <div class="data-grid-icons">
                                             <a href="<?=BASE_URL?>/articles/edit.php?id=<?=$articlesRS["ArticleId"]?>" title="Edit Article"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i></a>

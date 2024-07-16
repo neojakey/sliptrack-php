@@ -78,9 +78,9 @@ $groupName = Group::GetGroupName($groupId);
                 ?>
                 <thead>
                     <tr>
-                        <th style="width:19%">Full Name</th>
+                        <th style="width:15%">Full Name</th>
                         <th style="width:14%">Email</th>
-                        <th style="width:8%">Groups</th>
+                        <th style="width:12%">Groups</th>
                         <th style="width:15%">Created</th>
                         <th style="width:8%">Action</th>
                     </tr>

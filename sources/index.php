@@ -4,8 +4,8 @@
 <?php include ROOT_PATH . "includes/common.php" ?>
 <?php
 // ### DOES THE USER HAVE ADMINSTRATION PERMISSION ###
-$canView = UserPermissions::GetUserPermission("Sources", "view");
-if (!$canView) {
+$sourcesPermissions = UserPermissions::GetSectionAccess("sources");
+if (!$sourcesPermissions["view"]) {
     SystemAlert::SetPermissionAlert("sources", "view");
     header("Location: " . BASE_URL ."/index.php");
 }
@@ -42,9 +42,11 @@ if (!$canView) {
                 <div class="breadcrumb">
                     <a href="/">Home</a><?=SPACER?>Sources
                 </div>
+                <?php if ($sourcesPermissions["create"]) { ?>
                 <div class="add-button-wrapper">
                     <button type="button" class="primary-btn" onclick="location.href='<?=BASE_URL?>/sources/add.php';"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Add Source</button>
                 </div>
+                <?php } ?>
                 <div id="alert-wrapper" style="display:none">
                     <div id="alert">
                         <div id="alert-icon"></div>

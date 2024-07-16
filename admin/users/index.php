@@ -71,9 +71,9 @@ if (!$userPermission["view"]) {
                     $row_cnt = mysqli_num_rows($response);
                     ?>
                     <tr>
-                        <th style="width:19%">Full Name</th>
+                        <th style="width:15%">Full Name</th>
                         <th style="width:14%">Email</th>
-                        <th style="width:8%">Groups</th>
+                        <th style="width:12%">Groups</th>
                         <th style="width:15%">Created</th>
                         <th style="width:8%">Action</th>
                     </tr>

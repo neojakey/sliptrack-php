@@ -2,6 +2,9 @@
 <?php include ROOT_PATH . "includes/functions.php" ?>
 <?php include ROOT_PATH . "includes/functions_security.php" ?>
 <?php include ROOT_PATH . "includes/common.php" ?>
+<?php
+$articlePermission = UserPermissions::GetSectionAccess("Articles");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,6 +33,18 @@
         .more-link a:hover {
             background-color: var(--hyperlink-hover);
         }
+
+        .article-date {
+            display: inline-block;
+            font-size: 10px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding: 1px 0 0 0;
+            margin-top: 4px;
+        }
+
+        .article-cell {
+            padding: 8px !important;
+        }
     </style>
 </head>
 
@@ -48,16 +63,18 @@
             </div>
             <div class="user-wrapper" id="user-menu-link">
                 <span id="desktop-user-menu-bars"><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>
-                <span id="desktop-user-menu-name">Paul Jacobs</span>
+                <span id="desktop-user-menu-name"><?=$_SESSION["userFullName"]?></span>
                 <span><i class="fa fa-caret-down" aria-hidden="true"></i></span>
             </div>
         </header>
         <section>
             <h1 class="page-title">Home Page</h1>
             <h3>Latest Articles</h3>
+            <?php if ($articlePermission["create"]) { ?>
             <div class="add-button-wrapper">
-                    <button type="button" class="primary-btn" onclick="location.href='<?=BASE_URL?>/articles/add.php';"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Add Article</button>
-                </div>
+                <button type="button" class="primary-btn" onclick="location.href='<?=BASE_URL?>/articles/add.php';"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Add Article</button>
+            </div>
+            <?php } ?>
             <?php
             global $db;
             $articlesSQL = "
@@ -112,11 +129,14 @@
                                 <?php } else { ?>
                                     <td><img src="<?=$articlesRS["ArticleImageUrl"]?>" class="article-img" alt="" onerror="this.src='<?=$articlesRS["ArticleImageUrl"]?>';"/></td>
                                 <?php } ?>
-                                <td><a href="<?=$articlesRS["ArticleUrl"]?>" target="_new"><?=$articlesRS["ArticleTitle"]?></a></td>
+                                <td class="article-cell">
+                                    <a href="<?=$articlesRS["ArticleUrl"]?>" target="_new"><?=$articlesRS["ArticleTitle"]?></a></br>
+                                    <span class="article-date"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;<?=date("F j, Y, g:i a", strtotime($articlesRS["ArticleDate"]))?></span>
+                                </td>
                                 <td><a href="<?=BASE_URL?>/articles/source.php?id=<?=$articlesRS["ArticleSourceId"]?>"><?=$articlesRS["SourceName"]?></a></td>
                                 <td><?=$articlesRS["ArticleViews"]?></td>
                                 <td><?=$articlesRS["ArticleClicks"]?></td>
-                                <td><?=$ctr?></td>
+                                <td><?=$ctr?>%</td>
                                 <td>
                                     <div class="data-grid-icons">
                                         <a href="<?=BASE_URL?>/articles/edit.php?id=<?=$articlesRS["ArticleId"]?>" title="Edit Article"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i></a>
