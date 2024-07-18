@@ -24,9 +24,9 @@ $articlePermission = UserPermissions::GetSectionAccess("Articles");
 
         .more-link a {
             text-decoration: none;
-            color: #000;
+            color: var(--hyperlink-opposite);
             background-color: var(--hyperlink);
-            padding: 2px 5px;
+            padding: 2px 8px 4px 8px;
             border-radius: 4px;
         }
 
@@ -58,8 +58,7 @@ $articlePermission = UserPermissions::GetSectionAccess("Articles");
         <header>
             <div></div>
             <div class="notification-wrapper">
-                <a href="javascript:void(0);"><i class="fa fa-bell" aria-hidden="true"></i></a>
-                <a href="javascript:void(0);"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                <?php include ROOT_PATH . "includes/notification_header.php" ?>
             </div>
             <div class="user-wrapper" id="user-menu-link">
                 <span id="desktop-user-menu-bars"><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>

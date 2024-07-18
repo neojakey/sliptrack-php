@@ -1,6 +1,7 @@
 :root {
     --primary-background: #FFF;
     --hyperlink: #015D82;
+    --hyperlink-opposite: #FFF;
     --hyperlink-hover: #0078A8;
     --main-font-color: #000;
     --main-background-single: rgb(1, 93, 130);

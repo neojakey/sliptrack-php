@@ -40,6 +40,18 @@ class User {
         }
     }
 
+    public static function UpdateUserColorMode($userId, $darkMode) {
+        global $db;
+        $strSQL = "
+            UPDATE `User` SET
+                `DarkMode` = " . formatDbField($darkMode, "bit", false) . "
+            WHERE
+                `UserId` = " . formatDbField($userId, "int", false);
+        mysqli_query($db, $strSQL);
+
+        $_SESSION["darkMode"] = $darkMode;
+    }
+
     public static function UpdatePassword($username, $password) {
         global $db;
         $strSQL = "
@@ -117,5 +129,6 @@ class User {
             session_unset();
             session_destroy();
         }
-        header("Location: " . BASE_URL . "/login.php");    }
+        header("Location: " . BASE_URL . "/login.php");
+    }
 }
