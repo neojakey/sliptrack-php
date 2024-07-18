@@ -39,7 +39,7 @@
 }
 
 .permission-grid tr:not(:first-child) td:not(:first-child):nth-child(odd) {
-    background: #E9F8E8;
+    background: #787878;
 }
 
 .permission-grid tr:not(:first-child):not(:last-child) td:not(:first-child):nth-child(odd) {
@@ -51,13 +51,13 @@
     padding-left: 5px;
 }
 
-.permission-grid tr:not(:first-child):not(:last-child) td {
+.permission-grid tr:not(:first-child) td {
     border-bottom: 1px #CCC dotted;
 }
 
-.permission-grid tr:not(:first-child):hover td {
+/* .permission-grid tr:not(:first-child):hover td {
     background: rgb(245 245 245 / 80%);
-}
+} */
 
 .k-checkbox-label {
     padding-left: 16.2px;

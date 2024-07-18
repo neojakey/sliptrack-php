@@ -147,6 +147,7 @@ section {
     justify-content: center;
 }
 
+/* HEADER */
 header .notification-wrapper {
     width: 130px;
     display: flex;
@@ -194,6 +195,7 @@ header .fa.fa-caret-down {
     padding: 0 8px;
 }
 
+/* USER MENU */
 #user-menu-wrapper {
     position: absolute;
     z-index: 10;
@@ -237,6 +239,7 @@ h1.page-title {
     font-size: 16px;
 }
 
+/* BUTTONS */
 .add-button-wrapper {
     position: absolute;
     top: 24px;
@@ -341,6 +344,7 @@ h1.page-title {
     align-items: center;
 }
 
+/* FORM ELEMENTS */
 .form-table {
     width: 100%;
     background-color: var(--form-table-background);
@@ -365,6 +369,7 @@ h1.page-title {
     border-top: 1px var(--button-wrapper-top-border) solid;
 }
 
+/* ALERTS */
 #alert {
     padding: 12px;
     margin-bottom: 12px;
@@ -381,6 +386,7 @@ h1.page-title {
     border: 1px #F5C6CB solid;
 }
 
+/* MISCELLANEOUS */
 .hand {
     cursor: pointer;
 }
@@ -404,45 +410,7 @@ h1.page-title {
     animation-duration: 1s;
 }
 
-/* SERVER GRID */
-.server-grid {
-    width: 100%;
-    border: 1px #D5D5D5 solid;
-}
-
-.server-grid > tbody > tr {
-    height: 35px;
-    background-color: #FFF;
-}
-
-.server-grid > tbody > tr > td {
-    padding: 0 8px;
-    text-align: left;
-}
-
-.server-grid > tbody > tr:not(:first-child) > td:not(:last-child) {
-    border-right: 1px #D5D5D5 solid;
-}
-
-.server-grid > tbody > tr:not(:last-child) > td {
-    border-bottom: 1px #D5D5D5 solid;
-}
-
-.server-grid td.head {
-    background-color: #EAF6F3;
-    font-weight: bold;
-    font-size: 16px;
-    color: #00B39E;
-}
-
-.server-grid td:not(.head) {
-    color: #8C8C8C;
-}
-
-.server-grid td:first-child:not(.head) {
-    background-color: #FAFAFA;
-}
-
+/* ICON COLORING */
 .fa.fa-pencil {
     color: #3C9CDF;
     font-size: 16px;
@@ -473,4 +441,38 @@ h1.page-title {
 .fa.fa-star {
     color: var(--required-star);
     font-size: 0.8em;
+}
+
+/* KENDO UI CSS OVERRIDES */
+.k-header {
+    background-color: var(--header-background) !important;
+}
+
+.k-tabstrip-items .k-state-active .k-link {
+    color: var(--main-font-color) !important;
+}
+
+.k-tabstrip .k-content.k-state-active {
+    background-color: var(--menu-background) !important;
+    color: var(--main-font-color) !important;
+}
+
+.k-tabstrip-items .k-item.k-state-active {
+    background: var(--menu-background) !important;
+}
+
+.k-panelbar .k-tabstrip-top>.k-tabstrip-items .k-state-active, .k-tabstrip-top>.k-tabstrip-items .k-state-active {
+    border-bottom-color: var(--menu-background) !important;
+}
+
+.k-checkbox-label {
+    display: inline !important;
+}
+
+.k-tabstrip-items .k-state-hover .k-link {
+    background-color: var(--data-grid-row-hover-background) !important;
+}
+
+.k-panelbar>li.k-state-default>.k-link, .k-tabstrip-items .k-state-default .k-link {
+    color: var(--hyperlink) !important;
 }

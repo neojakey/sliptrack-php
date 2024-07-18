@@ -100,7 +100,7 @@ if ($row_cnt !== 0) {
                                 <td>View</td>
                             </tr>
                             <tr>
-                                <td>Administrators--<?=$listsSection?></td>
+                                <td>Administrators</td>
                                 <td id="SavingAdmin">&nbsp;</td>
                                 <td id="cbFullControl_Admin"><input type="checkbox" class="k-checkbox" name="cbFullControl_Admin" id="full-admin" value="full" onclick="PermToggle('Admin')"<?php if ($adminSection === "full") { ?> checked="checked"<?php } ?>/><label for="full-admin" class="k-checkbox-label"></label></td>
                                 <td><input type="checkbox" class="k-checkbox" id="create-admin" name="cbCreate_Admin" value="create" onclick="FullControlCheck('Admin')"<?php if ($adminSection === "full" || str_contains($adminSection, "create")) { ?> checked="checked"<?php } ?><?php if (strpos($adminSection, "full") !== 0) { ?> disabled="disabled"<?php } ?>/><label for="create-admin" class="k-checkbox-label"></label></td>
