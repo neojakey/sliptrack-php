@@ -1,3 +1,4 @@
 /vendor
 /.vs
 .phpunit.result.cache
+/sources/logos

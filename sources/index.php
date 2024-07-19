@@ -17,6 +17,13 @@ if (!$sourcesPermissions["view"]) {
     <title><?=SITE_NAME?> - Sources</title>
     <?php include ROOT_PATH . "includes/stylesheets.php" ?>
     <link type="text/css" rel="stylesheet" href="<?=BASE_URL?>/css/pagination.css"/>
+    <style type="text/css">
+        .source-logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 2px;
+        }
+    </style>
 </head>
 
 <body>
@@ -79,16 +86,17 @@ if (!$sourcesPermissions["view"]) {
                 <?php if ($row_cnt === 0) { ?>
                     <tbody>
                         <tr class="h30">
-                            <td colspan="4" class="fb tac">No sources have been created</td>
+                            <td colspan="5" class="fb tac">No sources have been created</td>
                         </tr>
                     </tbody>
                 <?php } else { ?>
                     <thead>
                         <tr>
-                            <th style="width:40%">Source Name</th>
-                            <th style="width:40%">Source Url</th>
+                            <th style="width:5%">&nbsp;</th>
+                            <th>Source Name</th>
+                            <th>Source Url</th>
                             <th style="width:10%">Articles</th>
-                            <th style="width:10%">Action</th>
+                            <th style="width:8%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -96,6 +104,11 @@ if (!$sourcesPermissions["view"]) {
                         while($sourceRS = mysqli_fetch_assoc($response)) {
                             ?>
                             <tr>
+                                <?php if ($sourceRS["SourceLogo"] !== null) { ?>
+                                <td><img src="<?=BASE_URL?>/sources/logos/<?=$sourceRS["SourceLogo"]?>" alt="<?=$sourceRS["SourceName"]?>" title="<?=$sourceRS["SourceName"]?>" class="source-logo"/></td>
+                                <?php } else { ?>
+                                <td>&nbsp;</td>
+                                <?php } ?>
                                 <td><?=$sourceRS["SourceName"]?></td>
                                 <td><a href="<?=$sourceRS["SourceUrl"]?>" target="_blank"><?=$sourceRS["SourceUrl"]?></a></td>
                                 <td><?=$sourceRS["nUsed"]?></td>

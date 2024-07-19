@@ -42,7 +42,7 @@ if (!$canCreate) {
                 <div class="breadcrumb">
                     <a href="<?=BASE_URL?>/index.php">Home</a><?=SPACER?><a href="<?=BASE_URL?>/sources/index.php">Sources</a><?=SPACER?>Add New Source
                 </div>
-                <form action="<?=BASE_URL?>/sources/save.php" method="post" id="form-new-source" name="frmNewSource">
+                <form action="<?=BASE_URL?>/sources/save.php" method="post" enctype="multipart/form-data" id="form-new-source" name="frmNewSource">
                     <input type="hidden" name="hidSourceId" id="hid-source-id" value=""/>
                     <table class="form-table">
                         <tr>
@@ -56,7 +56,7 @@ if (!$canCreate) {
                         <?=ShowSectionBorder()?>
                         <tr>
                             <td>Source Logo:</td>
-                            <td><input type="text" class="k-textbox" name="tbSourceLogo" id="source-logo" maxlength="60" style="width:350px"/></td>
+                            <td><input type="file" class="k-textbox" name="ulSourceLogo" id="source-logo" maxlength="60" style="width:350px"/></td>
                         </tr>
                     </table>
                     <div class="button-wrapper">
