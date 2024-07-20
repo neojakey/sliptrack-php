@@ -17,6 +17,8 @@ if (!isset($articleId)) {
     NoValidRecordPassed("articles");
 }
 
+global $db;
+
 $articleSQL = "
     SELECT
        `ArticleTitle`,
@@ -38,6 +40,28 @@ if ($row_cnt === 0) {
     $articleUrl = $row["ArticleUrl"];
     $articleImageUrl = $row["ArticleImageUrl"];
     $articleSourceId = $row["ArticleSourceId"];
+
+    // ### GET ARTICLE KEYWORDS ###
+    $articleKeywordsSQL = "SELECT `ListItemId` FROM `ArticleKeyword` WHERE `ArticleId` = " . formatDbField($articleId, "int", false);
+    $articleKeywords = mysqli_query($db, $articleKeywordsSQL);
+    $keywordsArray = array();
+    while($row = mysqli_fetch_assoc($articleKeywords)) {
+        $keywordsArray[] = $row["ListItemId"];
+    }
+
+    // ### GET ALL KEYWORDS ###
+    $keywordsSQL = "
+        SELECT
+           `ListItemId`,
+           `ListItemName`
+        FROM
+           `ListItems` AS li
+           INNER JOIN `List` AS l  ON li.`ListId` = l.`ListId`
+        WHERE
+           l.`ListCode` = " . formatDbField('yT1wOCJPK7', "text", false) . "
+    ";
+    $responseKeywords = mysqli_query($db, $keywordsSQL);
+    $keywords_cnt = mysqli_num_rows($responseKeywords);
 }
 ?>
 <!DOCTYPE html>
@@ -74,6 +98,7 @@ if ($row_cnt === 0) {
                 </div>
                 <form action="<?=BASE_URL?>/articles/save.php" method="post" id="form-new-article" name="frmNewArticle">
                     <input type="hidden" name="hidArticleId" value="<?=$articleId?>"/>
+                    <input type="hidden" name="hidSaveKeywords" id="save-keywords" value=""/>
                     <table class="form-table">
                         <tr>
                             <td>Article Title <?=REQUIRED?>:</td>
@@ -92,6 +117,20 @@ if ($row_cnt === 0) {
                             <td>Article Source <?=REQUIRED?>:</td>
                             <td class="source-wrapper"><?=CreateDropmenu("SourceId", "SourceName", "Sources", "", "Source", "", $articleSourceId)?></td>
                         </tr>
+                        <?php if ($keywords_cnt > 0) : ?>
+                        <tr>
+                            <td>Article Keywords:</td>
+                            <td class="keyword-wrapper">
+                                <?php while($articlesKeywordRS = mysqli_fetch_assoc($responseKeywords)) : ?>
+                                    <?php if (in_array($articlesKeywordRS["ListItemId"], $keywordsArray)) : ?>
+                                        <span data-listid="<?=$articlesKeywordRS["ListItemId"]?>" class="selected"><?=$articlesKeywordRS["ListItemName"]?></span>
+                                    <?php else : ?>
+                                        <span data-listid="<?=$articlesKeywordRS["ListItemId"]?>"><?=$articlesKeywordRS["ListItemName"]?></span>
+                                    <?php endif; ?>
+                                <?php endwhile; ?>
+                            </td>
+                        </tr>
+                        <?php endif; ?>
                     </table>
                     <div class="button-wrapper">
                         <button type="button" onclick="validate();" class="primary-btn">Submit</button>

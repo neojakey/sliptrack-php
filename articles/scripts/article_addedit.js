@@ -31,7 +31,20 @@ $(function () {
             });
         }
     });
+
+    $('.keyword-wrapper > span').click(function () {
+        $(this).hasClass('selected') ? $(this).removeClass('selected') : $(this).addClass('selected');
+        loopSelectedKeywords();
+    });
 });
+
+function loopSelectedKeywords() {
+    let selectedKeywords = [];
+    $('.keyword-wrapper > span.selected').each(function () {
+        selectedKeywords.push($(this).data('listid'));
+    });
+    $('#save-keywords').val(selectedKeywords);
+}
 
 function validate() {
     var hasError = false;

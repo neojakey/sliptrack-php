@@ -4,4 +4,34 @@
 
 .source-wrapper > span { 
     width: 370px; 
-} 
+}
+
+.keyword-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: flex-start;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.keyword-wrapper > span {
+    background-color: #6e6e6e;
+    color: #1e1e1e;
+    display: inline-block;
+    border-radius: 18px;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.keyword-wrapper > span:hover {
+    background-color: #8f8f8f;
+    color: #1e1e1e;
+    cursor: pointer;
+}
+
+.keyword-wrapper > span.selected {
+    background-color: #8f1414;
+    color: #fff;
+}

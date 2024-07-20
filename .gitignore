@@ -1,4 +1,5 @@
 /vendor
 /.vs
-.phpunit.result.cache
 /sources/logos
+/.idea
+.phpunit.result.cache

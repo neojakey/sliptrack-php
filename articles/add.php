@@ -9,6 +9,21 @@ if (!$canCreate) {
     SystemAlert::SetPermissionAlert("articles", "create");
     header("Location: " . BASE_URL ."/articles/index.php");
 }
+
+// ### GET ALL KEYWORDS ###
+$keywordsSQL = "
+    SELECT
+       `ListItemId`,
+       `ListItemName`
+    FROM
+       `ListItems` AS li
+       INNER JOIN `List` AS l  ON li.`ListId` = l.`ListId`
+    WHERE
+       l.`ListCode` = " . formatDbField('yT1wOCJPK7', "text", false) . "
+";
+$responseKeywords = mysqli_query($db, $keywordsSQL);
+$keywords_cnt = mysqli_num_rows($responseKeywords);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,6 +59,7 @@ if (!$canCreate) {
                 </div>
                 <form action="<?=BASE_URL?>/articles/save.php" method="post" id="form-new-article" name="frmNewArticle">
                     <input type="hidden" name="hidArticleId" value=""/>
+                    <input type="hidden" name="hidSaveKeywords" id="save-keywords" value=""/>
                     <table class="form-table">
                         <tr>
                             <td>Article Url <?=REQUIRED?>:</td>
@@ -63,6 +79,16 @@ if (!$canCreate) {
                             <td>Article Source <?=REQUIRED?>:</td>
                             <td class="source-wrapper"><?=CreateDropmenu("SourceId", "SourceName", "Sources", "", "Source", "", "")?></td>
                         </tr>
+                        <?php if ($keywords_cnt > 0) : ?>
+                        <tr>
+                            <td>Article Keywords:</td>
+                            <td class="keyword-wrapper">
+                                <?php while($articlesKeywordRS = mysqli_fetch_assoc($responseKeywords)) : ?>
+                                    <span data-listid="<?=$articlesKeywordRS["ListItemId"]?>"><?=$articlesKeywordRS["ListItemName"]?></span>
+                                <?php endwhile; ?>
+                            </td>
+                        </tr>
+                        <?php endif; ?>
                     </table>
                     <div class="button-wrapper">
                         <button type="button" onclick="validate();" class="primary-btn">Submit</button>

@@ -11,6 +11,7 @@ $articleTitle = EscapeSql($_POST["tbArticleTitle"]);
 $articleUrl = EscapeSql($_POST["tbArticleUrl"]);
 $articleImageUrl = EscapeSql($_POST["tbArticleImageUrl"]);
 $articleSourceId = EscapeSql($_POST["ddSource"]);
+$articleKeywords = EscapeSql($_POST["hidSaveKeywords"]);
 $alertAction = ($articleId !== "") ? "edited" : "created";
 
 if (trim($articleId . "") !== "") {
@@ -32,7 +33,20 @@ if (trim($articleId . "") !== "") {
                 " . formatDbField($articleUrl, "text", false) . ",
                 " . formatDbField($articleImageUrl, "text", true) . ",
                 " . formatDbField($articleSourceId, "int", false);
-    InsertNewRecord("Articles", $articleColumns, $articleValues);
+    $articleId = InsertNewRecord("Articles", $articleColumns, $articleValues);
+}
+
+// ### DELETE ALL KEYWORDS FOR THIS ARTICLE ###
+mysqli_query($db, "DELETE FROM `ArticleKeyword` WHERE `ArticleId` = " . formatDbField($articleId, "int", false));
+
+// ### ADD KEYWORDS TO ARTICLE KEYWORDS TABLE ###
+$keywordsArray = explode(",", $articleKeywords);
+foreach ($keywordsArray as $keywordId) {
+    $strSQL = "
+        INSERT INTO `ArticleKeyword` (`ArticleId`, `ListItemId`)
+        VALUES (" . formatDbField($articleId, "int", false) . ", " . formatDbField($keywordId, "int", false) . ")
+    ";
+    mysqli_query($db, $strSQL);
 }
 
 // ### ADD TO SYSTEM LOG AND USER ALERT ###

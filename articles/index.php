@@ -46,6 +46,24 @@ if (!$articlePermission["view"]) {
             padding: 8px !important;
         }
 
+        .article-keywords {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
+            align-content: flex-start;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .article-keywords > span {
+            background-color: #6E6E6E;
+            color: #FFF;
+            display: inline-block;
+            border-radius: 12px;
+            padding: 3px 8px;
+            font-size: 12px;
+        }
     </style>
 </head>
 
@@ -83,7 +101,7 @@ if (!$articlePermission["view"]) {
                     </div>
                 </div>
                 <?php
-                $recordsOnPage = 10;
+                $recordsOnPage = 7;
                 $pageCount = $db -> query("SELECT COUNT(*) FROM `Articles`") -> fetch_row()[0];
                 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
                 $calcPage = ($page - 1) * $recordsOnPage;
@@ -133,6 +151,14 @@ if (!$articlePermission["view"]) {
                         <?php
                             while($articlesRS = mysqli_fetch_assoc($response)) {
                                 $ctr = CalculateCTR($articlesRS["ArticleClicks"], $articlesRS["ArticleViews"]);
+
+                                // ### GET ARTICLE KEYWORDS ###
+                                $articleKeywordsSQL = "SELECT `ListItemId` FROM `ArticleKeyword` WHERE `ArticleId` = " . formatDbField($articlesRS["ArticleId"], "int", false);
+                                $articleKeywords = mysqli_query($db, $articleKeywordsSQL);
+                                $keywordsArray = array();
+                                while($row = mysqli_fetch_assoc($articleKeywords)) {
+                                    $keywordsArray[] = $row["ListItemId"];
+                                }
                                 ?>
                                 <tr>
                                     <?php if ($articlesRS["ArticleImageUrl"] == "") { ?>
@@ -143,6 +169,15 @@ if (!$articlePermission["view"]) {
                                     <td class="article-cell">
                                         <a href="<?=$articlesRS["ArticleUrl"]?>" target="_new"><?=$articlesRS["ArticleTitle"]?></a></br>
                                         <span class="article-date"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;<?=date("F j, Y, g:i a", strtotime($articlesRS["ArticleDate"]))?></span>
+                                        <div class="article-keywords">
+                                        <?php if (count($keywordsArray) > 0) : ?>
+                                            <?php foreach ($keywordsArray as $keyword) : ?>
+                                                <span>
+                                                    #<?php echo $db -> query("SELECT `ListItemName` FROM `ListItems` WHERE ListItemId = " . $keyword) -> fetch_row()[0]; ?>
+                                                </span>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </div>
                                     </td>
                                     <td><a href="<?=BASE_URL?>/articles/source.php?id=<?=$articlesRS["ArticleSourceId"]?>"><?=$articlesRS["SourceName"]?></a></td>
                                     <td><?=$articlesRS["ArticleViews"]?></td>
